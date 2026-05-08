@@ -1,7 +1,6 @@
 import { Document } from "@langchain/core/documents";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
-import { StringOutputParser } from "@langchain/core/output_parsers";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import { GeminiMultimodalEmbeddings } from "./embeddings";
 import { makeQwen } from "../llm/qwen";
@@ -57,6 +56,5 @@ export async function buildChain() {
     },
     prompt,
     llm,
-    new StringOutputParser(),
   ]);
 }
