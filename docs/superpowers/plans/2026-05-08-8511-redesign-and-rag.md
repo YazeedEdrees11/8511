@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebuild the 8511 storefront as a local Next.js 15 app with a Stitch-driven design system and add a multimodal LangChain RAG chat (text + product images) backed by FAISS, Google Vertex multimodal embeddings, and Qwen2.5 via Hugging Face Inference.
+**Goal:** Rebuild the 8511 storefront as a local Next.js 15 app with a Stitch-driven design system and add a multimodal LangChain RAG chat (text + product images) backed by FAISS, Google Gemini `gemini-embedding-2` (multimodal), and Qwen2.5 via Hugging Face Inference.
 
-**Architecture:** Single Next.js 15 monolith. App Router pages mirror the existing Wix IA. A `scripts/ingest.ts` Firecrawl pipeline scrapes the live site into `data/products.json` + `data/kb.json` + `public/images/products/*`. A `scripts/embed.ts` script builds a `FaissStore` (LangChain.js) using a custom `VertexMultimodalEmbeddings` class. The RAG endpoint at `app/api/chat/route.ts` is a `RunnableSequence` (retriever → ChatPromptTemplate → ChatHuggingFace streaming → StringOutputParser → SSE). A shared `<ChatPanel>` powers both the global `<ChatWidget>` and the dedicated `/chat` page; product references in the stream render as `<ProductCard>` blocks.
+**Architecture:** Single Next.js 15 monolith. App Router pages mirror the existing Wix IA. A `scripts/ingest.ts` Firecrawl pipeline scrapes the live site into `data/products.json` + `data/kb.json` + `public/images/products/*`. A `scripts/embed.ts` script builds a `FaissStore` (LangChain.js) using a custom `GeminiMultimodalEmbeddings` class. The RAG endpoint at `app/api/chat/route.ts` is a `RunnableSequence` (retriever → ChatPromptTemplate → ChatHuggingFace streaming → StringOutputParser → SSE). A shared `<ChatPanel>` powers both the global `<ChatWidget>` and the dedicated `/chat` page; product references in the stream render as `<ProductCard>` blocks.
 
-**Tech Stack:** Next.js 15 (App Router) · TypeScript · Tailwind CSS · LangChain.js (`langchain`, `@langchain/core`, `@langchain/community`) · `faiss-node` · Google Vertex AI `multimodalembedding@001` · Hugging Face Inference (`@huggingface/inference`) · Qwen2.5-7B-Instruct · Firecrawl CLI · Vitest.
+**Tech Stack:** Next.js 15 (App Router) · TypeScript · Tailwind CSS · LangChain.js (`langchain`, `@langchain/core`, `@langchain/community`) · `faiss-node` · Google Gemini API `gemini-embedding-2` (multimodal) · Hugging Face Inference (`@huggingface/inference`) · Qwen2.5-7B-Instruct · Firecrawl CLI · Vitest.
 
 **Spec:** `docs/superpowers/specs/2026-05-08-8511-redesign-and-rag-design.md`
 
@@ -35,7 +35,7 @@ eighty-five-eleven/
 │   ├── layout/Footer.tsx
 │   └── ui/                        # Stitch-exported primitives (Button, Card, …)
 ├── lib/
-│   ├── rag/embeddings.ts          # VertexMultimodalEmbeddings
+│   ├── rag/embeddings.ts          # GeminiMultimodalEmbeddings
 │   ├── rag/vectorstore.ts         # FaissStore load/save helpers
 │   ├── rag/chain.ts               # RunnableSequence factory
 │   ├── llm/qwen.ts                # ChatHuggingFace factory
@@ -83,9 +83,7 @@ When prompted about overwriting, accept. Expected: a working Next.js 15 scaffold
 ```bash
 # .env.example
 HF_TOKEN=
-GOOGLE_APPLICATION_CREDENTIALS=
-GOOGLE_CLOUD_PROJECT=
-GOOGLE_CLOUD_LOCATION=us-central1
+GEMINI_API_KEY=
 FIRECRAWL_API_KEY=
 ```
 
@@ -120,7 +118,7 @@ git commit -m "chore: bootstrap Next.js 15 + TS + Tailwind"
 - [ ] **Step 1: Install runtime deps**
 
 ```bash
-npm install langchain @langchain/core @langchain/community @huggingface/inference google-auth-library faiss-node zod
+npm install langchain @langchain/core @langchain/community @huggingface/inference @google/genai faiss-node zod dotenv
 ```
 
 - [ ] **Step 2: Install dev deps**
@@ -426,143 +424,128 @@ git commit -m "feat(ingest): scrape Wix site into products.json + KB"
 
 ---
 
-## Task 5: Vertex multimodal embeddings — LangChain `Embeddings` subclass
+## Task 5: Gemini multimodal embeddings — LangChain `Embeddings` subclass
 
 **Files:**
 - Create: `lib/rag/embeddings.ts`
 - Test: `tests/lib/rag/embeddings.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [ ] **Step 1: Install the Gemini SDK**
+
+```bash
+npm install @google/genai
+```
+
+- [ ] **Step 2: Write the failing test**
 
 ```ts
 // tests/lib/rag/embeddings.test.ts
 import { describe, it, expect, vi } from "vitest";
-import { VertexMultimodalEmbeddings } from "@/lib/rag/embeddings";
+import { GeminiMultimodalEmbeddings } from "@/lib/rag/embeddings";
 
-describe("VertexMultimodalEmbeddings", () => {
-  it("calls predict with text instances for embedDocuments", async () => {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ predictions: [
-        { textEmbedding: new Array(1408).fill(0.1) },
-        { textEmbedding: new Array(1408).fill(0.2) },
-      ]}),
-    });
-    const e = new VertexMultimodalEmbeddings({
-      project: "p", location: "us-central1",
-      tokenProvider: async () => "tkn",
-      fetcher: fetchMock as unknown as typeof fetch,
-    });
+function fakeClient(textVec: number[], imageVec: number[]) {
+  return {
+    models: {
+      embedContent: vi.fn().mockImplementation(async ({ contents }: any) => {
+        const part = contents[0]?.parts?.[0] ?? contents[0];
+        const isImage = part?.inlineData != null;
+        return { embeddings: [{ values: isImage ? imageVec : textVec }] };
+      }),
+    },
+  };
+}
+
+describe("GeminiMultimodalEmbeddings", () => {
+  it("returns text embeddings for embedDocuments", async () => {
+    const tv = new Array(3072).fill(0.1);
+    const e = new GeminiMultimodalEmbeddings({ apiKey: "k", client: fakeClient(tv, []) as any });
     const out = await e.embedDocuments(["hello", "world"]);
     expect(out).toHaveLength(2);
-    expect(out[0]).toHaveLength(1408);
+    expect(out[0]).toEqual(tv);
   });
 
-  it("embedImage reads file and posts base64", async () => {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ predictions: [{ imageEmbedding: new Array(1408).fill(0.5) }] }),
-    });
-    const e = new VertexMultimodalEmbeddings({
-      project: "p", location: "us-central1",
-      tokenProvider: async () => "tkn",
-      fetcher: fetchMock as unknown as typeof fetch,
-    });
-    const v = await e.embedImage(Buffer.from("fakejpg"));
-    expect(v).toHaveLength(1408);
-    const body = JSON.parse((fetchMock.mock.calls[0][1] as RequestInit).body as string);
-    expect(body.instances[0].image.bytesBase64Encoded).toBeDefined();
+  it("returns text embedding for embedQuery", async () => {
+    const tv = new Array(3072).fill(0.2);
+    const e = new GeminiMultimodalEmbeddings({ apiKey: "k", client: fakeClient(tv, []) as any });
+    const v = await e.embedQuery("hello");
+    expect(v).toEqual(tv);
+  });
+
+  it("embedImage sends base64 inlineData and returns image embedding", async () => {
+    const iv = new Array(3072).fill(0.5);
+    const client = fakeClient([], iv);
+    const e = new GeminiMultimodalEmbeddings({ apiKey: "k", client: client as any });
+    const v = await e.embedImage(Buffer.from("fakejpg"), "image/jpeg");
+    expect(v).toEqual(iv);
+    const arg = (client.models.embedContent as any).mock.calls[0][0];
+    expect(arg.contents[0].parts[0].inlineData.mimeType).toBe("image/jpeg");
+    expect(arg.contents[0].parts[0].inlineData.data).toBe(Buffer.from("fakejpg").toString("base64"));
   });
 });
 ```
 
-- [ ] **Step 2: Run test to verify failure**
+- [ ] **Step 3: Run test to verify failure**
 
 Run: `npm test`. Expected: FAIL — module missing.
 
-- [ ] **Step 3: Implement `lib/rag/embeddings.ts`**
+- [ ] **Step 4: Implement `lib/rag/embeddings.ts`**
 
 ```ts
 import { Embeddings, type EmbeddingsParams } from "@langchain/core/embeddings";
+import { GoogleGenAI } from "@google/genai";
 
 type Opts = EmbeddingsParams & {
-  project: string;
-  location: string;
+  apiKey?: string;
   model?: string;
-  tokenProvider: () => Promise<string>;
-  fetcher?: typeof fetch;
+  /** Inject a client for testing. Production uses GoogleGenAI(apiKey). */
+  client?: GoogleGenAI;
 };
 
-export class VertexMultimodalEmbeddings extends Embeddings {
-  private project: string;
-  private location: string;
+export class GeminiMultimodalEmbeddings extends Embeddings {
   private model: string;
-  private tokenProvider: () => Promise<string>;
-  private fetcher: typeof fetch;
+  private client: GoogleGenAI;
 
-  constructor(opts: Opts) {
+  constructor(opts: Opts = {}) {
     super(opts);
-    this.project = opts.project;
-    this.location = opts.location;
-    this.model = opts.model ?? "multimodalembedding@001";
-    this.tokenProvider = opts.tokenProvider;
-    this.fetcher = opts.fetcher ?? fetch;
+    this.model = opts.model ?? "gemini-embedding-2";
+    this.client = opts.client ?? new GoogleGenAI({ apiKey: opts.apiKey ?? process.env.GEMINI_API_KEY! });
   }
 
-  private endpoint(): string {
-    return `https://${this.location}-aiplatform.googleapis.com/v1/projects/${this.project}/locations/${this.location}/publishers/google/models/${this.model}:predict`;
-  }
-
-  private async call(instances: unknown[]): Promise<any> {
-    const token = await this.tokenProvider();
-    const res = await this.fetcher(this.endpoint(), {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ instances }),
-    });
-    if (!res.ok) throw new Error(`Vertex ${res.status}: ${await res.text()}`);
-    return res.json();
+  private async embedOne(part: any): Promise<number[]> {
+    const r = await this.client.models.embedContent({
+      model: this.model,
+      contents: [{ parts: [part] }],
+    } as any);
+    const values = (r as any).embeddings?.[0]?.values;
+    if (!values) throw new Error("Gemini returned no embedding");
+    return values;
   }
 
   async embedDocuments(texts: string[]): Promise<number[][]> {
     const out: number[][] = [];
-    for (const t of texts) {
-      const r = await this.call([{ text: t }]);
-      out.push(r.predictions[0].textEmbedding);
-    }
+    for (const t of texts) out.push(await this.embedOne({ text: t }));
     return out;
   }
 
   async embedQuery(text: string): Promise<number[]> {
-    const r = await this.call([{ text }]);
-    return r.predictions[0].textEmbedding;
+    return this.embedOne({ text });
   }
 
-  async embedImage(bytes: Buffer): Promise<number[]> {
-    const r = await this.call([{ image: { bytesBase64Encoded: bytes.toString("base64") } }]);
-    return r.predictions[0].imageEmbedding;
+  async embedImage(bytes: Buffer, mimeType = "image/jpeg"): Promise<number[]> {
+    return this.embedOne({ inlineData: { mimeType, data: bytes.toString("base64") } });
   }
-}
-
-export async function defaultTokenProvider(): Promise<string> {
-  const { GoogleAuth } = await import("google-auth-library");
-  const auth = new GoogleAuth({ scopes: ["https://www.googleapis.com/auth/cloud-platform"] });
-  const client = await auth.getClient();
-  const { token } = await client.getAccessToken();
-  if (!token) throw new Error("Failed to get GCP access token");
-  return token;
 }
 ```
 
-- [ ] **Step 4: Run tests**
+- [ ] **Step 5: Run tests**
 
 Run: `npm test`. Expected: pass.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add lib/rag/embeddings.ts tests/lib/rag/embeddings.test.ts
-git commit -m "feat(rag): VertexMultimodalEmbeddings (text + image)"
+git add lib/rag/embeddings.ts tests/lib/rag/embeddings.test.ts package.json package-lock.json
+git commit -m "feat(rag): GeminiMultimodalEmbeddings (text + image)"
 ```
 
 ---
@@ -647,16 +630,11 @@ import path from "node:path";
 import { Document } from "@langchain/core/documents";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import { loadProducts, loadKB } from "../lib/catalog";
-import { VertexMultimodalEmbeddings, defaultTokenProvider } from "../lib/rag/embeddings";
+import { GeminiMultimodalEmbeddings } from "../lib/rag/embeddings";
 
 async function main() {
-  const project = process.env.GOOGLE_CLOUD_PROJECT;
-  const location = process.env.GOOGLE_CLOUD_LOCATION ?? "us-central1";
-  if (!project) throw new Error("GOOGLE_CLOUD_PROJECT missing");
-
-  const embeddings = new VertexMultimodalEmbeddings({
-    project, location, tokenProvider: defaultTokenProvider,
-  });
+  if (!process.env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY missing");
+  const embeddings = new GeminiMultimodalEmbeddings();
 
   const products = loadProducts();
   const kb = loadKB();
@@ -787,7 +765,7 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence, RunnablePassthrough } from "@langchain/core/runnables";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
-import { VertexMultimodalEmbeddings, defaultTokenProvider } from "./embeddings";
+import { GeminiMultimodalEmbeddings } from "./embeddings";
 import { makeQwen } from "../llm/qwen";
 
 const SYSTEM = `You are 8511's storefront assistant. You answer questions about products, services, and the store using ONLY the provided context.
@@ -818,9 +796,8 @@ function dedupeBySlug(docs: Document[], k: number): Document[] {
 }
 
 export async function buildChain() {
-  const project = process.env.GOOGLE_CLOUD_PROJECT!;
-  const location = process.env.GOOGLE_CLOUD_LOCATION ?? "us-central1";
-  const embeddings = new VertexMultimodalEmbeddings({ project, location, tokenProvider: defaultTokenProvider });
+  if (!process.env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY missing");
+  const embeddings = new GeminiMultimodalEmbeddings();
   const store = await FaissStore.load("data/faiss", embeddings);
   const llm = makeQwen();
 
@@ -1460,8 +1437,7 @@ Local Next.js 15 storefront + LangChain RAG chat for [eightyfiveeleven.com](http
 1. `npm install`
 2. `cp .env.example .env.local` and fill in:
    - `HF_TOKEN` — Hugging Face Inference token (Qwen2.5-7B-Instruct)
-   - `GOOGLE_APPLICATION_CREDENTIALS` — path to a Vertex AI service-account JSON
-   - `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`
+   - `GEMINI_API_KEY` — Gemini API key from https://aistudio.google.com/apikey (used for `gemini-embedding-2`)
    - `FIRECRAWL_API_KEY` — for catalog ingestion
 3. `npm run ingest` — scrape the live Wix catalog into `data/products.json` + `public/images/products/`
 4. `npm run embed` — build the FAISS index in `data/faiss/`
@@ -1506,4 +1482,4 @@ git commit -m "docs: setup and architecture README"
 - Spec §12 chunking — no splitter for atomic records (Task 7 honors this; products and KB chunks emitted as one Document each).
 - Spec §13 risks — surfaced in README + comments; HF rate-limit fallback to Qwen2.5-7B is the default in Task 8.
 
-No `TODO`/`TBD`/"add validation" placeholders. Type names (`Product`, `KBChunk`, `VertexMultimodalEmbeddings`) are consistent across tasks.
+No `TODO`/`TBD`/"add validation" placeholders. Type names (`Product`, `KBChunk`, `GeminiMultimodalEmbeddings`) are consistent across tasks.

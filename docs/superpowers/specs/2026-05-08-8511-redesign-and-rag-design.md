@@ -28,7 +28,7 @@ Scope of v1: local development demo only. No production deploy, no payment integ
 | Design tooling | Stitch (Figma-MCP) for screens + design system |
 | RAG framework | LangChain.js (`langchain`, `@langchain/core`, `@langchain/community`) |
 | LLM | Qwen2.5-Instruct via Hugging Face Inference API, wired through `HuggingFaceInference` chat model |
-| Embeddings | Google Vertex AI `multimodalembedding@001` (1408-dim, text + image shared space), wrapped as a custom LangChain `Embeddings` class |
+| Embeddings | Google Gemini API `gemini-embedding-2` (multimodal — text + image + audio + video + documents in shared space, 100+ languages), wrapped as a custom LangChain `Embeddings` class. Auth: `GEMINI_API_KEY`. |
 | Vector store | LangChain `FaissStore` (`@langchain/community/vectorstores/faiss` + `faiss-node`), persisted to disk |
 | Catalog source | Firecrawl scrape of eightyfiveeleven.com |
 | Deploy target | Local dev only (`npm run dev`) |
@@ -56,7 +56,7 @@ eighty-five-eleven/
 │   ├── layout/Footer.tsx
 │   └── ui/                     # Stitch-exported design system primitives
 ├── lib/
-│   ├── rag/embeddings.ts       # VertexMultimodalEmbeddings (extends LangChain Embeddings)
+│   ├── rag/embeddings.ts       # GeminiMultimodalEmbeddings (extends LangChain Embeddings)
 │   ├── rag/vectorstore.ts      # FaissStore load/save helpers
 │   ├── rag/chain.ts            # LangChain RunnableSequence: retriever → prompt → Qwen → parser
 │   └── llm/qwen.ts             # HuggingFaceInference chat model factory
@@ -125,7 +125,7 @@ Built around LangChain's `Document` + `FaissStore` abstractions:
    - One text `Document` per product: `pageContent = "${name}. ${description}"`, `metadata = { kind: "product", slug, modality: "text" }`.
    - One image `Document` per product: `pageContent = ""`, `metadata = { kind: "product", slug, modality: "image", imagePath }` (the embeddings class reads `metadata.imagePath` when modality is `image`).
    - One text `Document` per KB chunk: `metadata = { kind: "kb", id, type }`.
-3. Instantiate `VertexMultimodalEmbeddings` (custom class extending `Embeddings`; routes `embedQuery`/`embedDocuments` to text path and falls back to image path when `metadata.modality === "image"`).
+3. Instantiate `GeminiMultimodalEmbeddings` (custom class extending `Embeddings`; calls `gemini-embedding-2` via the Gemini API with `GEMINI_API_KEY`; routes `embedQuery`/`embedDocuments` to text path and falls back to image path when `metadata.modality === "image"`).
 4. `FaissStore.fromDocuments(docs, embeddings)` → `store.save("data/faiss")`.
 
 ## 8. RAG pipeline (`app/api/chat/route.ts`)
@@ -186,7 +186,7 @@ npm install
 cp .env.example .env.local
 # fill in:
 #   HF_TOKEN
-#   GOOGLE_APPLICATION_CREDENTIALS  (path to Vertex service-account JSON)
+#   GEMINI_API_KEY  (from https://aistudio.google.com/apikey)
 #   FIRECRAWL_API_KEY
 npm run ingest        # scrape + download logo + product images
 npm run embed         # build FAISS index
@@ -210,8 +210,8 @@ Semantic chunking is intentionally not used. It's overhead (extra embedding call
 
 ## 13. Risks & open questions
 
-- **Vertex auth on local-only dev:** developer must have a Google Cloud project with Vertex AI enabled and a service-account JSON. Document this in the README.
+- **Gemini API key:** developer needs a `GEMINI_API_KEY` from https://aistudio.google.com/apikey. No GCP project or service account required.
 - **HF Inference rate limits:** Qwen2.5-72B may hit free-tier limits during demo. Fall back to Qwen2.5-7B-Instruct if so.
 - **Wix scrape brittleness:** if Wix changes its DOM, ingest may break. Acceptable for a v1 demo; re-run when needed.
-- **Image embedding cost:** Vertex multimodal embeddings are billed per image. Catalog is small (~tens of products) so cost is negligible, but cache embeddings in `meta.json` to avoid recomputation.
+- **Image embedding cost:** Gemini multimodal embeddings are billed per request. Catalog is small (~tens of products) so cost is negligible, but cache embeddings (FAISS persistence already covers this — re-embed only on `npm run embed`).
 - **No moderation layer:** Qwen output is not filtered. Acceptable for an internal demo; flag before any public deploy.
