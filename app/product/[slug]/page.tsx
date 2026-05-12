@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { loadProducts } from "@/lib/catalog";
+import { getProductBySlug, loadProducts } from "@/lib/catalog";
 
 const BRAND_LABEL: Record<string, string> = {
   nike: "NIKE",
@@ -36,12 +36,13 @@ function extractSpecs(description: string) {
 
 export default async function PDP({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const products = loadProducts();
-  const p = products.find(x => x.slug === slug);
+  const p = await getProductBySlug(slug);
   if (!p) notFound();
-  const brandLabel = BRAND_LABEL[p.brand];
+  const brandLabel = BRAND_LABEL[p.brand.slug];
   const specs = extractSpecs(p.description);
-  const related = products.filter(q => q.brand === p.brand && q.slug !== p.slug).slice(0, 4);
+  const all = await loadProducts();
+  const related = all.filter(q => q.brand.slug === p.brand.slug && q.slug !== p.slug).slice(0, 4);
+  const price = p.basePrice ? `${p.basePrice.toString()} JOD` : null;
 
   return (
     <main className="max-w-[1440px] mx-auto pb-24">
@@ -49,7 +50,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
       <div className="px-8 py-6 font-label text-[11px] uppercase tracking-wide text-[#0A0A0A]/60">
         <Link href="/shop" className="hover:text-[#0A0A0A]">SHOP</Link>
         <span className="mx-2">/</span>
-        <Link href={`/shop/${p.brand}`} className="hover:text-[#0A0A0A]">{brandLabel}</Link>
+        <Link href={`/shop/${p.brand.slug}`} className="hover:text-[#0A0A0A]">{brandLabel}</Link>
         <span className="mx-2">/</span>
         <span className="text-[#0A0A0A]">{p.name.toUpperCase()}</span>
       </div>
@@ -59,7 +60,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
         {/* LEFT: images */}
         <div className="w-full md:w-1/2 p-8 flex flex-col gap-4">
           <div className="aspect-square bg-white w-full relative">
-            <Image src={p.image_url} alt={p.name} fill priority className="object-contain p-8" />
+            <Image src={p.imageUrl} alt={p.name} fill priority className="object-contain p-8" />
           </div>
           <div className="flex gap-4 h-24">
             {[0, 1, 2, 3].map(i => (
@@ -71,7 +72,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
                     : "w-24 h-24 bg-white opacity-60 hover:opacity-100 transition-opacity p-2 cursor-pointer border border-transparent hover:border-[#0A0A0A]/20 relative"
                 }
               >
-                <Image src={p.image_url} alt="" fill className="object-contain p-1" />
+                <Image src={p.imageUrl} alt="" fill className="object-contain p-1" />
               </div>
             ))}
           </div>
@@ -85,7 +86,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
           <h1 className="font-display text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none mb-6">
             {p.name.toUpperCase()}
           </h1>
-          {p.price && <div className="text-2xl md:text-[28px] font-body font-medium mb-8">{p.price}</div>}
+          {price && <div className="text-2xl md:text-[28px] font-body font-medium mb-8">{price}</div>}
 
           {specs.length > 0 && (
             <div className="font-mono text-xs text-[#0A0A0A]/80 uppercase space-y-1 mb-10 border-l-2 border-[#0A0A0A] pl-4 py-1">
@@ -105,27 +106,31 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
               </a>
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
-              {[40, 41, 42, 43, 44, 45, 46].map((s, i) => (
-                <button
-                  key={s}
-                  type="button"
-                  className={
-                    i === 2
-                      ? "h-12 bg-[#0A0A0A] text-[#F7F7F4] font-body text-sm rounded-sm"
-                      : i === 5
-                      ? "h-12 border border-[#0A0A0A]/10 font-body text-sm text-[#0A0A0A]/30 line-through cursor-not-allowed rounded-sm"
-                      : "h-12 border border-[#0A0A0A]/20 font-body text-sm hover:border-[#0A0A0A] transition-colors rounded-sm"
-                  }
-                >
-                  {s}
-                </button>
-              ))}
+              {p.variants.map((v, i) => {
+                const soldOut = v.stock <= 0;
+                return (
+                  <button
+                    key={v.id}
+                    type="button"
+                    disabled={soldOut}
+                    className={
+                      soldOut
+                        ? "h-12 border border-[#0A0A0A]/10 font-body text-sm text-[#0A0A0A]/30 line-through cursor-not-allowed rounded-sm"
+                        : i === 0
+                        ? "h-12 bg-[#0A0A0A] text-[#F7F7F4] font-body text-sm rounded-sm"
+                        : "h-12 border border-[#0A0A0A]/20 font-body text-sm hover:border-[#0A0A0A] transition-colors rounded-sm"
+                    }
+                  >
+                    {v.sizeEu}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-10">
             <a
-              href={p.source_url}
+              href={p.sourceUrl}
               target="_blank"
               rel="noreferrer"
               className="flex-1 h-14 bg-[#0A0A0A] text-[#F7F7F4] font-label uppercase tracking-wider text-xs hover:bg-[#FF3B00] transition-colors rounded-sm flex items-center justify-center"
@@ -178,7 +183,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
           </div>
           <div className="h-[500px] bg-[#0A0A0A] rounded-sm overflow-hidden relative group">
             <Image
-              src={p.image_url}
+              src={p.imageUrl}
               alt=""
               fill
               className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
@@ -198,7 +203,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
               <Link key={r.slug} href={`/product/${r.slug}`} className="group">
                 <div className="aspect-square bg-white mb-4 p-6 relative flex items-center justify-center border border-transparent group-hover:border-[#0A0A0A]/10 transition-colors">
                   <Image
-                    src={r.image_url}
+                    src={r.imageUrl}
                     alt={r.name}
                     fill
                     className="object-contain p-6 transform group-hover:scale-105 transition-transform duration-500"
@@ -207,7 +212,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
                 <h3 className="font-display text-xl font-bold uppercase tracking-tight mb-1 group-hover:text-[#FF3B00] transition-colors">
                   {r.name.toUpperCase()}
                 </h3>
-                {r.price && <p className="font-body text-sm text-[#0A0A0A]/70">{r.price}</p>}
+                {r.basePrice && <p className="font-body text-sm text-[#0A0A0A]/70">{r.basePrice.toString()} JOD</p>}
               </Link>
             ))}
           </div>
