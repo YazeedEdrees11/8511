@@ -1,3 +1,5 @@
+import { config as loadEnv } from "dotenv";
+loadEnv({ path: ".env.local" });
 import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -211,11 +213,137 @@ async function seedProducts() {
   }
 }
 
+const USERS = [
+  { email: "omar@example.com", name: "Omar A.", phone: "+962 7 9000 0001",
+    address: { line1: "1 Swefieh St.", city: "Amman", country: "Jordan", postal: "11183" } },
+  { email: "lina@example.com", name: "Lina K.", phone: "+962 7 9000 0002",
+    address: { line1: "12 Rainbow St.", city: "Amman", country: "Jordan", postal: "11181" } },
+  { email: "yusuf@example.com", name: "Yusuf M.", phone: "+966 5 0000 0003",
+    address: { line1: "King Fahd Rd.", city: "Riyadh", country: "Saudi Arabia", postal: "12211" } },
+  { email: "noor@example.com", name: "Noor S.", phone: "+971 5 0000 0004",
+    address: { line1: "Marina Walk", city: "Dubai", country: "UAE", postal: "00000" } },
+];
+
+async function seedUsers() {
+  for (const u of USERS) {
+    const user = await prisma.user.upsert({
+      where: { email: u.email },
+      create: { email: u.email, name: u.name, phone: u.phone },
+      update: { name: u.name, phone: u.phone },
+    });
+    const existing = await prisma.address.findFirst({ where: { userId: user.id } });
+    if (!existing) {
+      await prisma.address.create({
+        data: { ...u.address, userId: user.id, isDefault: true },
+      });
+    }
+  }
+}
+
+const ORDER_STATUSES = ["pending", "paid", "shipped", "delivered", "paid", "shipped"];
+
+async function seedOrders() {
+  const users = await prisma.user.findMany({ include: { addresses: true } });
+  const products = await prisma.product.findMany({ include: { variants: true } });
+
+  for (let i = 0; i < ORDER_STATUSES.length; i++) {
+    const user = users[i % users.length];
+    if (!user.addresses[0]) continue;
+    const orderNumber = `8511-${String(100 + i).padStart(6, "0")}`;
+    const existing = await prisma.order.findUnique({ where: { orderNumber } });
+    if (existing) continue;
+
+    const product = products[i % products.length];
+    const variant = product.variants[i % product.variants.length];
+    const unitPrice = product.basePrice ?? new Prisma.Decimal("100.00");
+    const quantity = 1 + (i % 2);
+    const subtotal = unitPrice.mul(quantity);
+    const shipping = new Prisma.Decimal("10.00");
+    const total = subtotal.add(shipping);
+
+    await prisma.order.create({
+      data: {
+        orderNumber,
+        userId: user.id,
+        addressId: user.addresses[0].id,
+        status: ORDER_STATUSES[i],
+        subtotal,
+        shipping,
+        total,
+        items: {
+          create: [
+            {
+              productId: product.id,
+              variantId: variant?.id,
+              sizeEu: variant?.sizeEu,
+              unitPrice,
+              quantity,
+            },
+          ],
+        },
+      },
+    });
+  }
+}
+
+const CONSIGNMENTS = [
+  { productName: "Jordan 1 Retro High Chicago", brand: "nike", sizeEu: "43", conditionNote: "Worn twice, OG box.", askingPrice: "650.00", status: "submitted" },
+  { productName: "Yeezy 350 Beluga 2.0", brand: "adidas", sizeEu: "42", conditionNote: "DS, never worn.", askingPrice: "420.00", status: "reviewing" },
+  { productName: "Supreme Box Logo Hoodie Red", brand: "supreme", sizeEu: "L", conditionNote: "Light pilling.", askingPrice: "320.00", status: "accepted" },
+  { productName: "Air Max 1 Atmos Elephant", brand: "nike", sizeEu: "44", conditionNote: "VNDS.", askingPrice: "550.00", status: "listed" },
+  { productName: "Travis Scott Jordan 1 Low", brand: "nike", sizeEu: "42", conditionNote: "DS with receipt.", askingPrice: "1200.00", status: "sold" },
+];
+
+async function seedConsignments() {
+  const omar = await prisma.user.findUniqueOrThrow({ where: { email: "omar@example.com" } });
+  for (const c of CONSIGNMENTS) {
+    const existing = await prisma.consignmentSubmission.findFirst({ where: { productName: c.productName } });
+    if (existing) continue;
+    await prisma.consignmentSubmission.create({
+      data: {
+        userId: omar.id,
+        productName: c.productName,
+        brand: c.brand,
+        sizeEu: c.sizeEu,
+        conditionNote: c.conditionNote,
+        askingPrice: new Prisma.Decimal(c.askingPrice),
+        imageUrls: JSON.stringify([]),
+        status: c.status,
+      },
+    });
+  }
+}
+
+const BOOKINGS = [
+  { serviceKey: "svc-restoration", contactName: "Omar A.", contactEmail: "omar@example.com", notes: "Yellowed midsoles on Jordan 4." },
+  { serviceKey: "svc-auth", contactName: "Lina K.", contactEmail: "lina@example.com", notes: "Authenticate a pair of Yeezy 700." },
+  { serviceKey: "svc-laundry", contactName: "Yusuf M.", contactEmail: "yusuf@example.com", notes: "Deep clean two pairs." },
+  { serviceKey: "svc-art", contactName: "Noor S.", contactEmail: "noor@example.com", notes: "Custom artwork on AF1." },
+];
+
+async function seedBookings() {
+  for (const b of BOOKINGS) {
+    const existing = await prisma.serviceBooking.findFirst({
+      where: { serviceKey: b.serviceKey, contactEmail: b.contactEmail },
+    });
+    if (existing) continue;
+    await prisma.serviceBooking.create({ data: b });
+  }
+}
+
 async function main() {
   console.log("Seeding brands...");
   await seedBrands();
   console.log("Seeding products + variants...");
   await seedProducts();
+  console.log("Seeding users + addresses...");
+  await seedUsers();
+  console.log("Seeding orders...");
+  await seedOrders();
+  console.log("Seeding consignment submissions...");
+  await seedConsignments();
+  console.log("Seeding service bookings...");
+  await seedBookings();
   console.log("Done.");
 }
 
