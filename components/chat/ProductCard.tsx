@@ -2,7 +2,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { Product } from "@/lib/catalog";
+type Product = {
+  slug: string;
+  name: string;
+  brand: "nike" | "adidas" | "supreme" | "hats";
+  price?: string;
+  image_url: string;
+  source_url: string;
+  description: string;
+};
 
 const BRAND_LABEL: Record<string, string> = {
   nike: "NIKE",
