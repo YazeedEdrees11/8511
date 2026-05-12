@@ -2,6 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { loadProducts } from "@/lib/catalog";
 
+function formatPrice(p: { basePrice: { toString(): string } | null }) {
+  return p.basePrice ? `${p.basePrice.toString()} JOD` : null;
+}
+
 const BRAND_LABEL: Record<string, string> = {
   nike: "NIKE",
   adidas: "ADIDAS",
@@ -17,8 +21,8 @@ const FILTERS: { href: string; label: string }[] = [
   { href: "/shop/hats", label: "HATS" },
 ];
 
-export default function Shop() {
-  const products = loadProducts();
+export default async function Shop() {
+  const products = await loadProducts();
   return (
     <main className="flex-grow">
       {/* Page Intro Band — direct from Stitch */}
@@ -64,7 +68,7 @@ export default function Shop() {
             >
               <div className="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
                 <Image
-                  src={p.image_url}
+                  src={p.imageUrl}
                   alt={p.name}
                   fill
                   className="object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500 p-8"
@@ -72,12 +76,12 @@ export default function Shop() {
               </div>
               <div className="px-1 flex flex-col gap-1">
                 <span className="font-label text-[11px] tracking-widest uppercase text-ink/50">
-                  {BRAND_LABEL[p.brand]}
+                  {BRAND_LABEL[p.brand.slug]}
                 </span>
                 <h3 className="font-headline text-lg tracking-tight uppercase text-ink leading-tight">
                   {p.name}
                 </h3>
-                {p.price && <p className="font-body text-sm text-ink mt-1">{p.price}</p>}
+                {formatPrice(p) && <p className="font-body text-sm text-ink mt-1">{formatPrice(p)}</p>}
               </div>
             </Link>
           ))}

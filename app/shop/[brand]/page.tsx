@@ -3,6 +3,10 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { loadProducts } from "@/lib/catalog";
 
+function formatPrice(p: { basePrice: { toString(): string } | null }) {
+  return p.basePrice ? `${p.basePrice.toString()} JOD` : null;
+}
+
 const BRANDS = ["nike", "adidas", "supreme", "hats"] as const;
 const BRAND_LABEL: Record<string, string> = {
   nike: "NIKE",
@@ -22,7 +26,8 @@ const FILTERS: { href: string; label: string }[] = [
 export default async function Brand({ params }: { params: Promise<{ brand: string }> }) {
   const { brand } = await params;
   if (!(BRANDS as readonly string[]).includes(brand)) notFound();
-  const products = loadProducts().filter(p => p.brand === brand);
+  const all = await loadProducts();
+  const products = all.filter(p => p.brand.slug === brand);
   const label = BRAND_LABEL[brand];
   return (
     <main className="flex-grow">
@@ -69,7 +74,7 @@ export default async function Brand({ params }: { params: Promise<{ brand: strin
             >
               <div className="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
                 <Image
-                  src={p.image_url}
+                  src={p.imageUrl}
                   alt={p.name}
                   fill
                   className="object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500 p-8"
@@ -82,7 +87,7 @@ export default async function Brand({ params }: { params: Promise<{ brand: strin
                 <h3 className="font-headline text-lg tracking-tight uppercase text-ink leading-tight">
                   {p.name}
                 </h3>
-                {p.price && <p className="font-body text-sm text-ink mt-1">{p.price}</p>}
+                {formatPrice(p) && <p className="font-body text-sm text-ink mt-1">{formatPrice(p)}</p>}
               </div>
             </Link>
           ))}
