@@ -45,3 +45,10 @@ next-env.d.ts
 data/faiss/
 public/images/products/
 
+# Local env
+.env.local
+.env.docker
+
+# Prisma (defensive)
+prisma/dev.db*
+

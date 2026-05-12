@@ -10,7 +10,13 @@
     "ingest": "tsx scripts/ingest.ts",
     "embed": "tsx scripts/embed.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset"
   },
   "dependencies": {
     "@google/genai": "^2.0.0",
