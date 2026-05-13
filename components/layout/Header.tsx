@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useCart } from "@/components/cart/CartProvider";
 
 const NAV = [
   { href: "/shop", label: "SHOP" },
@@ -14,11 +14,11 @@ const NAV = [
 export default function Header() {
   const pathname = usePathname() ?? "/";
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const cart = useCart();
   return (
     <header className="sticky top-0 z-50 flex justify-between items-center px-6 md:px-10 w-full h-[80px] bg-surface border-b border-on-surface/15 transition-all">
       <Link href="/" className="flex items-center gap-2" aria-label="Eighty Five Eleven home">
-        <Image src="/logo.png" alt="8511 Logo" width={120} height={32} className="h-8 object-contain" priority />
-        <span className="font-headline text-3xl font-black tracking-tighter text-on-surface hidden md:block">
+        <span className="font-headline text-3xl font-black tracking-tighter text-on-surface">
           8511
         </span>
       </Link>
@@ -36,8 +36,17 @@ export default function Header() {
         ))}
       </nav>
       <div className="flex items-center gap-6">
-        <button className="text-on-surface hover:text-primary transition-colors duration-300 active:opacity-80">
+        <button
+          onClick={cart.open}
+          className="relative text-on-surface hover:text-primary transition-colors duration-300 active:opacity-80"
+          aria-label="Open cart"
+        >
           <span className="material-symbols-outlined">shopping_bag</span>
+          {cart.itemCount > 0 && (
+            <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 bg-primary text-paper text-[9px] font-label flex items-center justify-center">
+              {cart.itemCount}
+            </span>
+          )}
         </button>
         <button className="text-on-surface hover:text-primary transition-colors duration-300 active:opacity-80">
           <span className="material-symbols-outlined">person</span>

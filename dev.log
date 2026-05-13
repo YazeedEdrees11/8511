@@ -1,0 +1,29 @@
+
+> eighty-five-eleven@0.1.0 dev
+> next dev --turbopack
+
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\DELL\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\DELL\Desktop\eighty five eleven\package-lock.json
+
+ ⚠ Port 3000 is in use by process 27280, using available port 3006 instead.
+   ▲ Next.js 15.5.18 (Turbopack)
+   - Local:        http://localhost:3006
+   - Network:      http://172.20.48.1:3006
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 3s
+ ○ Compiling /api/chat ...
+ ✓ Compiled /api/chat in 6.1s
+ POST /api/chat 200 in 10408ms
+SyntaxError: Bad control character in string literal in JSON at position 147 (line 1 column 148)
+    at JSON.parse (<anonymous>)
+ POST /api/chat 500 in 508ms
+ POST /api/chat 200 in 2550ms
+ POST /api/chat 200 in 1971ms
+   Reload env: .env.local
+   Reload env: .env

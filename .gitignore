@@ -52,3 +52,5 @@ public/images/products/
 # Prisma (defensive)
 prisma/dev.db*
 
+
+/lib/generated/prisma

@@ -7,8 +7,8 @@ export function makeQwen(opts?: { model?: string; temperature?: number; maxToken
   if (!apiKey) throw new Error("HF_TOKEN missing");
   const client = new InferenceClient(apiKey);
   const model = opts?.model ?? "Qwen/Qwen2.5-7B-Instruct";
-  const temperature = opts?.temperature ?? 0.2;
-  const max_tokens = opts?.maxTokens ?? 512;
+  const temperature = opts?.temperature ?? 0.05;
+  const max_tokens = opts?.maxTokens ?? 600;
 
   return RunnableLambda.from(async function* (input: ChatPromptValue) {
     const messages = input.messages.map((m) => {

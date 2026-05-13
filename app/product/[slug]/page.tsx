@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProductBySlug, loadProducts } from "@/lib/catalog";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 
 const BRAND_LABEL: Record<string, string> = {
   nike: "NIKE",
@@ -129,14 +130,10 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-10">
-            <a
-              href={p.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="flex-1 h-14 bg-[#0A0A0A] text-[#F7F7F4] font-label uppercase tracking-wider text-xs hover:bg-[#FF3B00] transition-colors rounded-sm flex items-center justify-center"
-            >
-              ADD TO CART
-            </a>
+            <AddToCartButton
+              productId={p.id}
+              defaultVariantId={p.variants.find(v => v.stock > 0)?.id}
+            />
             <Link
               href={`/chat?q=${encodeURIComponent(`Tell me about ${p.name}`)}`}
               className="flex-1 h-14 border border-[#0A0A0A] text-[#0A0A0A] font-label uppercase tracking-wider text-xs hover:text-[#FF3B00] hover:border-[#FF3B00] transition-colors rounded-sm flex items-center justify-center"

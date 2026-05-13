@@ -67,6 +67,24 @@ h1, h2, h3 {
   width: max-content;
   animation: marquee 30s linear infinite;
 }
+
+/* Sneaker icon — slow continuous rotation while assistant is thinking */
+@keyframes sneaker-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-sneaker-spin {
+  animation: sneaker-spin 2s linear infinite;
+}
+
+/* Subtle scale pulse for assistant indicator */
+@keyframes sneaker-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.08); opacity: 0.85; }
+}
+.animate-sneaker-pulse {
+  animation: sneaker-pulse 2.5s ease-in-out infinite;
+}
 .marquee-fade-left {
   background: linear-gradient(to right, var(--color-paper), transparent);
 }

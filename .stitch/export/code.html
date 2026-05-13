@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>8511 - Services</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Public+Sans:wght@700;800;900&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F7F7F4',
+                        ink: '#0A0A0A',
+                        accent: '#FF3B00'
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "headline": ["Public Sans", "sans-serif"],
+                        "display": ["Public Sans", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Space Grotesk", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .brutalist-border {
+                @apply border border-ink/20;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#F7F7F4] text-[#0A0A0A] font-body selection:bg-[#FF3B00] selection:text-[#F7F7F4] antialiased">
+<!-- TopAppBar -->
+<nav class="sticky top-0 w-full h-20 flex justify-between items-center px-6 md:px-12 z-50 bg-[#F7F7F4] border-b border-[#0A0A0A]/10">
+<div class="font-headline text-3xl tracking-tighter text-[#0A0A0A] uppercase">
+<a href="#">8511</a>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#0A0A0A] font-label tracking-widest text-sm hover:text-[#FF3B00] transition-colors duration-200" href="#">SHOP</a>
+<a class="text-[#FF3B00] border-b-2 border-[#FF3B00] pb-1 font-label tracking-widest text-sm" href="#">SERVICES</a>
+<a class="text-[#0A0A0A] font-label tracking-widest text-sm hover:text-[#FF3B00] transition-colors duration-200" href="#">STORY</a>
+<a class="text-[#0A0A0A] font-label tracking-widest text-sm hover:text-[#FF3B00] transition-colors duration-200" href="#">LOCATIONS</a>
+</div>
+<div class="flex items-center gap-6 text-[#0A0A0A]">
+<button class="hover:text-[#FF3B00] transition-colors duration-200 flex items-center justify-center">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="hover:text-[#FF3B00] transition-colors duration-200 flex items-center justify-center">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</nav>
+<!-- Hero Band -->
+<section class="w-full min-h-[480px] flex flex-col md:flex-row border-b border-[#0A0A0A]/10 bg-[#F7F7F4]">
+<div class="w-full md:w-1/2 flex flex-col justify-center px-6 py-16 md:p-16 lg:p-24 border-b md:border-b-0 md:border-r border-[#0A0A0A]/10">
+<h1 class="font-headline text-6xl sm:text-7xl lg:text-8xl xl:text-[8rem] leading-[0.85] tracking-tighter text-[#0A0A0A] uppercase mb-8">
+                MORE THAN<br/>A SHOP
+            </h1>
+<p class="font-body text-base text-[#0A0A0A]/80 max-w-md leading-relaxed">
+                We are a sneaker boutique, an authentication desk, a restoration studio, and a custom-art atelier. Eight services, one roof, in Swefieh Village, Amman.
+            </p>
+</div>
+<div class="w-full md:w-1/2 min-h-[400px] md:min-h-full relative overflow-hidden bg-[#e5e5e5]">
+<img alt="Craftsman hands working on a sneaker" class="absolute inset-0 w-full h-full object-cover object-center mix-blend-multiply opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMbRSkYQ2W1YHCKeJ9ZI23f05PYAxzPM-ESkNwyuR7oEUKMOzskStr5-nBInoerylfrzKULKZyzKLvesVeo0DnB9wVc4_CB1E8wbWpcNRJjvs2evPKK-rfAOBRycIYrQuC2cWLTIcvDlRrPTWhLZ84H56r-sMz8Xdxj0aiq--VRzdpkr9VERC5cBarNDpLs1us_GgqzOJJGG93bJ4XcgMXZopjWac18DA1agdRL_VcBBnnSto7UIg1jnY12GiuHxFXCcHsGJ8BC0he"/>
+</div>
+</section>
+<!-- Services Grid -->
+<section class="w-full max-w-[1600px] mx-auto p-6 md:p-12 lg:p-16 bg-[#F7F7F4]">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 01 -->
+<div class="group brutalist-border bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300">
+<div class="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100"><img alt="Authentication service visual" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb1OTQGtGpMWMhlPyfV0-GlVbrANKqiMZn2EB1rTXf_KwJWMx4FDS2MKPFx1hImU-33hdCLanIPAdF-R8ycr6H37CkYFdpd2a4nxLtRJtv-3UgueIxyMXRg3htDZKcLotJSWhZD7jTXy6hZtOJsME8yAsYJjZoqLe3HN6n6oRRtLfRWHCqAU8aUkXdXkmFvyd2UK0mpC9tD7UQcGqexs1P8_PCmeDdVypcmtGhlIahfDU2yII5uR_ydx3i_ZGkNOye23QEbMcNEDzj"/></div>
+<div class="mt-auto">
+<h3 class="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">SNEAKER AUTHENTICATION</h3>
+<p class="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">Verify the authenticity of any sneaker before you buy or sell.</p>
+</div>
+<span class="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">arrow_forward</span>
+</div>
+<!-- Card 02 -->
+<div class="group brutalist-border bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300">
+<div class="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100"><img alt="Consignment service visual" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1S8MWwG4XslYISeq2IyZlkVRFeWsEstNTgMBCQjPcgIPp0RP4dcMB2OnEBtVXIMYF5L_906XPX-FC12ztfOYHK9gY96KsRbSxUMefwQLyGolMTbzM9I98D_E1hIWGe1b5yJm2ggcyzAmmmvMZUG7F0cFVabfVgCayUE9fMn71gdjiGdfyaazU4Je2AfpgFjwueGuvroYhROc5xk-i-os14Yt1ApDBWdBKQn-c1psrqtHopEPmTzSEIYYr0chPwxUkqS3oAzeB9UZB"/></div>
+<div class="mt-auto">
+<h3 class="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">SNEAKER CONSIGNMENT</h3>
+<p class="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">We list, sell, and pay you out — fee-based.</p>
+</div>
+<span class="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">arrow_forward</span>
+</div>
+<!-- Card 03 -->
+<div class="group brutalist-border bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300">
+<div class="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100"><img alt="Laundry service visual" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAADwMelXCeaREN4YWs0j_ECb0Ow6bho9-nCKUMAkrI-6RpRjPdJcIswVacE9B4KMG-JZdMlbYFb2jJusTgspoiDuwaF-0ktWSZ3safYWd79RgJMK4tg2N0ezo5VGFcvk65BClawS2xf5KC3cilNfq3Zoj_JfTdzlAwBr9ezqXiv0y2-M-jzePCdF4ljUnDQ2xopiV5ySnzLfoSUGwqnNUuNe12ipytxXfKplFeEUeCYthZk1qXcVh-oB5GhI69XLuQjSFM0gs70oE"/></div>
+<div class="mt-auto">
+<h3 class="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">SNEAKER LAUNDRY</h3>
+<p class="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">Professional cleaning service for sneakers.</p>
+</div>
+<span class="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">arrow_forward</span>
+</div>
+<!-- Card 04 -->
+<div class="group brutalist-border bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300">
+<div class="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100"><img alt="Restoration service visual" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrbT9B5k9UeeL96a8CnKM7FkZs3QxAxRx-po_tm0FukEEU_hcYS4WBlarDQCKidbBxzr3mM1rkv9h2syDxiJVXGHLyy8nt1Ah83Vabao_-8A3htVmzhaI1qohSu8mxyOZtTDhZfewHsdnnqw0A4N3h275sxQUEwHc15J9mM0q-d8BiTB7fw3aXtwcBWVjq7cEB4YHs-ZzAwLy0qh_FX_EumcC5MhlhVpSCZKcR9RMUrzzUG3Seagu0UBvqGwa-cLIQ3uSuTH8t8oPF"/></div>
+<div class="mt-auto">
+<h3 class="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">SNEAKER RESTORATION</h3>
+<p class="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">Sole swaps, color restoration, and structural repairs.</p>
+</div>
+<span class="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">arrow_forward</span>
+</div>
+<!-- Card 05 -->
+<div class="group brutalist-border bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300">
+<div class="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100"><img alt="Custom art service visual" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCx8ayb7TfZ949ePv_ONj0LuU_hkbqji537SuOXk60X6XxQ4MXhti_Y5eGE8EXZXFGax0H5xVThuJgWuw2-dNNAeiDPWe_lW0GloZ2BTgBi5_HYLaeoodDeWujjfZo4KI1XbC5Evi58FchRy4rrp8cAlIalh2bfpxa-jaJbHesZpY32WTviur3N3XrYWYuwMubLdBRl22fe5tIVBJrC7Oo83gYUYOjDMZk2njmiWOmciebHu52ucUKhMK46V9SGuK2i93SI2wi9rcU"/></div>
+<div class="mt-auto">
+<h3 class="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">CUSTOM SNEAKER ART</h3>
+<p class="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">Hand-painted custom artwork on your sneakers.</p>
+</div>
+<span class="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">arrow_forward</span>
+</div>
+<!-- Card 06 -->
+<div class="group brutalist-border bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300">
+<div class="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100"><img alt="Custom orders service visual" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHRBLStqQ4jo1-744db_9kZ0qMankfACHhJVtwUYQyffI449OxFyt5kBB44wx2pAZ3ubL_Dt0mnSmR4cQaLDXmgJERsPA5VDJbmuftXgas60mRXi0tH4Ge-HXDgDKQrUp-FfjniyB1UpSx-qcgpFEy8BWKwPRRjp3pwbnKTsQxS_jCVvqQ72HlrhlCNYGhpjZgmf0q4wx7mALbW9AcH4dx_PHI8r0ZV7iz4he9Qt02OLUumW2rB8F1KBgNV0e1D5XJT3eIiZmkB5Yj"/></div>
+<div class="mt-auto">
+<h3 class="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">CUSTOM ORDERS</h3>
+<p class="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">Source any pair or piece, sneaker or apparel.</p>
+</div>
+<span class="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">arrow_forward</span>
+</div>
+<!-- Card 07 -->
+<div class="group brutalist-border bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300">
+<div class="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100"><img alt="Shipping service visual" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsVdKaEP3yc7v7SFi9zuJP4ZG2AobPBTtZttwgidpq-tTIWvpCF8EcBwNeo4JeOOnDLHv47Bt0p4KQe72Y0QFo9tZ0z_FgcWRWVxlXZ_jqeekx2XJV_TSvgKoaIwOYaDmBF6xHoOzxHZRT4ftl2RFDnGxZM4A1mapJYb3RIMNxaAtEHfYmzUFQh3lhlEXmE4ZaUPbqkUsoTjG1qwsAamd06WAmeSk-aOEe6EUBIV-9WPttU2ijw5Ex9Fcpmd_tPdt89yZRBPG0JZf_"/></div>
+<div class="mt-auto">
+<h3 class="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">WORLDWIDE SHIPPING</h3>
+<p class="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">Anywhere on Earth. DHL, Aramex.</p>
+</div>
+<span class="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">arrow_forward</span>
+</div>
+<!-- Card 08 -->
+<div class="group brutalist-border bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300">
+<div class="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100"><img alt="Nike ID service visual" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHnZ7gY5N_sPbQLARMn468XonZ44J2tqkxiScpmMLlSIPo-RSNewEnxu1kq2meb-xkxHBuM4A7FeqCiesKfBn_VYCLUG7B_NS1OrtNitJ8Wj9QnstjU5xo50ksdhzMXY0sjgOhs7YuxyLVL9NfDsK-kOIB6hlHsYq9q6e4fnmaMuT-4iP8AqAKtM4dVpjjPKUPTO5olbqbzuF5fbm5Mt9UEdBySUAQ09E5K7wW_ofU2lRtJzXTFWd9MD9z1tPu3t9magXDS420NwoC"/></div>
+<div class="mt-auto">
+<h3 class="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">NIKE ID</h3>
+<p class="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">Custom-design your pair through Nike By You.</p>
+</div>
+<span class="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">arrow_forward</span>
+</div>
+</div>
+</section>
+<!-- CTA Strip -->
+<section class="w-full bg-[#0A0A0A] flex flex-col items-center justify-center py-20 px-6 text-center min-h-[240px]">
+<h2 class="font-headline text-5xl md:text-6xl text-[#F7F7F4] uppercase tracking-tighter leading-none mb-4">NEED SOMETHING SPECIFIC?</h2>
+<p class="font-body text-[#F7F7F4]/80 text-sm md:text-base mb-10">Talk to the assistant or visit us in store.</p>
+<div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+<button class="border border-[#F7F7F4] text-[#F7F7F4] bg-transparent hover:border-[#FF3B00] hover:text-[#FF3B00] transition-colors duration-300 font-label tracking-widest uppercase text-xs px-8 py-4 w-full sm:w-auto">
+                ASK 8511
+            </button>
+<button class="bg-[#FF3B00] text-[#F7F7F4] border border-[#FF3B00] hover:bg-[#FF3B00]/90 transition-colors duration-300 font-label tracking-widest uppercase text-xs px-8 py-4 w-full sm:w-auto">
+                VISIT STORE
+            </button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full flex flex-col md:flex-row justify-between items-center px-6 md:px-12 gap-8 py-12 bg-[#F7F7F4] border-t border-[#0A0A0A]/10">
+<div class="text-[#0A0A0A] font-label tracking-widest uppercase text-[10px] md:text-xs">
+            © 8511 AMMAN. ALL RIGHTS RESERVED.
+        </div>
+<div class="flex flex-wrap justify-center gap-6 md:gap-8">
+<a class="text-[#0A0A0A] font-label tracking-widest uppercase text-[10px] md:text-xs hover:text-[#FF3B00] transition-colors duration-300" href="#">INSTAGRAM</a>
+<a class="text-[#0A0A0A] font-label tracking-widest uppercase text-[10px] md:text-xs hover:text-[#FF3B00] transition-colors duration-300" href="#">WHATSAPP</a>
+<a class="text-[#0A0A0A] font-label tracking-widest uppercase text-[10px] md:text-xs hover:text-[#FF3B00] transition-colors duration-300" href="#">TERMS</a>
+<a class="text-[#0A0A0A] font-label tracking-widest uppercase text-[10px] md:text-xs hover:text-[#FF3B00] transition-colors duration-300" href="#">CAREERS</a>
+</div>
+</footer>
+<!-- Floating Action -->
+<button class="fixed bottom-6 right-6 z-50 bg-[#FF3B00] text-[#F7F7F4] font-label uppercase text-xs px-5 py-4 flex items-center gap-3 shadow-2xl shadow-[#FF3B00]/20 hover:scale-105 transition-transform duration-200">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="tracking-widest">ASK 8511</span>
+</button>
+</body></html>

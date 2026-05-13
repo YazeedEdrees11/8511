@@ -21,15 +21,43 @@ function setSidHeader(sid: string): HeadersInit {
   };
 }
 
+const itemInclude = {
+  items: {
+    include: {
+      product: { select: { slug: true } },
+      variant: { select: { sizeEu: true } },
+    },
+    orderBy: { id: "asc" as const },
+  },
+};
+
+type CartRow = Awaited<ReturnType<typeof prisma.cart.findFirstOrThrow<{ include: typeof itemInclude }>>>;
+
+function enrich(cart: CartRow | { items: [] } | null) {
+  if (!cart) return { items: [] };
+  return {
+    ...cart,
+    items: cart.items.map(it => ({
+      id: it.id,
+      cartId: it.cartId,
+      productId: it.productId,
+      variantId: it.variantId,
+      quantity: it.quantity,
+      productSlug: it.product.slug,
+      sizeEu: it.variant?.sizeEu ?? null,
+    })),
+  };
+}
+
 async function getOrCreateCart(sid: string) {
   const existing = await prisma.cart.findFirst({
     where: { sessionId: sid, userId: null },
-    include: { items: true },
+    include: itemInclude,
   });
   if (existing) return existing;
   return prisma.cart.create({
     data: { sessionId: sid },
-    include: { items: true },
+    include: itemInclude,
   });
 }
 
@@ -47,19 +75,32 @@ export async function POST(req: Request) {
   if (!sid) sid = randomUUID();
 
   const cart = await getOrCreateCart(sid);
-  await prisma.cartItem.create({
-    data: {
-      cartId: cart.id,
-      productId: body.productId,
-      variantId: body.variantId,
-      quantity: body.quantity ?? 1,
-    },
-  });
+
+  // If an identical product+variant already exists, increment instead of duplicating
+  const existingItem = cart.items.find(
+    it => it.productId === body.productId && (it.variantId ?? null) === (body.variantId ?? null)
+  );
+  if (existingItem) {
+    await prisma.cartItem.update({
+      where: { id: existingItem.id },
+      data: { quantity: existingItem.quantity + (body.quantity ?? 1) },
+    });
+  } else {
+    await prisma.cartItem.create({
+      data: {
+        cartId: cart.id,
+        productId: body.productId,
+        variantId: body.variantId,
+        quantity: body.quantity ?? 1,
+      },
+    });
+  }
+
   const fresh = await prisma.cart.findUniqueOrThrow({
     where: { id: cart.id },
-    include: { items: true },
+    include: itemInclude,
   });
-  return new Response(JSON.stringify(fresh), {
+  return new Response(JSON.stringify(enrich(fresh)), {
     status: 200,
     headers: isNew ? setSidHeader(sid) : { "content-type": "application/json" },
   });
@@ -70,7 +111,7 @@ export async function GET(req: Request) {
   if (!sid) return Response.json({ items: [] });
   const cart = await prisma.cart.findFirst({
     where: { sessionId: sid, userId: null },
-    include: { items: true },
+    include: itemInclude,
   });
-  return Response.json(cart ?? { items: [] });
+  return Response.json(enrich(cart));
 }

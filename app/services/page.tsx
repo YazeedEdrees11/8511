@@ -1,5 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 import { loadKB } from "@/lib/catalog";
+
+const SERVICE_IMAGE: Record<string, string> = {
+  "svc-auth": "/images/services/authentication.jpg",
+  "svc-consign": "/images/services/consignment.jpg",
+  "svc-laundry": "/images/services/laundry.jpg",
+  "svc-restoration": "/images/services/restoration.jpg",
+  "svc-art": "/images/services/art.jpg",
+  "svc-custom": "/images/services/custom.jpg",
+  "svc-shipping": "/images/services/shipping.jpg",
+  "svc-nikeid": "/images/services/nikeid.jpg",
+};
 
 export default function Services() {
   const services = loadKB().filter(c => c.type === "service");
@@ -16,22 +28,35 @@ export default function Services() {
             Eight services, one roof, in Swefieh Village, Amman.
           </p>
         </div>
-        <div className="w-full md:w-1/2 min-h-[400px] md:min-h-full relative overflow-hidden bg-[#e5e5e5] flex items-center justify-center">
-          <span className="font-headline text-[12rem] text-[#0A0A0A]/10 leading-none">8</span>
+        <div className="w-full md:w-1/2 min-h-[400px] md:min-h-full relative overflow-hidden bg-[#e5e5e5]">
+          <Image
+            src="/images/services/hero.jpg"
+            alt="Craftsman hands working on a sneaker"
+            fill
+            className="object-cover object-center mix-blend-multiply opacity-90"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority
+          />
         </div>
       </section>
 
       {/* Services Grid */}
       <section className="w-full max-w-[1600px] mx-auto p-6 md:p-12 lg:p-16 bg-[#F7F7F4]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((s, i) => (
+          {services.map(s => (
             <div
               key={s.id}
               className="group border border-[#0A0A0A]/20 bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300"
             >
-              <span className="font-headline text-7xl leading-none text-[#0A0A0A]/10 group-hover:text-[#FF3B00] transition-colors duration-300">
-                {String(i + 1).padStart(2, "0")}
-              </span>
+              <div className="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100 relative">
+                <Image
+                  src={SERVICE_IMAGE[s.id] ?? "/images/services/authentication.jpg"}
+                  alt={`${s.title} visual`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
               <div className="mt-auto">
                 <h3 className="font-headline text-2xl uppercase text-[#0A0A0A] leading-tight mb-3">
                   {s.title}

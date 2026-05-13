@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>8511 — Editorial Streetwear | Ask 8511</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Inter:wght@400;500;600&amp;family=Public+Sans:wght@700;900&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {},
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {},
+        "fontFamily": {
+                "headline": [
+                        "Public Sans"
+                ],
+                "display": [
+                        "Public Sans"
+                ],
+                "body": [
+                        "Inter"
+                ],
+                "label": [
+                        "Space Grotesk"
+                ]
+        },
+        "fontSize": {}
+},
+    },
+  }
+</script>
+<style>
+  body { background-color: #F7F7F4; color: #0A0A0A; }
+  .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+</style>
+</head>
+<body class="font-body min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="bg-[#F7F7F4] dark:bg-[#0A0A0A] font-display uppercase tracking-tight text-xl docked full-width top-0 h-[80px] border-b border-[#0A0A0A]/15 dark:border-[#F7F7F4]/15 flex justify-between items-center px-6 md:px-12 w-full sticky top-0 z-50">
+<div class="font-display font-black text-2xl tracking-tighter text-[#0A0A0A] dark:text-[#F7F7F4]">
+    8511
+  </div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-[#0A0A0A] dark:text-[#F7F7F4] font-label tracking-widest text-xs hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer uppercase" href="#">SHOP</a>
+<a class="text-[#0A0A0A] dark:text-[#F7F7F4] font-label tracking-widest text-xs hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer uppercase" href="#">RELEASES</a>
+<a class="text-[#0A0A0A] dark:text-[#F7F7F4] font-label tracking-widest text-xs hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer uppercase" href="#">SERVICES</a>
+<a class="text-[#0A0A0A] dark:text-[#F7F7F4] font-label tracking-widest text-xs hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer uppercase" href="#">ARCHIVE</a>
+</nav>
+<div class="flex items-center gap-6">
+<a class="text-[#FF3B00] dark:text-[#FF3B00] font-label font-bold tracking-widest text-xs uppercase flex items-center gap-1" href="#">
+      ASK 8511 <span class="w-1.5 h-1.5 rounded-full bg-[#FF3B00] inline-block"></span>
+</a>
+<div class="hidden lg:flex items-center gap-2 font-label text-[10px] tracking-widest text-[#0A0A0A]/60">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+      ASSISTANT ONLINE
+    </div>
+<div class="flex items-center gap-4 text-[#0A0A0A] dark:text-[#F7F7F4]">
+<span class="material-symbols-outlined cursor-pointer hover:text-[#FF3B00] transition-colors duration-200">shopping_bag</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-[#FF3B00] transition-colors duration-200">person</span>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="h-[240px] flex flex-col justify-center px-6 md:px-12 bg-[#F7F7F4]">
+<div class="max-w-7xl mx-auto w-full">
+<p class="font-label text-xs tracking-widest text-[#0A0A0A]/60 mb-2 uppercase">8511 ASSISTANT — POWERED BY GEMINI + QWEN</p>
+<h1 class="font-bebas text-6xl md:text-8xl tracking-tight leading-none mb-4">ASK 8511.</h1>
+<p class="font-body text-base max-w-[60ch] text-[#0A0A0A]/80">Ask about products, services, sizing, store hours, or sneaker history. Trained on the 8511 catalog.</p>
+</div>
+</section>
+<!-- Main Layout -->
+<section class="px-6 md:px-12 pb-24">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
+<!-- Chat Surface (2/3) -->
+<div class="lg:col-span-2 border border-[#0A0A0A]/15 bg-[#F7F7F4] rounded-[4px] h-[720px] flex flex-col relative overflow-hidden">
+<!-- Chat Header Tag -->
+<div class="absolute top-4 left-4 z-10 flex items-center gap-2 font-label text-[10px] tracking-widest uppercase bg-[#F7F7F4] border border-[#0A0A0A]/10 px-2 py-1 rounded-[2px]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#FF3B00]"></span> LIVE
+        </div>
+<!-- Convo Area -->
+<div class="flex-grow overflow-y-auto p-8 pt-16 flex flex-col gap-8">
+<!-- User Query 1 -->
+<div class="flex flex-col gap-1 items-end">
+<span class="font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60">You</span>
+<div class="font-body text-[15px] max-w-[80%] text-right">Do you have any Jordan 1s in size 42?</div>
+</div>
+<!-- Assistant Response 1 -->
+<div class="flex flex-col gap-1 items-start">
+<span class="font-label text-[10px] tracking-widest uppercase text-[#FF3B00] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">neurology</span> 8511
+            </span>
+<div class="font-body text-[15px] max-w-[80%] mb-4">Hell yeah — three pairs in stock right now. Mid Hyper Royal is the standout.</div>
+<!-- Inline Cards Row -->
+<div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="border border-[#0A0A0A]/10 p-3 group cursor-pointer hover:border-[#0A0A0A] transition-colors">
+<div class="bg-white aspect-square mb-3 flex items-center justify-center border border-[#0A0A0A]/5" data-alt="A studio product shot of Nike Air Jordan 1 Mid Hyper Royal sneakers. The shoes are placed on a stark white platform in a brightly lit, minimalist environment. The high-key lighting emphasizes the clean lines and crisp blue and white colorway of the sneakers. The aesthetic is modern, editorial streetwear, relying on the contrast between the bold shoe colors and the pristine background. The mood is premium and commercial.">
+<span class="font-label text-xs text-gray-300">IMG</span>
+</div>
+<div class="font-label text-[10px] tracking-widest text-[#0A0A0A]/60 mb-1">JORDAN</div>
+<div class="font-display font-bold text-sm uppercase leading-tight mb-2">1 MID HYPER ROYAL</div>
+<div class="flex justify-between items-end">
+<div class="font-body text-xs">JD 180</div>
+<div class="font-label text-[10px] tracking-widest text-[#FF3B00] opacity-0 group-hover:opacity-100 transition-opacity">VIEW →</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="border border-[#0A0A0A]/10 p-3 group cursor-pointer hover:border-[#0A0A0A] transition-colors">
+<div class="bg-white aspect-square mb-3 flex items-center justify-center border border-[#0A0A0A]/5" data-alt="A studio product shot of Nike Air Jordan 1 Mid Signal Blue sneakers. The shoes sit on a stark white platform in a high-key lit, minimalist studio setting. The lighting is soft but bright, highlighting the distinct blue panels against the white base. The editorial streetwear aesthetic is maintained with a clean, distraction-free background. The vibe is fresh, modern, and retail-ready.">
+<span class="font-label text-xs text-gray-300">IMG</span>
+</div>
+<div class="font-label text-[10px] tracking-widest text-[#0A0A0A]/60 mb-1">JORDAN</div>
+<div class="font-display font-bold text-sm uppercase leading-tight mb-2">1 MID SIGNAL BLUE</div>
+<div class="flex justify-between items-end">
+<div class="font-body text-xs">JD 175</div>
+<div class="font-label text-[10px] tracking-widest text-[#FF3B00] opacity-0 group-hover:opacity-100 transition-opacity">VIEW →</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="border border-[#0A0A0A]/10 p-3 group cursor-pointer hover:border-[#0A0A0A] transition-colors">
+<div class="bg-white aspect-square mb-3 flex items-center justify-center border border-[#0A0A0A]/5" data-alt="A studio product shot of Nike Air Jordan 1 Low Dark Beetroot sneakers. The sneakers are presented on a pure white surface under bright, even lighting in a minimalist space. The deep burgundy accents stand out sharply against the lighter panels and pristine background. The overall style is high-end editorial streetwear, focusing purely on the product with plenty of negative space. The atmosphere is crisp and contemporary.">
+<span class="font-label text-xs text-gray-300">IMG</span>
+</div>
+<div class="font-label text-[10px] tracking-widest text-[#0A0A0A]/60 mb-1">JORDAN</div>
+<div class="font-display font-bold text-sm uppercase leading-tight mb-2">1 LOW DARK BEETROOT</div>
+<div class="flex justify-between items-end">
+<div class="font-body text-xs">JD 160</div>
+<div class="font-label text-[10px] tracking-widest text-[#FF3B00] opacity-0 group-hover:opacity-100 transition-opacity">VIEW →</div>
+</div>
+</div>
+</div>
+</div>
+<!-- User Query 2 -->
+<div class="flex flex-col gap-1 items-end mt-4">
+<span class="font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60">You</span>
+<div class="font-body text-[15px] max-w-[80%] text-right">Cool. What about authentication if I bring my own pair?</div>
+</div>
+<!-- Assistant Response 2 -->
+<div class="flex flex-col gap-1 items-start">
+<span class="font-label text-[10px] tracking-widest uppercase text-[#FF3B00] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">neurology</span> 8511
+            </span>
+<div class="font-body text-[15px] max-w-[80%] mb-4">Drop in to Swefieh Village or send detailed photos via Instagram — our authentication service runs JD 25 per pair, takes 24h.</div>
+<!-- Inline Service Card -->
+<div class="border border-[#0A0A0A] p-4 max-w-sm w-full group cursor-pointer hover:bg-[#0A0A0A] hover:text-[#F7F7F4] transition-colors duration-300">
+<div class="font-bebas text-3xl mb-1 flex justify-between items-end">
+<span>01 SNEAKER AUTHENTICATION</span>
+<span class="font-label text-xs tracking-widest group-hover:text-[#FF3B00]">JD 25</span>
+</div>
+<p class="font-body text-sm opacity-80 mb-4">Rigorous multi-point check by our in-house experts.</p>
+<div class="font-label text-[10px] tracking-widest uppercase text-[#FF3B00]">LEARN MORE →</div>
+</div>
+</div>
+<!-- Blinking Cursor -->
+<div class="flex items-start mt-2">
+<span class="font-body text-[15px] text-[#0A0A0A] animate-pulse">|</span>
+</div>
+<!-- Suggested Chips -->
+<div class="flex flex-wrap gap-2 mt-8 pt-4 border-t border-[#0A0A0A]/10">
+<button class="font-label text-[10px] tracking-widest uppercase border border-[#0A0A0A]/20 px-3 py-1.5 rounded-[2px] hover:border-[#0A0A0A] hover:text-[#FF3B00] transition-colors bg-white">WHAT YEEZYS DO YOU HAVE?</button>
+<button class="font-label text-[10px] tracking-widest uppercase border border-[#0A0A0A]/20 px-3 py-1.5 rounded-[2px] hover:border-[#0A0A0A] hover:text-[#FF3B00] transition-colors bg-white">TELL ME ABOUT CONSIGNMENT</button>
+<button class="font-label text-[10px] tracking-widest uppercase border border-[#0A0A0A]/20 px-3 py-1.5 rounded-[2px] hover:border-[#0A0A0A] hover:text-[#FF3B00] transition-colors bg-white">STORE HOURS?</button>
+<button class="font-label text-[10px] tracking-widest uppercase border border-[#0A0A0A]/20 px-3 py-1.5 rounded-[2px] hover:border-[#0A0A0A] hover:text-[#FF3B00] transition-colors bg-white">DO YOU SHIP TO RIYADH?</button>
+</div>
+</div>
+<!-- Composer -->
+<div class="border-t border-[#0A0A0A]/15 bg-white p-4">
+<div class="flex items-center gap-4 mb-2">
+<input class="flex-grow bg-transparent border-none focus:ring-0 font-body text-base placeholder:text-[#0A0A0A]/40" placeholder="Ask 8511..." type="text"/>
+<button class="bg-[#0A0A0A] text-[#F7F7F4] font-label text-xs tracking-wider uppercase px-6 py-3 rounded-[4px] hover:bg-[#FF3B00] transition-colors flex items-center gap-2">
+              SEND <span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+</button>
+</div>
+<p class="font-body text-[10px] text-[#0A0A0A]/40 text-center uppercase tracking-wider">Answers are grounded in the 8511 catalog. Verify in-store for stock.</p>
+</div>
+</div>
+<!-- Context Panel (1/3) -->
+<div class="hidden lg:flex flex-col gap-12">
+<div>
+<h2 class="font-bebas text-3xl mb-6 tracking-tight">STORE INFO</h2>
+<div class="mb-8">
+<h3 class="font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60 mb-2">VISIT US</h3>
+<p class="font-body text-sm leading-relaxed">Swefieh Village, Ground Floor<br/>Amman, Jordan</p>
+</div>
+<div class="mb-8">
+<h3 class="font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60 mb-2">HOURS</h3>
+<p class="font-body text-sm leading-relaxed">Sat-Thu: 10AM – 10PM<br/>Fri: 2PM – 10PM</p>
+</div>
+<div class="mb-8">
+<h3 class="font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60 mb-2">CONTACT</h3>
+<p class="font-body text-sm leading-relaxed">IG: @8511_store<br/>Email: info@8511.com</p>
+</div>
+</div>
+<div class="mt-auto border-t border-[#0A0A0A]/15 pt-8">
+<p class="font-display italic text-lg leading-tight tracking-tight text-[#0A0A0A]/80">"Advocates of the sneaker streetwear culture."</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#F7F7F4] dark:bg-[#0A0A0A] font-label uppercase tracking-widest text-[10px] docked full-width bottom-0 border-t border-[#0A0A0A]/10 dark:border-[#F7F7F4]/10 flex flex-col md:flex-row justify-between items-center py-12 px-6 md:px-12 w-full text-[#0A0A0A] dark:text-[#F7F7F4]">
+<div class="mb-6 md:mb-0">
+    © 8511 EDITORIAL STREETWEAR. ALL RIGHTS RESERVED.
+  </div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-[#0A0A0A]/60 dark:text-[#F7F7F4]/60 hover:text-[#0A0A0A] dark:hover:text-[#F7F7F4] underline-offset-4 hover:underline transition-colors" href="#">LOCATIONS</a>
+<a class="text-[#0A0A0A]/60 dark:text-[#F7F7F4]/60 hover:text-[#0A0A0A] dark:hover:text-[#F7F7F4] underline-offset-4 hover:underline transition-colors" href="#">SHIPPING</a>
+<a class="text-[#0A0A0A]/60 dark:text-[#F7F7F4]/60 hover:text-[#0A0A0A] dark:hover:text-[#F7F7F4] underline-offset-4 hover:underline transition-colors" href="#">RETURNS</a>
+<a class="text-[#0A0A0A]/60 dark:text-[#F7F7F4]/60 hover:text-[#0A0A0A] dark:hover:text-[#F7F7F4] underline-offset-4 hover:underline transition-colors" href="#">CONTACT</a>
+</div>
+</footer>
+</body></html>

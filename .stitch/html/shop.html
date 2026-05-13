@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>8511 - Shop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Inter:wght@400;500&amp;family=Public+Sans:wght@400;700;900&amp;family=Space+Grotesk:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        paper: "#F7F7F4",
+                        ink: "#0A0A0A",
+                        accent: "#FF3B00",
+                        black: "#000000",
+                        white: "#FFFFFF"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Bebas Neue", "Public Sans", "sans-serif"],
+                        display: ["Public Sans", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                        label: ["Space Grotesk", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-paper text-ink font-body min-h-screen flex flex-col antialiased selection:bg-accent selection:text-white relative">
+<!-- Top Navigation (JSON Shared Component Anchor) -->
+<header class="fixed top-0 w-full h-20 bg-white dark:bg-black border-b border-black/10 dark:border-white/10 flex justify-between items-center px-8 z-50">
+<!-- Brand Logo -->
+<a class="font-headline font-black text-3xl tracking-tighter text-black dark:text-white" href="#">8511</a>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-black/50 dark:text-white/50 font-label tracking-widest text-xs hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer transition-all active:scale-95" href="#">HOME</a>
+<!-- Active State -->
+<a class="text-black dark:text-white border-b border-black dark:border-white pb-1 font-headline uppercase tracking-tighter text-xl cursor-pointer transition-all active:scale-95" href="#">SHOP</a>
+<a class="text-black/50 dark:text-white/50 font-label tracking-widest text-xs hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer transition-all active:scale-95" href="#">RELEASES</a>
+<a class="text-black/50 dark:text-white/50 font-label tracking-widest text-xs hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer transition-all active:scale-95" href="#">BRANDS</a>
+<a class="text-black/50 dark:text-white/50 font-label tracking-widest text-xs hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer transition-all active:scale-95" href="#">EDITORIAL</a>
+</nav>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<button class="text-black dark:text-white hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer transition-all active:scale-95">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="text-black dark:text-white hover:text-[#FF3B00] transition-colors duration-200 cursor-pointer transition-all active:scale-95">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-20">
+<!-- Page Intro Band -->
+<section class="w-full bg-paper px-8 py-16 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-ink/10 gap-8">
+<h1 class="font-headline text-8xl md:text-9xl tracking-tighter leading-none text-ink">SHOP</h1>
+<div class="flex flex-wrap gap-2 mb-2">
+<button class="px-4 py-2 bg-ink text-white font-label text-xs tracking-wider uppercase rounded-sm border border-ink hover:bg-accent hover:border-accent transition-colors">ALL</button>
+<button class="px-4 py-2 bg-transparent text-ink font-label text-xs tracking-wider uppercase rounded-sm border border-ink/20 hover:border-accent hover:text-accent transition-colors">NIKE</button>
+<button class="px-4 py-2 bg-transparent text-ink font-label text-xs tracking-wider uppercase rounded-sm border border-ink/20 hover:border-accent hover:text-accent transition-colors">ADIDAS</button>
+<button class="px-4 py-2 bg-transparent text-ink font-label text-xs tracking-wider uppercase rounded-sm border border-ink/20 hover:border-accent hover:text-accent transition-colors">SUPREME</button>
+<button class="px-4 py-2 bg-transparent text-ink font-label text-xs tracking-wider uppercase rounded-sm border border-ink/20 hover:border-accent hover:text-accent transition-colors">HATS</button>
+</div>
+</section>
+<!-- Sub-row / Utility -->
+<section class="w-full px-8 py-6 flex justify-between items-center bg-paper">
+<span class="font-label text-xs tracking-widest uppercase text-ink/60">42 ITEMS</span>
+<button class="font-label text-xs tracking-widest uppercase text-ink flex items-center gap-1 hover:text-accent transition-colors">
+                SORT: NEWEST <span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+</button>
+</section>
+<!-- Product Grid -->
+<section class="w-full px-8 pb-24 bg-paper">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-12">
+<!-- Product 1 -->
+<a class="group block border border-transparent hover:border-accent transition-colors duration-200" href="#">
+<div class="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+<img alt="Nike Air Jordan 1 Mid" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="A pristine high-fashion editorial product shot of a blue and white Nike Air Jordan 1 Mid sneaker. The shoe is centered perfectly within a square white framing, resting on an invisible seamless white background to create maximum negative space. The lighting is studio-quality, high-key, and soft, casting virtually no shadows to maintain a completely flat, two-dimensional aesthetic. The overall mood is hyper-clean, minimal, and deeply rooted in modern streetwear culture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg3WCJqemJrcA1E71z-QEzy6zQNO0EVZmp9VNPk13DqAVNc3GE8LNFLBDt9PTXf-h20p0G7du_s20PG7vCsBHYr_kmsDZZS2tt_2OWkSOZPos1-P_ENgXwSqqjJuUfrpgXJxJR0I1fFU4DhzvzOV303f1Nw-cwll-_TrvVF4ouwrTIuzQigHpwZD2S3-snGmp1dd9Nb3dh_03r51nprdJX2V2fLDRq3WwQy2p1BH0LWcEyOkaBOrwRinHImk5JoKZnVwkbgytlaV2P"/>
+</div>
+<div class="px-1 flex flex-col gap-1">
+<span class="font-label text-[11px] tracking-widest uppercase text-ink/50">NIKE</span>
+<h3 class="font-headline text-lg tracking-tight uppercase text-ink leading-tight">AIR JORDAN 1 MID HYPER ROYAL</h3>
+<p class="font-body text-sm text-ink mt-1">JD 250</p>
+</div>
+</a>
+<!-- Product 2 -->
+<a class="group block border border-transparent hover:border-accent transition-colors duration-200" href="#">
+<div class="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+<img alt="Nike Air Force 1 White" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist, high-end editorial product photograph featuring a crisp, all-white Nike Air Force 1 sneaker. The shoe sits perfectly centered on an absolute white background, emphasizing negative space around the silhouette. The studio lighting is bright, even, and creates a flat, paper-like texture with zero harsh shadows. The visual aesthetic is starkly monochrome, clean, and evokes luxury boutique catalog imagery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBybjtzu6TQWXhi-xgfqDK6ej0CQkYdQIE5h6C0lWnHfcnzZWwFLNeKOQ0Q2H8bhiD1IhmDMzew5-DO2Th120YtLOtwp91C2QDsQCaiPR8DhCb3Lv1EIH3LHykMKq1IDzYP_5qYOH5lb1wmdWhrEg5w2V-5FImXGCxoeei4mShyC5B2Amykj0YYr4EA_AwZ8xG0lm2Fzxjw1SPLl10yxz7aSuwS9FJc8H1BwzSRG0LQ0dRIKtSzFLEuWNAdGfoh1wLmVP6Vg-9jbPi2"/>
+</div>
+<div class="px-1 flex flex-col gap-1">
+<span class="font-label text-[11px] tracking-widest uppercase text-ink/50">NIKE</span>
+<h3 class="font-headline text-lg tracking-tight uppercase text-ink leading-tight">AIR FORCE 1 '07 WHITE</h3>
+<p class="font-body text-sm text-ink mt-1">JD 130</p>
+</div>
+</a>
+<!-- Product 3 -->
+<a class="group block border border-transparent hover:border-accent transition-colors duration-200" href="#">
+<div class="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+<img alt="Yeezy Boost 350" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="An editorial-style streetwear product image displaying a sleek, dark-toned Yeezy sneaker with a translucent sole. It is isolated completely on a pure white, square background. The shot is meticulously lit to highlight the woven texture of the shoe's upper without creating deep shadows beneath it. The composition utilizes generous negative space, adhering strictly to a high-contrast monochrome design language." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5g0nY-shUXQk9DuXlPDlJLU-KHD_4GhWwUrC6wQWgOkDqUEfvPl-QpvLNemJyXlB_HBG2NhHQSFfO1M8FC-AnKLAHfZ3FwnY0cMcwIjMYqAKJTPN-E6aSRMZXXBmYOxS80EK33MnVEeZ6csHGsfo4UE6Y3m0XLLFGlBwLhVV7i8Xc7SM_3tZmSd9BODr7tfw44uCSc5HGtxYZ0fxNTnMFMouvIpprbOrkTwz-iuSuuTw03jc2i11xZj5nRAk4j7I9oh9qRm6HhnXI"/>
+</div>
+<div class="px-1 flex flex-col gap-1">
+<span class="font-label text-[11px] tracking-widest uppercase text-ink/50">ADIDAS</span>
+<h3 class="font-headline text-lg tracking-tight uppercase text-ink leading-tight">YEEZY BOOST 350 V2 BLACK</h3>
+<p class="font-body text-sm text-ink mt-1">JD 320</p>
+</div>
+</a>
+<!-- Product 4 -->
+<a class="group block border border-transparent hover:border-accent transition-colors duration-200" href="#">
+<div class="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+<img alt="Nike Dunk Low" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="A striking product shot of a black and white Nike sneaker, positioned cleanly in the center of a square white canvas. The lighting is completely flat and high-key, intentionally removing all ground shadows to create a floating effect. The image embodies a minimalist, editorial streetwear vibe, relying entirely on stark black and white contrasts to define the form. The surrounding negative space is vast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5gJyMsg232eLGdIDOnVgdbxOUPh3yZnOWGFBVGg6OgIhwmZeAiyNav3kcc9XexwUqqey8_WFw56DnoqwChyUll-_0N25ccnGqtR9g5izNw7USd90I74mXTRv3iWNYj6kf9z2msng47tQfPu4AM-_fqPoVtyDPr5eI6k7BIdy0QMFZX048oq78aeEDAELwG_2JPtsNaQTFUESs-2EOffpqNeW90P_0NfET7sp5d7Wklf8-9wjL-o9DinT_KOJ7qgPhnXksJAHuAFj8"/>
+</div>
+<div class="px-1 flex flex-col gap-1">
+<span class="font-label text-[11px] tracking-widest uppercase text-ink/50">NIKE</span>
+<h3 class="font-headline text-lg tracking-tight uppercase text-ink leading-tight">DUNK LOW RETRO PANDA</h3>
+<p class="font-body text-sm text-ink mt-1">JD 180</p>
+</div>
+</a>
+<!-- Row 2 -->
+<!-- Product 5 -->
+<a class="group block border border-transparent hover:border-accent transition-colors duration-200" href="#">
+<div class="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+<img alt="Nike Air Max" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="A premium retail product photograph showing a bright, multi-colored retro Nike runner sneaker. The shoe sits dead center within a pure white square frame. The aesthetic is extremely clean and editorial, using intense, soft lighting to eliminate background shadows and highlight the material panels. The vast white background serves to isolate the object completely, mimicking a high-fashion catalog presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbg4pa1CBf9M0XFH-cSNxfFZW2RMX7DCx7_1HjZL0Z4Uv6xo9__xkDzkeG6b8JUnfHahXwSzx-U__AtJ_n4YjKOzp0ihZgi3VnXLXErZnmMZJlIE0QjD0L_GMd6Vxx7EttBuTAo4dvXQM14V2tEbTYr3PVIq9QCnnUgFE-b4buVuH4uuN0ebnDkg4ptXTNORZQrIcHFYQa1sGJ4XIygrP3g9MhnmDJAT7ChXmkbh6nlWIDU9wwZ9ZMWpAVPfyVnATYK_StpgQGo6Ap"/>
+</div>
+<div class="px-1 flex flex-col gap-1">
+<span class="font-label text-[11px] tracking-widest uppercase text-ink/50">NIKE</span>
+<h3 class="font-headline text-lg tracking-tight uppercase text-ink leading-tight">AIR MAX 1 SEAN WOTHERSPOON</h3>
+<p class="font-body text-sm text-ink mt-1">JD 1450</p>
+</div>
+</a>
+<!-- Product 6 -->
+<a class="group block border border-transparent hover:border-accent transition-colors duration-200" href="#">
+<div class="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+<img alt="Streetwear Cap" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist, high-contrast editorial shot of a dark-colored, structured streetwear baseball cap featuring a prominent box logo on the front. The hat is centered squarely against a flawless, stark white background. Studio lighting ensures a flat, matte appearance with virtually no shadows beneath the object. The overall mood is stark, modern, and aligned with luxury streetwear boutique aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQM6rwP4ImUI78J2IX9BnQhwkqh3Y-YQcIpFa08-_wu7bRRYrpMSEel3GvL5jA0877vOGhD2Ry5l0bHuGHnJnVk5XnpBtZnSfWzFQMbJEBB1PQpj-qIXxAw4v7m9Fiv4Lb7cvatffXVHSh0nJIUmaeDN8uoXzfGT245RGlexFIIbmNfvomYud01uMT3moqwK_QLAbCekLotzL2NGgerzK4-BDOyCB-9GM4tfA2dyEgt43oeyk8v9zZdGMZ35Yv7ZQiEcSdTiSd6X5s"/>
+</div>
+<div class="px-1 flex flex-col gap-1">
+<span class="font-label text-[11px] tracking-widest uppercase text-ink/50">SUPREME</span>
+<h3 class="font-headline text-lg tracking-tight uppercase text-ink leading-tight">WASHED CHINO TWILL CAMP CAP</h3>
+<p class="font-body text-sm text-ink mt-1">JD 85</p>
+</div>
+</a>
+<!-- Product 7 -->
+<a class="group block border border-transparent hover:border-accent transition-colors duration-200" href="#">
+<div class="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+<img alt="Nike Blazer" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="A clean, highly stylized editorial product photograph of a white, vintage-style high-top sneaker with an oversized swoosh. It is perfectly isolated on a solid white square canvas, allowing the silhouette to breathe. The lighting is immaculate and flat, intentionally removing dimension from the background to focus entirely on the shoe's texture. The aesthetic is distinctly minimalist streetwear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYdvdYzGN8qEX04I7dolp0Y3zF83Ky--u_lOzQsztySOJ94IGZwV6dEwrC-QBSYV0Amg9ejxXys1kauCAz8LRsRGwk3hi3bsx3rSMBYp2L77pViPkBCZyp0j7jdb26RH51Qo_s5M_5w_hfXkr77HzLaYfVoQEn_HLsb3BUI608_Gi_XwZDlO70eNVcdFIrvh1-PYoidE02-v6aNz2eyJfBD2rfyuFH8NfJ39YbLfkKm_rhhu9s92Fw9csbrbmo_X0ZQUSuEqU_BzT3"/>
+</div>
+<div class="px-1 flex flex-col gap-1">
+<span class="font-label text-[11px] tracking-widest uppercase text-ink/50">NIKE</span>
+<h3 class="font-headline text-lg tracking-tight uppercase text-ink leading-tight">BLAZER MID '77 VINTAGE</h3>
+<p class="font-body text-sm text-ink mt-1">JD 110</p>
+</div>
+</a>
+<!-- Product 8 -->
+<a class="group block border border-transparent hover:border-accent transition-colors duration-200" href="#">
+<div class="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+<img alt="Nike Dunk Low" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="An editorial streetwear catalog image showing a brightly colored, chunky skate sneaker. The shoe is positioned centrally on a stark, pure white background. The studio lighting is soft but incredibly bright, ensuring there are no distracting shadows, resulting in a flat, high-contrast monochrome setting that lets the product pop. The composition is extremely tight yet leaves ample negative space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9FtkzWpoO9q_-K_hhdLFy9LxvjdfLtJOb5QTqzEzzlY9a-6m-tz5UN416w2Kd1PUsTHSvQFa-Kp-ONbJoQlO3gRCdaB2QJ_H8tyujWMAzryNqRWKnGsz3SC80IiBLv3_-R41kW3c2H_D3JFv7-wYUKZ5dx_4-Q0hesATY0HK8bx6GXFF1OmHFvss540iMQYKWBVb4VNQWAdJMyNvnGLbvDdfyO_uBUFnB5p2xPeiSvflAzhNT2UCfiTe9ImTkTRXfEuvHjxZP_cFj"/>
+</div>
+<div class="px-1 flex flex-col gap-1">
+<span class="font-label text-[11px] tracking-widest uppercase text-ink/50">NIKE</span>
+<h3 class="font-headline text-lg tracking-tight uppercase text-ink leading-tight">SB DUNK LOW PRO CHICAGO</h3>
+<p class="font-body text-sm text-ink mt-1">JD 450</p>
+</div>
+</a>
+</div>
+<!-- Pagination -->
+<div class="w-full flex justify-center items-center mt-20 gap-6">
+<button class="font-label text-xs tracking-widest uppercase text-ink/40 hover:text-ink transition-colors">← PREV</button>
+<div class="flex gap-4 font-label text-xs tracking-widest">
+<button class="text-accent">01</button>
+<button class="text-ink/40 hover:text-ink transition-colors">02</button>
+<button class="text-ink/40 hover:text-ink transition-colors">03</button>
+</div>
+<button class="font-label text-xs tracking-widest uppercase text-ink hover:text-accent transition-colors">NEXT →</button>
+</div>
+</section>
+</main>
+<!-- Footer (JSON Shared Component Anchor) -->
+<footer class="w-full py-12 px-8 bg-white dark:bg-black border-t border-black/10 dark:border-white/10 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+<!-- Copyright / Wordmark -->
+<div class="flex flex-col gap-2">
+<span class="font-headline font-bold text-lg tracking-tighter text-black dark:text-white">8511</span>
+<span class="font-label uppercase tracking-widest text-[10px] text-black/40 dark:text-white/40">© 8511 AMMAN. ALL RIGHTS RESERVED.</span>
+</div>
+<!-- Links -->
+<nav class="flex flex-col gap-2">
+<a class="font-label uppercase tracking-widest text-[10px] text-black/40 dark:text-white/40 hover:text-[#FF3B00] transition-colors duration-300" href="#">LOCATIONS</a>
+<a class="font-label uppercase tracking-widest text-[10px] text-black/40 dark:text-white/40 hover:text-[#FF3B00] transition-colors duration-300" href="#">PRIVACY</a>
+<a class="font-label uppercase tracking-widest text-[10px] text-black/40 dark:text-white/40 hover:text-[#FF3B00] transition-colors duration-300" href="#">TERMS</a>
+<a class="font-label uppercase tracking-widest text-[10px] text-black/40 dark:text-white/40 hover:text-[#FF3B00] transition-colors duration-300" href="#">CONTACT</a>
+</nav>
+<!-- Empty col for grid alignment -->
+<div></div>
+</footer>
+<!-- Floating Chat Widget -->
+<button class="fixed bottom-8 right-8 bg-accent text-white px-6 py-4 rounded-sm shadow-none border border-transparent font-label text-xs tracking-wider uppercase hover:bg-ink transition-colors z-50 flex items-center gap-2">
+        ASK 8511
+    </button>
+</body></html>

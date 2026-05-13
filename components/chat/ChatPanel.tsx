@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import ProductCard from "./ProductCard";
 
 type Msg = { role: "user" | "assistant"; text: string };
@@ -10,6 +11,18 @@ const SUGGESTED = [
   "STORE HOURS?",
   "DO YOU SHIP TO RIYADH?",
 ];
+
+function SneakerIcon({ thinking }: { thinking: boolean }) {
+  return (
+    <Image
+      src="/sneaker-icon.png"
+      alt=""
+      width={56}
+      height={56}
+      className={`w-14 h-14 object-contain mix-blend-multiply ${thinking ? "animate-sneaker-spin" : "animate-sneaker-pulse"}`}
+    />
+  );
+}
 
 function renderAssistant(text: string) {
   const parts = text.split(/(<product\s+slug="[^"]+"\s*\/>)/g);
@@ -72,7 +85,7 @@ export default function ChatPanel({
           copy[copy.length - 1] = { role: "assistant", text: copy[copy.length - 1].text + chunk };
           return copy;
         });
-        endRef.current?.scrollIntoView({ behavior: "smooth" });
+        endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
     } finally {
       setBusy(false);
@@ -87,6 +100,8 @@ export default function ChatPanel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialQuestion]);
 
+  const lastIdx = msgs.length - 1;
+
   return (
     <>
       {/* LIVE tag */}
@@ -98,7 +113,7 @@ export default function ChatPanel({
       <div className={`flex-grow overflow-y-auto p-8 pt-16 flex flex-col gap-8 ${compact ? "max-h-[420px]" : ""}`}>
         {msgs.length === 0 && (
           <p className="text-[#0A0A0A]/60 text-sm">
-            Ask about a sneaker, a service, or the store. Answers are grounded in the 8511 catalog.
+            Ask about a sneaker, a service, or the store.
           </p>
         )}
         {msgs.map((m, i) =>
@@ -109,18 +124,17 @@ export default function ChatPanel({
             </div>
           ) : (
             <div key={i} className="flex flex-col gap-1 items-start">
-              <span className="font-label text-[10px] tracking-widest uppercase text-[#FF3B00] flex items-center gap-1">
-                <span className="material-symbols-outlined text-[12px]">neurology</span> 8511
+              <span className="flex items-center">
+                <SneakerIcon thinking={busy && i === lastIdx} />
               </span>
-              {renderAssistant(m.text)}
+              {/* If still streaming and no text yet, show loading dot row */}
+              {busy && i === lastIdx && !m.text ? (
+                <div className="font-body text-[15px] text-[#0A0A0A]/40 mt-2">Thinking…</div>
+              ) : (
+                renderAssistant(m.text)
+              )}
             </div>
           )
-        )}
-        {/* Blinking cursor while streaming */}
-        {busy && (
-          <div className="flex items-start mt-2">
-            <span className="font-body text-[15px] text-[#0A0A0A] animate-pulse">|</span>
-          </div>
         )}
         <div ref={endRef} />
 
