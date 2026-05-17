@@ -43,11 +43,17 @@ next-env.d.ts
 # project
 .firecrawl/
 data/faiss/
+data/ragas/eval-run.jsonl
+data/ragas/ragas-scores.csv
 public/images/products/
 
 # Local env
 .env.local
 .env.docker
+
+# Dev logs
+dev.log
+*.log
 
 # Prisma (defensive)
 prisma/dev.db*

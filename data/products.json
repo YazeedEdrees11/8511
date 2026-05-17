@@ -5,7 +5,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-3-retro-laser-orange-w-1.jpg",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-3-retro-laser-orange-w-1",
-    "description": "``` STYLE CK9246-108 COLORWAY WHITE/LASER ORANGE-CEMENT GREY-BLACK RELEASE DATE 08/21/2020 ```"
+    "description": "Style: CK9246-108. Colorway: White / Laser Orange / Cement Grey / Black. Release date: 08/21/2020.",
+    "release_date": "2020-08-21",
+    "category": "sneaker",
+    "price_jod": 320,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["6.5", "7", "8"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "jordan-1-low-dark-beetroot-black-w",
@@ -13,7 +19,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-1-low-dark-beetroot-black-w.jpg",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-1-low-dark-beetroot-black-w",
-    "description": "``` STYLE DB6491-600 COLORWAY DARK BEETROOT/BLACK-WHITE RELEASE DATE 11/29/2020 ```"
+    "description": "Style: DB6491-600. Colorway: Dark Beetroot / Black / White. Release date: 11/29/2020.",
+    "release_date": "2020-11-29",
+    "category": "sneaker",
+    "price_jod": 150,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["6", "7", "7.5", "8"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "jordan-1-mid-hyper-royal",
@@ -21,7 +33,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-1-mid-hyper-royal.jpg",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-1-mid-hyper-royal",
-    "description": "``` STYLE 554725-077 COLORWAY BLACK/HYPER ROYAL/WHITE ```"
+    "description": "Style: 554725-077. Colorway: Black / Hyper Royal / White.",
+    "release_date": null,
+    "category": "sneaker",
+    "price_jod": 150,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["8.5", "9", "10", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "jordan-1-mid-signal-blue",
@@ -29,7 +47,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-1-mid-signal-blue.jpg",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-1-mid-signal-blue",
-    "description": "``` STYLE BQ6931-402 COLORWAY SIGNAL BLUE/WHITE-BLACK RELEASE DATE 01/01/2021 ```"
+    "description": "Style: BQ6931-402. Colorway: Signal Blue / White / Black. Release date: 01/01/2021.",
+    "release_date": "2021-01-01",
+    "category": "sneaker",
+    "price_jod": 160,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "9.5", "10.5"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "nike-air-force-1-low-white-2014-gs",
@@ -37,7 +61,13 @@
     "brand": "nike",
     "image_url": "/images/products/nike-air-force-1-low-white-2014-gs.jpg",
     "source_url": "https://www.eightyfiveeleven.com/product-page/nike-air-force-1-low-white-2014-gs",
-    "description": "``` STYLE 314192-117 COLORWAY WHITE/WHITE RELEASE DATE 01/01/2014 ``` Read more Chat ## Contact Us"
+    "description": "Style: 314192-117. Colorway: White / White. Release date: 01/01/2014.",
+    "release_date": "2014-01-01",
+    "category": "sneaker",
+    "price_jod": 150,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["8", "9", "10", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "jordan-4-retro-green-glow",
@@ -45,7 +75,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-4-retro-green-glow.jpg",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-4-retro-green-glow",
-    "description": "``` STYLE 308497-033 COLORWAY DARK GREY/GREEN GLOW-CEMENT GREY-BLACK RELEASE DATE 08/17/2013 ```"
+    "description": "Style: 308497-033. Colorway: Dark Grey / Green Glow / Cement Grey / Black. Release date: 08/17/2013.",
+    "release_date": "2013-08-17",
+    "category": "sneaker",
+    "price_jod": 380,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "10"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "nike-sb-dunk-low-grateful-dead-bears-orange",
@@ -53,7 +89,13 @@
     "brand": "nike",
     "image_url": "/images/products/nike-sb-dunk-low-grateful-dead-bears-orange.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/nike-sb-dunk-low-grateful-dead-bears-orange",
-    "description": "``` STYLE CJ5378-800 COLORWAY BRIGHT CERAMIC/GREEN SPARK RELEASE DATE 07/18/2020 ```"
+    "description": "Style: CJ5378-800. Colorway: Bright Ceramic / Green Spark. Release date: 07/18/2020.",
+    "release_date": "2020-07-18",
+    "category": "sneaker",
+    "price_jod": 950,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "10.5"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "jordan-3-retro-varsity-royal-cement",
@@ -61,7 +103,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-3-retro-varsity-royal-cement.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-3-retro-varsity-royal-cement",
-    "description": "``` STYLE CT8532-400 COLORWAY VARSITY ROYAL/VARSITY ROYAL-CEMENT GREY RELEASE DATE 10/10/2020 ```"
+    "description": "Style: CT8532-400. Colorway: Varsity Royal / Varsity Royal / Cement Grey. Release date: 10/10/2020.",
+    "release_date": "2020-10-10",
+    "category": "sneaker",
+    "price_jod": 340,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["8.5", "9.5", "10", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "nike-air-force-1-low-g-dragon-peaceminusone-para-noise-2-0",
@@ -69,7 +117,13 @@
     "brand": "nike",
     "image_url": "/images/products/nike-air-force-1-low-g-dragon-peaceminusone-para-noise-2-0.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/nike-air-force-1-low-g-dragon-peaceminusone-para-noise-2-0",
-    "description": "``` STYLE DD3223-100 COLORWAY WHITE/BLACK RELEASE DATE 11/25/2020 ```"
+    "description": "Style: DD3223-100. Colorway: White / Black. Release date: 11/25/2020.",
+    "release_date": "2020-11-25",
+    "category": "sneaker",
+    "price_jod": 750,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "10"],
+    "stock_status": "sold_out"
   },
   {
     "slug": "jordan-1-retro-high-zoom-crater",
@@ -77,7 +131,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-1-retro-high-zoom-crater.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-1-retro-high-zoom-crater",
-    "description": "``` STYLE CW2414-001 COLORWAY BLACK/WOLF GREY-FLASH CRIMSON RELEASE DATE 09/11/2020 ```"
+    "description": "Style: CW2414-001. Colorway: Black / Wolf Grey / Flash Crimson. Release date: 09/11/2020.",
+    "release_date": "2020-09-11",
+    "category": "sneaker",
+    "price_jod": 220,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["8.5", "9.5", "10.5", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "nike-sb-dunk-low-ben-jerry-s-chunky-dunky",
@@ -85,7 +145,13 @@
     "brand": "nike",
     "image_url": "/images/products/nike-sb-dunk-low-ben-jerry-s-chunky-dunky.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/nike-sb-dunk-low-ben-jerry-s-chunky-dunky",
-    "description": "``` STYLE CU3244-100 COLORWAY MULTI-COLOR/MULTI-COLOR RELEASE DATE 05/26/2020 ```"
+    "description": "Style: CU3244-100. Colorway: Multi-Color / Multi-Color. Release date: 05/26/2020.",
+    "release_date": "2020-05-26",
+    "category": "sneaker",
+    "price_jod": 1400,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["10"],
+    "stock_status": "sold_out"
   },
   {
     "slug": "nike-sb-dunk-low-travis-scott",
@@ -93,7 +159,13 @@
     "brand": "nike",
     "image_url": "/images/products/nike-sb-dunk-low-travis-scott.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/nike-sb-dunk-low-travis-scott",
-    "description": "``` STYLE CT5053-001 COLORWAY BLACK/BLACK-PARACHUTE BEIGE-PETRA BROWN RELEASE DATE 02/29/2020 ```"
+    "description": "Style: CT5053-001. Colorway: Black / Black / Parachute Beige / Petra Brown. Release date: 02/29/2020.",
+    "release_date": "2020-02-29",
+    "category": "sneaker",
+    "price_jod": 1800,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9.5", "10.5"],
+    "stock_status": "sold_out"
   },
   {
     "slug": "jordan-1-retro-high-pine-green-black-gs",
@@ -101,7 +173,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-1-retro-high-pine-green-black-gs.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-1-retro-high-pine-green-black-gs",
-    "description": "``` STYLE 575441-030 COLORWAY BLACK/PINE GREEN-WHITE-GYM RED RELEASE DATE 02/29/2020 ```"
+    "description": "Style: 575441-030. Colorway: Black / Pine Green / White / Gym Red. Release date: 02/29/2020.",
+    "release_date": "2020-02-29",
+    "category": "sneaker",
+    "price_jod": 220,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["4.5Y", "5.5Y", "6Y"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "jordan-hydro-8",
@@ -109,7 +187,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-hydro-8.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-hydro-8",
-    "description": "``` STYLE CD2803-001 COLORWAY BLACK/WHITE | GYM RED/BLACK ``` Read more"
+    "description": "Style: CD2803-001. Colorway: Black / White / Gym Red / Black.",
+    "release_date": null,
+    "category": "sneaker",
+    "price_jod": 55,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["8", "9", "10", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "jordan-1-retro-high-light-smoke-grey-gs",
@@ -117,7 +201,13 @@
     "brand": "nike",
     "image_url": "/images/products/jordan-1-retro-high-light-smoke-grey-gs.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/jordan-1-retro-high-light-smoke-grey-gs",
-    "description": "``` STYLE 575441-126 COLORWAY WHITE/BLACK-LIGHT SMOKE GREY-VARSITY RED RELEASE DATE 07/11/2020 ``` Read more Chat"
+    "description": "Style: 575441-126. Colorway: White / Black / Light Smoke Grey / Varsity Red. Release date: 07/11/2020.",
+    "release_date": "2020-07-11",
+    "category": "sneaker",
+    "price_jod": 200,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["5Y", "5.5Y", "6Y", "7Y"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "air-max-270-cactus-trails",
@@ -125,7 +215,13 @@
     "brand": "nike",
     "image_url": "/images/products/air-max-270-cactus-trails.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/air-max-270-cactus-trails",
-    "description": "``` STYLE CT2864 COLORWAY Light cream/ Starfish RELEASE DATE 05/29/2020 ```"
+    "description": "Style: CT2864. Colorway: Light Cream / Starfish. Release date: 05/29/2020.",
+    "release_date": "2020-05-29",
+    "category": "sneaker",
+    "price_jod": 150,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "10", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "copy-of-nike-sf-air-force-1-desert-camo",
@@ -133,7 +229,13 @@
     "brand": "nike",
     "image_url": "/images/products/copy-of-nike-sf-air-force-1-desert-camo.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/copy-of-nike-sf-air-force-1-desert-camo",
-    "description": "``` STYLE 554724-074 COLORWAY BLACK/UNIVERSITY RED-BLACK-WHITE ``` Read more"
+    "description": "Style: 554724-074. Colorway: Black / University Red / Black / White.",
+    "release_date": null,
+    "category": "sneaker",
+    "price_jod": 350,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "10", "11"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "nike-air-force-1-low-triple-red",
@@ -141,7 +243,13 @@
     "brand": "nike",
     "image_url": "/images/products/nike-air-force-1-low-triple-red.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/nike-air-force-1-low-triple-red",
-    "description": "``` STYLE CW6999-600 COLORWAY UNIVERSITY RED/UNIVERSITY RED RELEASE DATE 02/01/2020 ``` Read more"
+    "description": "Style: CW6999-600. Colorway: University Red / University Red. Release date: 02/01/2020.",
+    "release_date": "2020-02-01",
+    "category": "sneaker",
+    "price_jod": 160,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["8", "9", "10.5"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "adidas-yeezy-boost-380-calcite",
@@ -149,7 +257,13 @@
     "brand": "adidas",
     "image_url": "/images/products/adidas-yeezy-boost-380-calcite.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/adidas-yeezy-boost-380-calcite",
-    "description": "``` STYLE GZ8668 COLORWAY CALCITE/CALCITE/CALCITE RELEASE DATE 10/31/2020 ```"
+    "description": "Style: GZ8668. Colorway: Calcite / Calcite / Calcite. Release date: 10/31/2020.",
+    "release_date": "2020-10-31",
+    "category": "sneaker",
+    "price_jod": 350,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["8.5", "9.5", "10", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "adidas-yeezy-boost-380-hylte",
@@ -157,7 +271,13 @@
     "brand": "adidas",
     "image_url": "/images/products/adidas-yeezy-boost-380-hylte.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/adidas-yeezy-boost-380-hylte",
-    "description": "``` STYLE FZ4990 COLORWAY HYLTE/HYLTE/HYLTE RELEASE DATE 12/12/2020 ```"
+    "description": "Style: FZ4990. Colorway: Hylte / Hylte / Hylte. Release date: 12/12/2020.",
+    "release_date": "2020-12-12",
+    "category": "sneaker",
+    "price_jod": 360,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "10", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "adidas-yeezy-qntm-barium",
@@ -165,7 +285,13 @@
     "brand": "adidas",
     "image_url": "/images/products/adidas-yeezy-qntm-barium.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/adidas-yeezy-qntm-barium",
-    "description": "``` STYLE H68771 COLORWAY BARIUM/BARIUM/BARIUM RELEASE DATE 06/25/2020 ```"
+    "description": "Style: H68771. Colorway: Barium / Barium / Barium. Release date: 06/25/2020.",
+    "release_date": "2020-06-25",
+    "category": "sneaker",
+    "price_jod": 360,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9.5", "10.5"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "adidas-yeezy-boost-350-v2-yecheil-non-reflective-1",
@@ -173,7 +299,13 @@
     "brand": "adidas",
     "image_url": "/images/products/adidas-yeezy-boost-350-v2-yecheil-non-reflective-1.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/adidas-yeezy-boost-350-v2-yecheil-non-reflective-1",
-    "description": "``` STYLE FW5190 COLORWAY YECHEIL/YECHEIL/YECHEIL RELEASE DATE 12/20/2019 ```"
+    "description": "Style: FW5190. Colorway: Yecheil / Yecheil / Yecheil. Release date: 12/20/2019.",
+    "release_date": "2019-12-20",
+    "category": "sneaker",
+    "price_jod": 420,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "10", "11"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "adidas-yeezy-boost-350-v2-yeezreel-non-reflective",
@@ -181,7 +313,13 @@
     "brand": "adidas",
     "image_url": "/images/products/adidas-yeezy-boost-350-v2-yeezreel-non-reflective.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/adidas-yeezy-boost-350-v2-yeezreel-non-reflective",
-    "description": "``` STYLE FW5191 COLORWAY YEEZREEL/YEEZREEL/YEEZREEL RELEASE DATE 12/14/2019 ```"
+    "description": "Style: FW5191. Colorway: Yeezreel / Yeezreel / Yeezreel. Release date: 12/14/2019.",
+    "release_date": "2019-12-14",
+    "category": "sneaker",
+    "price_jod": 400,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["8.5", "10", "11"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "supreme-utility-pouch-black",
@@ -189,7 +327,13 @@
     "brand": "supreme",
     "image_url": "/images/products/supreme-utility-pouch-black.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/supreme-utility-pouch-black",
-    "description": ""
+    "description": "Compact Supreme utility pouch in black, ideal for carrying small essentials.",
+    "release_date": null,
+    "category": "bag",
+    "price_jod": 90,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "supreme-utility-pouch-red",
@@ -197,7 +341,13 @@
     "brand": "supreme",
     "image_url": "/images/products/supreme-utility-pouch-red.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/supreme-utility-pouch-red",
-    "description": ""
+    "description": "Compact Supreme utility pouch in red, ideal for carrying small essentials.",
+    "release_date": null,
+    "category": "bag",
+    "price_jod": 100,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "supreme-small-shoulder-bag-ss20-blue-chocolate-chip-camo",
@@ -205,7 +355,13 @@
     "brand": "supreme",
     "image_url": "/images/products/supreme-small-shoulder-bag-ss20-blue-chocolate-chip-camo.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/supreme-small-shoulder-bag-ss20-blue-chocolate-chip-camo",
-    "description": ""
+    "description": "Supreme small shoulder bag in blue chocolate chip camo, from the SS20 collection.",
+    "release_date": null,
+    "category": "bag",
+    "price_jod": 170,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "supreme-running-waist-bag-red",
@@ -213,23 +369,41 @@
     "brand": "supreme",
     "image_url": "/images/products/supreme-running-waist-bag-red.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/supreme-running-waist-bag-red",
-    "description": ""
+    "description": "Supreme running waist bag in red, designed for on-the-go essentials.",
+    "release_date": null,
+    "category": "bag",
+    "price_jod": 140,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "supreme-new-era-cross-box-logo-beanie-fw-20",
-    "name": "Supreme New Era cross box-logo beanie \"FW 20",
+    "name": "Supreme New Era Cross Box-Logo Beanie (FW20)",
     "brand": "supreme",
     "image_url": "/images/products/supreme-new-era-cross-box-logo-beanie-fw-20.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/supreme-new-era-cross-box-logo-beanie-fw-20",
-    "description": ""
+    "description": "Supreme x New Era cross box-logo beanie from the FW20 collection.",
+    "release_date": null,
+    "category": "beanie",
+    "price_jod": 150,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "ss20-supreme-the-north-face-rtg-gore-tex-pink-glove",
-    "name": "SS20 Supreme THE NORTH FACE RTG GORE-TEX Pink Glove",
+    "name": "SS20 Supreme The North Face RTG GORE-TEX Pink Glove",
     "brand": "supreme",
     "image_url": "/images/products/ss20-supreme-the-north-face-rtg-gore-tex-pink-glove.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/ss20-supreme-the-north-face-rtg-gore-tex-pink-glove",
-    "description": ""
+    "description": "Supreme x The North Face RTG GORE-TEX gloves in pink, from the SS20 collaboration.",
+    "release_date": null,
+    "category": "glove",
+    "price_jod": 260,
+    "size_system": "size-m-l",
+    "sizes": ["M", "L"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "supreme-waterproof-reflective-speckled-waist-bag-orange",
@@ -237,7 +411,13 @@
     "brand": "supreme",
     "image_url": "/images/products/supreme-waterproof-reflective-speckled-waist-bag-orange.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/supreme-waterproof-reflective-speckled-waist-bag-orange",
-    "description": ""
+    "description": "Supreme waterproof reflective speckled waist bag in orange.",
+    "release_date": null,
+    "category": "bag",
+    "price_jod": 150,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "supreme-snapback-cap",
@@ -245,7 +425,13 @@
     "brand": "supreme",
     "image_url": "/images/products/supreme-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/supreme-snapback-cap",
-    "description": ""
+    "description": "Supreme snapback cap featuring the brand's signature box-logo branding.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 130,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "timberland-6-supreme-wheat",
@@ -253,7 +439,13 @@
     "brand": "supreme",
     "image_url": "/images/products/timberland-6-supreme-wheat.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/timberland-6-supreme-wheat",
-    "description": "``` STYLE TB0A2MT2231 COLORWAY WHEAT RELEASE DATE 11/12/2020 ```"
+    "description": "Style: TB0A2MT2231. Colorway: Wheat. Release date: 11/12/2020.",
+    "release_date": "2020-11-12",
+    "category": "boot",
+    "price_jod": 290,
+    "size_system": "us-adult-sneaker",
+    "sizes": ["9", "10", "11"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "von-dutch-upside-down-logo-snapback-cap",
@@ -261,7 +453,13 @@
     "brand": "hats",
     "image_url": "/images/products/von-dutch-upside-down-logo-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/von-dutch-upside-down-logo-snapback-cap",
-    "description": ""
+    "description": "Von Dutch trucker-style cap with the brand's upside-down flying-eye logo.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 55,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "von-dutch-orange-camo-snapback-cap",
@@ -269,15 +467,13 @@
     "brand": "hats",
     "image_url": "/images/products/von-dutch-orange-camo-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/von-dutch-orange-camo-snapback-cap",
-    "description": ""
-  },
-  {
-    "slug": "supreme-snapback-cap",
-    "name": "Supreme Snapback Cap",
-    "brand": "hats",
-    "image_url": "/images/products/supreme-snapback-cap.png",
-    "source_url": "https://www.eightyfiveeleven.com/product-page/supreme-snapback-cap",
-    "description": ""
+    "description": "Von Dutch trucker-style snapback cap in orange camo with the brand's signature flying-eye logo.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 55,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "new-era-billionaire-boys-club-9fifty-snapback-cap-1",
@@ -285,7 +481,13 @@
     "brand": "hats",
     "image_url": "/images/products/new-era-billionaire-boys-club-9fifty-snapback-cap-1.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/new-era-billionaire-boys-club-9fifty-snapback-cap-1",
-    "description": ""
+    "description": "New Era 9Fifty snapback cap featuring the Billionaire Boys Club logo.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 45,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "new-era-billionaire-boys-club-9fifty-snapback-cap",
@@ -293,7 +495,13 @@
     "brand": "hats",
     "image_url": "/images/products/new-era-billionaire-boys-club-9fifty-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/new-era-billionaire-boys-club-9fifty-snapback-cap",
-    "description": ""
+    "description": "New Era 9Fifty snapback cap featuring the Billionaire Boys Club logo.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 45,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "new-era-oakland-raiders-59fifty-snapback-cap",
@@ -301,7 +509,13 @@
     "brand": "hats",
     "image_url": "/images/products/new-era-oakland-raiders-59fifty-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/new-era-oakland-raiders-59fifty-snapback-cap",
-    "description": ""
+    "description": "New Era 9Fifty snapback cap featuring the Oakland Raiders team logo.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 45,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "adeen-mercy-snapback-cap",
@@ -309,7 +523,13 @@
     "brand": "hats",
     "image_url": "/images/products/adeen-mercy-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/adeen-mercy-snapback-cap",
-    "description": ""
+    "description": "Adeen 'Mercy' snapback cap, part of the brand's slogan-graphic series.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 50,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "adeen-cunt-snapback-cap",
@@ -317,7 +537,13 @@
     "brand": "hats",
     "image_url": "/images/products/adeen-cunt-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/adeen-cunt-snapback-cap",
-    "description": ""
+    "description": "Adeen 'Cunt' snapback cap, part of the brand's slogan-graphic series.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 50,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "low_stock"
   },
   {
     "slug": "the-boss-ra2ees-snapback-cap",
@@ -325,7 +551,13 @@
     "brand": "hats",
     "image_url": "/images/products/the-boss-ra2ees-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/the-boss-ra2ees-snapback-cap",
-    "description": ""
+    "description": "Locally-flavored snapback cap reading 'Ra2ees' (Arabic for 'the boss').",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 40,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   },
   {
     "slug": "the-hundreds-forward-snapback-cap",
@@ -333,6 +565,12 @@
     "brand": "hats",
     "image_url": "/images/products/the-hundreds-forward-snapback-cap.png",
     "source_url": "https://www.eightyfiveeleven.com/product-page/the-hundreds-forward-snapback-cap",
-    "description": ""
+    "description": "The Hundreds 'Forward' snapback cap from the LA-based streetwear label.",
+    "release_date": null,
+    "category": "cap",
+    "price_jod": 50,
+    "size_system": "one-size",
+    "sizes": ["one-size"],
+    "stock_status": "in_stock"
   }
 ]

@@ -58,6 +58,37 @@ function dedupeBySlug(docs: Document[], k: number): Document[] {
   return out;
 }
 
+function seenFromHistory(history: string): string[] {
+  return Array.from(new Set(
+    Array.from(history.matchAll(/<product\s+slug="([^"]+)"\s*\/>/g)).map(m => m[1])
+  ));
+}
+
+export function buildRetrievalQuery(question: string, history = ""): string {
+  const userTurns = Array.from(history.matchAll(/^user:\s*(.+)$/gim))
+    .map(m => m[1].trim())
+    .slice(-2);
+  return [...userTurns, question].join(" ");
+}
+
+export async function retrieveDocs(
+  store: Pick<FaissStore, "similaritySearch">,
+  question: string,
+  history = "",
+  opts: { poolSize?: number; k?: number } = {},
+): Promise<Document[]> {
+  const poolSize = opts.poolSize ?? 30;
+  const k = opts.k ?? 10;
+  const retrievalQuery = buildRetrievalQuery(question, history);
+  const seenSlugs = new Set(seenFromHistory(history));
+  const raw = await store.similaritySearch(retrievalQuery, poolSize);
+  const filtered = raw.filter(d => {
+    const slug = (d.metadata as Record<string, unknown>).slug as string | undefined;
+    return !slug || !seenSlugs.has(slug);
+  });
+  return dedupeBySlug(filtered, k);
+}
+
 export async function buildChain() {
   if (!process.env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY missing");
   const embeddings = new GeminiMultimodalEmbeddings();
@@ -72,12 +103,6 @@ export async function buildChain() {
     ],
   ]);
 
-  function seenFromHistory(history: string): string[] {
-    return Array.from(new Set(
-      Array.from(history.matchAll(/<product\s+slug="([^"]+)"\s*\/>/g)).map(m => m[1])
-    ));
-  }
-
   return RunnableSequence.from([
     {
       question: (i: { question: string; history?: string }) => i.question,
@@ -87,26 +112,7 @@ export async function buildChain() {
         return seen.length === 0 ? "(none)" : seen.join(", ");
       },
       context: async (i: { question: string; history?: string }) => {
-        const history = i.history ?? "";
-
-        // 1. Combine last 2 user turns with the current question so vague
-        //    follow-ups ("more", "another") still retrieve in-topic.
-        const userTurns = Array.from(history.matchAll(/^user:\s*(.+)$/gim))
-          .map(m => m[1].trim())
-          .slice(-2);
-        const retrievalQuery = [...userTurns, i.question].join(" ");
-
-        // 2. Parse history for slugs already shown so we can exclude them
-        //    from retrieval — prevents repeats on "more"/"another".
-        const seenSlugs = new Set(seenFromHistory(history));
-
-        // 3. Pull a wide pool, drop already-seen slugs, dedupe by slug, take 10.
-        const raw = await store.similaritySearch(retrievalQuery, 30);
-        const filtered = raw.filter(d => {
-          const slug = (d.metadata as Record<string, unknown>).slug as string | undefined;
-          return !slug || !seenSlugs.has(slug);
-        });
-        return formatContext(dedupeBySlug(filtered, 10));
+        return formatContext(await retrieveDocs(store, i.question, i.history ?? ""));
       },
     },
     prompt,

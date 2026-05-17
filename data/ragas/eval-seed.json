@@ -1,0 +1,371 @@
+[
+  {
+    "id": "product:jordan-3-retro-laser-orange-w-1",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-3-retro-laser-orange-w-1"
+    ],
+    "user_input": "Tell me about Jordan 3 Retro Laser Orange (W).",
+    "reference": "Jordan 3 Retro Laser Orange (W) is a Nike sneaker. Style: CK9246-108. Colorway: White / Laser Orange / Cement Grey / Black. Release date: 08/21/2020. It costs 320 JOD and is in stock. Available sizes: 6.5, 7, 8. The exact product slug is jordan-3-retro-laser-orange-w-1."
+  },
+  {
+    "id": "product:jordan-1-low-dark-beetroot-black-w",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-1-low-dark-beetroot-black-w"
+    ],
+    "user_input": "Tell me about Jordan 1 Low Dark Beetroot Black (W).",
+    "reference": "Jordan 1 Low Dark Beetroot Black (W) is a Nike sneaker. Style: DB6491-600. Colorway: Dark Beetroot / Black / White. Release date: 11/29/2020. It costs 150 JOD and is in stock. Available sizes: 6, 7, 7.5, 8. The exact product slug is jordan-1-low-dark-beetroot-black-w."
+  },
+  {
+    "id": "product:jordan-1-mid-hyper-royal",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-1-mid-hyper-royal"
+    ],
+    "user_input": "Tell me about Jordan 1 Mid Hyper Royal.",
+    "reference": "Jordan 1 Mid Hyper Royal is a Nike sneaker. Style: 554725-077. Colorway: Black / Hyper Royal / White. It costs 150 JOD and is in stock. Available sizes: 8.5, 9, 10, 11. The exact product slug is jordan-1-mid-hyper-royal."
+  },
+  {
+    "id": "product:jordan-1-mid-signal-blue",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-1-mid-signal-blue"
+    ],
+    "user_input": "Tell me about Jordan 1 Mid Signal Blue.",
+    "reference": "Jordan 1 Mid Signal Blue is a Nike sneaker. Style: BQ6931-402. Colorway: Signal Blue / White / Black. Release date: 01/01/2021. It costs 160 JOD and is in stock. Available sizes: 9, 9.5, 10.5. The exact product slug is jordan-1-mid-signal-blue."
+  },
+  {
+    "id": "product:nike-air-force-1-low-white-2014-gs",
+    "kind": "product",
+    "expected_slugs": [
+      "nike-air-force-1-low-white-2014-gs"
+    ],
+    "user_input": "Tell me about Nike Air Force 1 Low White.",
+    "reference": "Nike Air Force 1 Low White is a Nike sneaker. Style: 314192-117. Colorway: White / White. Release date: 01/01/2014. It costs 150 JOD and is in stock. Available sizes: 8, 9, 10, 11. The exact product slug is nike-air-force-1-low-white-2014-gs."
+  },
+  {
+    "id": "product:jordan-4-retro-green-glow",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-4-retro-green-glow"
+    ],
+    "user_input": "Tell me about Jordan 4 Retro Green Glow.",
+    "reference": "Jordan 4 Retro Green Glow is a Nike sneaker. Style: 308497-033. Colorway: Dark Grey / Green Glow / Cement Grey / Black. Release date: 08/17/2013. It costs 380 JOD and is low stock. Available sizes: 9, 10. The exact product slug is jordan-4-retro-green-glow."
+  },
+  {
+    "id": "product:nike-sb-dunk-low-grateful-dead-bears-orange",
+    "kind": "product",
+    "expected_slugs": [
+      "nike-sb-dunk-low-grateful-dead-bears-orange"
+    ],
+    "user_input": "Tell me about Nike SB Dunk Low Grateful Dead Bears Orange.",
+    "reference": "Nike SB Dunk Low Grateful Dead Bears Orange is a Nike sneaker. Style: CJ5378-800. Colorway: Bright Ceramic / Green Spark. Release date: 07/18/2020. It costs 950 JOD and is low stock. Available sizes: 9, 10.5. The exact product slug is nike-sb-dunk-low-grateful-dead-bears-orange."
+  },
+  {
+    "id": "product:jordan-3-retro-varsity-royal-cement",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-3-retro-varsity-royal-cement"
+    ],
+    "user_input": "Tell me about Jordan 3 Retro Varsity Royal Cement.",
+    "reference": "Jordan 3 Retro Varsity Royal Cement is a Nike sneaker. Style: CT8532-400. Colorway: Varsity Royal / Varsity Royal / Cement Grey. Release date: 10/10/2020. It costs 340 JOD and is in stock. Available sizes: 8.5, 9.5, 10, 11. The exact product slug is jordan-3-retro-varsity-royal-cement."
+  },
+  {
+    "id": "product:nike-air-force-1-low-g-dragon-peaceminusone-para-noise-2-0",
+    "kind": "product",
+    "expected_slugs": [
+      "nike-air-force-1-low-g-dragon-peaceminusone-para-noise-2-0"
+    ],
+    "user_input": "Tell me about Nike Air Force 1 Low G-Dragon Peaceminusone Para-Noise 2.0.",
+    "reference": "Nike Air Force 1 Low G-Dragon Peaceminusone Para-Noise 2.0 is a Nike sneaker. Style: DD3223-100. Colorway: White / Black. Release date: 11/25/2020. It costs 750 JOD and is sold out. Available sizes: 9, 10. The exact product slug is nike-air-force-1-low-g-dragon-peaceminusone-para-noise-2-0."
+  },
+  {
+    "id": "product:jordan-1-retro-high-zoom-crater",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-1-retro-high-zoom-crater"
+    ],
+    "user_input": "Tell me about Jordan 1 Retro High Zoom Crater.",
+    "reference": "Jordan 1 Retro High Zoom Crater is a Nike sneaker. Style: CW2414-001. Colorway: Black / Wolf Grey / Flash Crimson. Release date: 09/11/2020. It costs 220 JOD and is in stock. Available sizes: 8.5, 9.5, 10.5, 11. The exact product slug is jordan-1-retro-high-zoom-crater."
+  },
+  {
+    "id": "product:nike-sb-dunk-low-ben-jerry-s-chunky-dunky",
+    "kind": "product",
+    "expected_slugs": [
+      "nike-sb-dunk-low-ben-jerry-s-chunky-dunky"
+    ],
+    "user_input": "Tell me about Nike SB Dunk Low Ben & Jerry's Chunky Dunky.",
+    "reference": "Nike SB Dunk Low Ben & Jerry's Chunky Dunky is a Nike sneaker. Style: CU3244-100. Colorway: Multi-Color / Multi-Color. Release date: 05/26/2020. It costs 1400 JOD and is sold out. Available sizes: 10. The exact product slug is nike-sb-dunk-low-ben-jerry-s-chunky-dunky."
+  },
+  {
+    "id": "product:nike-sb-dunk-low-travis-scott",
+    "kind": "product",
+    "expected_slugs": [
+      "nike-sb-dunk-low-travis-scott"
+    ],
+    "user_input": "Tell me about Nike SB Dunk Low Travis Scott.",
+    "reference": "Nike SB Dunk Low Travis Scott is a Nike sneaker. Style: CT5053-001. Colorway: Black / Black / Parachute Beige / Petra Brown. Release date: 02/29/2020. It costs 1800 JOD and is sold out. Available sizes: 9.5, 10.5. The exact product slug is nike-sb-dunk-low-travis-scott."
+  },
+  {
+    "id": "product:jordan-1-retro-high-pine-green-black-gs",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-1-retro-high-pine-green-black-gs"
+    ],
+    "user_input": "Tell me about Jordan 1 Retro High Pine Green Black (GS).",
+    "reference": "Jordan 1 Retro High Pine Green Black (GS) is a Nike sneaker. Style: 575441-030. Colorway: Black / Pine Green / White / Gym Red. Release date: 02/29/2020. It costs 220 JOD and is low stock. Available sizes: 4.5Y, 5.5Y, 6Y. The exact product slug is jordan-1-retro-high-pine-green-black-gs."
+  },
+  {
+    "id": "product:jordan-hydro-8",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-hydro-8"
+    ],
+    "user_input": "Tell me about Jordan Hydro 8.",
+    "reference": "Jordan Hydro 8 is a Nike sneaker. Style: CD2803-001. Colorway: Black / White / Gym Red / Black. It costs 55 JOD and is in stock. Available sizes: 8, 9, 10, 11. The exact product slug is jordan-hydro-8."
+  },
+  {
+    "id": "product:jordan-1-retro-high-light-smoke-grey-gs",
+    "kind": "product",
+    "expected_slugs": [
+      "jordan-1-retro-high-light-smoke-grey-gs"
+    ],
+    "user_input": "Tell me about Jordan 1 Retro High Light Smoke Grey (GS).",
+    "reference": "Jordan 1 Retro High Light Smoke Grey (GS) is a Nike sneaker. Style: 575441-126. Colorway: White / Black / Light Smoke Grey / Varsity Red. Release date: 07/11/2020. It costs 200 JOD and is in stock. Available sizes: 5Y, 5.5Y, 6Y, 7Y. The exact product slug is jordan-1-retro-high-light-smoke-grey-gs."
+  },
+  {
+    "id": "product:air-max-270-cactus-trails",
+    "kind": "product",
+    "expected_slugs": [
+      "air-max-270-cactus-trails"
+    ],
+    "user_input": "Tell me about Air Max 270 Cactus Trails.",
+    "reference": "Air Max 270 Cactus Trails is a Nike sneaker. Style: CT2864. Colorway: Light Cream / Starfish. Release date: 05/29/2020. It costs 150 JOD and is in stock. Available sizes: 9, 10, 11. The exact product slug is air-max-270-cactus-trails."
+  },
+  {
+    "id": "product:copy-of-nike-sf-air-force-1-desert-camo",
+    "kind": "product",
+    "expected_slugs": [
+      "copy-of-nike-sf-air-force-1-desert-camo"
+    ],
+    "user_input": "Tell me about Jordan 1 Mid Banned (2020).",
+    "reference": "Jordan 1 Mid Banned (2020) is a Nike sneaker. Style: 554724-074. Colorway: Black / University Red / Black / White. It costs 350 JOD and is low stock. Available sizes: 9, 10, 11. The exact product slug is copy-of-nike-sf-air-force-1-desert-camo."
+  },
+  {
+    "id": "product:nike-air-force-1-low-triple-red",
+    "kind": "product",
+    "expected_slugs": [
+      "nike-air-force-1-low-triple-red"
+    ],
+    "user_input": "Tell me about Nike Air Force 1 Low Triple Red.",
+    "reference": "Nike Air Force 1 Low Triple Red is a Nike sneaker. Style: CW6999-600. Colorway: University Red / University Red. Release date: 02/01/2020. It costs 160 JOD and is in stock. Available sizes: 8, 9, 10.5. The exact product slug is nike-air-force-1-low-triple-red."
+  },
+  {
+    "id": "product:adidas-yeezy-boost-380-calcite",
+    "kind": "product",
+    "expected_slugs": [
+      "adidas-yeezy-boost-380-calcite"
+    ],
+    "user_input": "Tell me about Adidas Yeezy Boost 380 Calcite.",
+    "reference": "Adidas Yeezy Boost 380 Calcite is a Adidas sneaker. Style: GZ8668. Colorway: Calcite / Calcite / Calcite. Release date: 10/31/2020. It costs 350 JOD and is in stock. Available sizes: 8.5, 9.5, 10, 11. The exact product slug is adidas-yeezy-boost-380-calcite."
+  },
+  {
+    "id": "product:adidas-yeezy-boost-380-hylte",
+    "kind": "product",
+    "expected_slugs": [
+      "adidas-yeezy-boost-380-hylte"
+    ],
+    "user_input": "Tell me about Adidas Yeezy Boost 380 Hylte.",
+    "reference": "Adidas Yeezy Boost 380 Hylte is a Adidas sneaker. Style: FZ4990. Colorway: Hylte / Hylte / Hylte. Release date: 12/12/2020. It costs 360 JOD and is in stock. Available sizes: 9, 10, 11. The exact product slug is adidas-yeezy-boost-380-hylte."
+  },
+  {
+    "id": "product:adidas-yeezy-qntm-barium",
+    "kind": "product",
+    "expected_slugs": [
+      "adidas-yeezy-qntm-barium"
+    ],
+    "user_input": "Tell me about Adidas Yeezy QNTM Barium.",
+    "reference": "Adidas Yeezy QNTM Barium is a Adidas sneaker. Style: H68771. Colorway: Barium / Barium / Barium. Release date: 06/25/2020. It costs 360 JOD and is low stock. Available sizes: 9.5, 10.5. The exact product slug is adidas-yeezy-qntm-barium."
+  },
+  {
+    "id": "product:adidas-yeezy-boost-350-v2-yecheil-non-reflective-1",
+    "kind": "product",
+    "expected_slugs": [
+      "adidas-yeezy-boost-350-v2-yecheil-non-reflective-1"
+    ],
+    "user_input": "Tell me about Adidas Yeezy Boost 350 V2 Yecheil (Non-Reflective).",
+    "reference": "Adidas Yeezy Boost 350 V2 Yecheil (Non-Reflective) is a Adidas sneaker. Style: FW5190. Colorway: Yecheil / Yecheil / Yecheil. Release date: 12/20/2019. It costs 420 JOD and is in stock. Available sizes: 9, 10, 11. The exact product slug is adidas-yeezy-boost-350-v2-yecheil-non-reflective-1."
+  },
+  {
+    "id": "product:adidas-yeezy-boost-350-v2-yeezreel-non-reflective",
+    "kind": "product",
+    "expected_slugs": [
+      "adidas-yeezy-boost-350-v2-yeezreel-non-reflective"
+    ],
+    "user_input": "Tell me about Adidas Yeezy Boost 350 V2 Yeezreel (Non-Reflective).",
+    "reference": "Adidas Yeezy Boost 350 V2 Yeezreel (Non-Reflective) is a Adidas sneaker. Style: FW5191. Colorway: Yeezreel / Yeezreel / Yeezreel. Release date: 12/14/2019. It costs 400 JOD and is low stock. Available sizes: 8.5, 10, 11. The exact product slug is adidas-yeezy-boost-350-v2-yeezreel-non-reflective."
+  },
+  {
+    "id": "product:supreme-utility-pouch-black",
+    "kind": "product",
+    "expected_slugs": [
+      "supreme-utility-pouch-black"
+    ],
+    "user_input": "Tell me about Supreme Utility Pouch Black.",
+    "reference": "Supreme Utility Pouch Black is a Supreme bag. Compact Supreme utility pouch in black, ideal for carrying small essentials. It costs 90 JOD and is in stock. Available sizes: one-size. The exact product slug is supreme-utility-pouch-black."
+  },
+  {
+    "id": "product:supreme-utility-pouch-red",
+    "kind": "product",
+    "expected_slugs": [
+      "supreme-utility-pouch-red"
+    ],
+    "user_input": "Tell me about Supreme Utility Pouch Red.",
+    "reference": "Supreme Utility Pouch Red is a Supreme bag. Compact Supreme utility pouch in red, ideal for carrying small essentials. It costs 100 JOD and is in stock. Available sizes: one-size. The exact product slug is supreme-utility-pouch-red."
+  },
+  {
+    "id": "product:supreme-small-shoulder-bag-ss20-blue-chocolate-chip-camo",
+    "kind": "product",
+    "expected_slugs": [
+      "supreme-small-shoulder-bag-ss20-blue-chocolate-chip-camo"
+    ],
+    "user_input": "Tell me about Supreme Small Shoulder Bag (SS20) Blue Chocolate Chip Camo.",
+    "reference": "Supreme Small Shoulder Bag (SS20) Blue Chocolate Chip Camo is a Supreme bag. Supreme small shoulder bag in blue chocolate chip camo, from the SS20 collection. It costs 170 JOD and is low stock. Available sizes: one-size. The exact product slug is supreme-small-shoulder-bag-ss20-blue-chocolate-chip-camo."
+  },
+  {
+    "id": "product:supreme-running-waist-bag-red",
+    "kind": "product",
+    "expected_slugs": [
+      "supreme-running-waist-bag-red"
+    ],
+    "user_input": "Tell me about Supreme Running Waist Bag Red.",
+    "reference": "Supreme Running Waist Bag Red is a Supreme bag. Supreme running waist bag in red, designed for on-the-go essentials. It costs 140 JOD and is in stock. Available sizes: one-size. The exact product slug is supreme-running-waist-bag-red."
+  },
+  {
+    "id": "product:supreme-new-era-cross-box-logo-beanie-fw-20",
+    "kind": "product",
+    "expected_slugs": [
+      "supreme-new-era-cross-box-logo-beanie-fw-20"
+    ],
+    "user_input": "Tell me about Supreme New Era Cross Box-Logo Beanie (FW20).",
+    "reference": "Supreme New Era Cross Box-Logo Beanie (FW20) is a Supreme beanie. Supreme x New Era cross box-logo beanie from the FW20 collection. It costs 150 JOD and is in stock. Available sizes: one-size. The exact product slug is supreme-new-era-cross-box-logo-beanie-fw-20."
+  },
+  {
+    "id": "product:ss20-supreme-the-north-face-rtg-gore-tex-pink-glove",
+    "kind": "product",
+    "expected_slugs": [
+      "ss20-supreme-the-north-face-rtg-gore-tex-pink-glove"
+    ],
+    "user_input": "Tell me about SS20 Supreme The North Face RTG GORE-TEX Pink Glove.",
+    "reference": "SS20 Supreme The North Face RTG GORE-TEX Pink Glove is a Supreme glove. Supreme x The North Face RTG GORE-TEX gloves in pink, from the SS20 collaboration. It costs 260 JOD and is low stock. Available sizes: M, L. The exact product slug is ss20-supreme-the-north-face-rtg-gore-tex-pink-glove."
+  },
+  {
+    "id": "product:supreme-waterproof-reflective-speckled-waist-bag-orange",
+    "kind": "product",
+    "expected_slugs": [
+      "supreme-waterproof-reflective-speckled-waist-bag-orange"
+    ],
+    "user_input": "Tell me about Supreme Waterproof Reflective Speckled Waist Bag Orange.",
+    "reference": "Supreme Waterproof Reflective Speckled Waist Bag Orange is a Supreme bag. Supreme waterproof reflective speckled waist bag in orange. It costs 150 JOD and is in stock. Available sizes: one-size. The exact product slug is supreme-waterproof-reflective-speckled-waist-bag-orange."
+  },
+  {
+    "id": "product:supreme-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "supreme-snapback-cap"
+    ],
+    "user_input": "Tell me about Supreme Snapback Cap.",
+    "reference": "Supreme Snapback Cap is a Supreme cap. Supreme snapback cap featuring the brand's signature box-logo branding. It costs 130 JOD and is in stock. Available sizes: one-size. The exact product slug is supreme-snapback-cap."
+  },
+  {
+    "id": "product:timberland-6-supreme-wheat",
+    "kind": "product",
+    "expected_slugs": [
+      "timberland-6-supreme-wheat"
+    ],
+    "user_input": "Tell me about Timberland 6\" Supreme Wheat.",
+    "reference": "Timberland 6\" Supreme Wheat is a Supreme boot. Style: TB0A2MT2231. Colorway: Wheat. Release date: 11/12/2020. It costs 290 JOD and is low stock. Available sizes: 9, 10, 11. The exact product slug is timberland-6-supreme-wheat."
+  },
+  {
+    "id": "product:von-dutch-upside-down-logo-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "von-dutch-upside-down-logo-snapback-cap"
+    ],
+    "user_input": "Tell me about Von Dutch Upside Down Logo Trucker Cap.",
+    "reference": "Von Dutch Upside Down Logo Trucker Cap is a Hats cap. Von Dutch trucker-style cap with the brand's upside-down flying-eye logo. It costs 55 JOD and is in stock. Available sizes: one-size. The exact product slug is von-dutch-upside-down-logo-snapback-cap."
+  },
+  {
+    "id": "product:von-dutch-orange-camo-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "von-dutch-orange-camo-snapback-cap"
+    ],
+    "user_input": "Tell me about Von Dutch Orange Camo Trucker Cap.",
+    "reference": "Von Dutch Orange Camo Trucker Cap is a Hats cap. Von Dutch trucker-style snapback cap in orange camo with the brand's signature flying-eye logo. It costs 55 JOD and is in stock. Available sizes: one-size. The exact product slug is von-dutch-orange-camo-snapback-cap."
+  },
+  {
+    "id": "product:new-era-billionaire-boys-club-9fifty-snapback-cap-1",
+    "kind": "product",
+    "expected_slugs": [
+      "new-era-billionaire-boys-club-9fifty-snapback-cap-1"
+    ],
+    "user_input": "Tell me about New Era Billionaire Boys Club 9Fifty Snapback Cap.",
+    "reference": "New Era Billionaire Boys Club 9Fifty Snapback Cap is a Hats cap. New Era 9Fifty snapback cap featuring the Billionaire Boys Club logo. It costs 45 JOD and is in stock. Available sizes: one-size. The exact product slug is new-era-billionaire-boys-club-9fifty-snapback-cap-1."
+  },
+  {
+    "id": "product:new-era-billionaire-boys-club-9fifty-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "new-era-billionaire-boys-club-9fifty-snapback-cap"
+    ],
+    "user_input": "Tell me about New Era Billionaire Boys Club 9Fifty Snapback Cap.",
+    "reference": "New Era Billionaire Boys Club 9Fifty Snapback Cap is a Hats cap. New Era 9Fifty snapback cap featuring the Billionaire Boys Club logo. It costs 45 JOD and is in stock. Available sizes: one-size. The exact product slug is new-era-billionaire-boys-club-9fifty-snapback-cap."
+  },
+  {
+    "id": "product:new-era-oakland-raiders-59fifty-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "new-era-oakland-raiders-59fifty-snapback-cap"
+    ],
+    "user_input": "Tell me about New Era Oakland Raiders 9Fifty Snapback Cap.",
+    "reference": "New Era Oakland Raiders 9Fifty Snapback Cap is a Hats cap. New Era 9Fifty snapback cap featuring the Oakland Raiders team logo. It costs 45 JOD and is in stock. Available sizes: one-size. The exact product slug is new-era-oakland-raiders-59fifty-snapback-cap."
+  },
+  {
+    "id": "product:adeen-mercy-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "adeen-mercy-snapback-cap"
+    ],
+    "user_input": "Tell me about Mercy Snapback Cap.",
+    "reference": "Mercy Snapback Cap is a Hats cap. Adeen 'Mercy' snapback cap, part of the brand's slogan-graphic series. It costs 50 JOD and is in stock. Available sizes: one-size. The exact product slug is adeen-mercy-snapback-cap."
+  },
+  {
+    "id": "product:adeen-cunt-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "adeen-cunt-snapback-cap"
+    ],
+    "user_input": "Tell me about Cunt Snapback Cap.",
+    "reference": "Cunt Snapback Cap is a Hats cap. Adeen 'Cunt' snapback cap, part of the brand's slogan-graphic series. It costs 50 JOD and is low stock. Available sizes: one-size. The exact product slug is adeen-cunt-snapback-cap."
+  },
+  {
+    "id": "product:the-boss-ra2ees-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "the-boss-ra2ees-snapback-cap"
+    ],
+    "user_input": "Tell me about The Boss \"Ra2ees\" Snapback Cap.",
+    "reference": "The Boss \"Ra2ees\" Snapback Cap is a Hats cap. Locally-flavored snapback cap reading 'Ra2ees' (Arabic for 'the boss'). It costs 40 JOD and is in stock. Available sizes: one-size. The exact product slug is the-boss-ra2ees-snapback-cap."
+  },
+  {
+    "id": "product:the-hundreds-forward-snapback-cap",
+    "kind": "product",
+    "expected_slugs": [
+      "the-hundreds-forward-snapback-cap"
+    ],
+    "user_input": "Tell me about The Hundreds Forward Snapback Cap.",
+    "reference": "The Hundreds Forward Snapback Cap is a Hats cap. The Hundreds 'Forward' snapback cap from the LA-based streetwear label. It costs 50 JOD and is in stock. Available sizes: one-size. The exact product slug is the-hundreds-forward-snapback-cap."
+  }
+]

@@ -18,5 +18,19 @@ services:
       retries: 10
       start_period: 30s
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eighty-five-eleven-app
+    env_file:
+      - .env.docker
+    ports:
+      - "3000:3000"
+    depends_on:
+      mssql:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   mssql-data:
