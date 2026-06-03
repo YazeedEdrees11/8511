@@ -29,6 +29,8 @@
     "@prisma/client": "^6.19.3",
     "dotenv": "^17.4.2",
     "faiss-node": "^0.5.1",
+    "firebase": "^12.14.0",
+    "firebase-admin": "^13.10.0",
     "langchain": "^1.4.0",
     "next": "15.5.18",
     "nodemailer": "^8.0.10",

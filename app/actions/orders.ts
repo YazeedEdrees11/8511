@@ -2,9 +2,10 @@
 
 import { prisma } from "@/lib/db";
 import { Prisma } from "@prisma/client";
+import { getCurrentUser } from "@/lib/auth/session";
+import { sendOwnerEmail } from "@/lib/email";
 
 export type PlaceOrderInput = {
-  userId: number;
   addressId: number;
   items: { productId: number; variantId?: number; quantity: number }[];
 };
@@ -14,9 +15,11 @@ export type PlaceOrderResult =
   | { ok: false; error: string };
 
 export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "auth required" };
   if (!input.items.length) return { ok: false, error: "no items" };
 
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     const productIds = input.items.map(i => i.productId);
     const variantIds = input.items.map(i => i.variantId).filter((v): v is number => typeof v === "number");
     const products = await tx.product.findMany({ where: { id: { in: productIds } } });
@@ -48,7 +51,7 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
     const order = await tx.order.create({
       data: {
         orderNumber,
-        userId: input.userId,
+        userId: user.id,
         addressId: input.addressId,
         subtotal,
         shipping,
@@ -58,4 +61,18 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
     });
     return { ok: true as const, orderId: order.id, orderNumber: order.orderNumber };
   });
+
+  if (result.ok) {
+    try {
+      await sendOwnerEmail({
+        subject: `New order ${result.orderNumber}`,
+        html: `<h2>New order ${result.orderNumber}</h2>
+               <p><b>Customer:</b> ${user.name ?? user.email} (${user.email})</p>
+               <p><b>Order ID:</b> ${result.orderId}</p>`,
+      });
+    } catch (err) {
+      console.error("[order] owner email failed (order still placed):", err);
+    }
+  }
+  return result;
 }

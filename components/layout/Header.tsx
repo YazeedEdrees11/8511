@@ -2,6 +2,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase/client";
 
 const NAV = [
   { href: "/shop", label: "SHOP" },
@@ -16,6 +19,15 @@ export default function Header() {
   const pathname = usePathname() ?? "/";
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const cart = useCart();
+  const [displayName, setDisplayName] = useState<string | null>(null);
+  useEffect(() => onAuthStateChanged(auth, (u) => setDisplayName(u?.displayName || u?.email || null)), []);
+
+  async function logout() {
+    await signOut(auth);
+    await fetch("/api/auth/session", { method: "DELETE" });
+    setDisplayName(null);
+    window.location.href = "/";
+  }
   return (
     <header className="sticky top-0 z-50 flex justify-between items-center px-6 md:px-10 w-full h-[80px] bg-surface border-b border-on-surface/15 transition-all">
       <Link href="/" className="flex items-center gap-2" aria-label="Eighty Five Eleven home">
@@ -49,9 +61,18 @@ export default function Header() {
             </span>
           )}
         </button>
-        <button className="text-on-surface hover:text-primary transition-colors duration-300 active:opacity-80">
-          <span className="material-symbols-outlined">person</span>
-        </button>
+        {displayName ? (
+          <div className="flex items-center gap-3">
+            <span className="hidden md:inline font-label text-[11px] tracking-widest text-on-surface/80">{displayName}</span>
+            <button onClick={logout} className="font-label text-[11px] tracking-widest text-on-surface/70 hover:text-primary transition-colors">
+              LOG OUT
+            </button>
+          </div>
+        ) : (
+          <Link href="/login" className="font-label text-[11px] tracking-widest text-on-surface/70 hover:text-primary transition-colors">
+            LOG IN
+          </Link>
+        )}
       </div>
     </header>
   );

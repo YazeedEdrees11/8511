@@ -61,7 +61,7 @@ model ProductVariant {
 model User {
   id           Int                     @id @default(autoincrement())
   email        String                  @unique
-  passwordHash String?
+  firebaseUid  String?                 @unique
   name         String?
   phone        String?
   createdAt    DateTime                @default(now())
