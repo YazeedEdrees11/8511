@@ -123,9 +123,9 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
           <div className="font-display text-4xl mt-2 text-red-500">{outOfStockSkuCount}</div>
         </div>
 
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-primary/20">
-          <span className="font-label text-[9px] tracking-widest uppercase text-primary">LOW STOCK SKUS (≤2)</span>
-          <div className="font-display text-4xl mt-2 text-primary">{lowStockSkuCount}</div>
+        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-[#c8ff00]/20">
+          <span className="font-label text-[9px] tracking-widest uppercase text-[#c8ff00]">LOW STOCK SKUS (≤2)</span>
+          <div className="font-display text-4xl mt-2 text-[#c8ff00]">{lowStockSkuCount}</div>
         </div>
       </div>
 
@@ -263,7 +263,7 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
                             <button
                               onClick={() => saveTypedStock(v.id)}
                               disabled={loading || typedStocks[v.id] === undefined}
-                              className="bg-[#0A0A0A] text-[#F7F7F4] hover:bg-primary hover:text-[#0A0A0A] px-3.5 h-10 font-label text-[9px] tracking-widest uppercase transition-colors disabled:opacity-40"
+                              className="bg-[#0A0A0A] text-[#F7F7F4] hover:bg-[#c8ff00] hover:text-[#0A0A0A] px-3.5 h-10 font-label text-[9px] tracking-widest uppercase transition-colors disabled:opacity-40"
                             >
                               SET
                             </button>

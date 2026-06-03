@@ -11,13 +11,13 @@ export default async function AdminDashboardLayout({
   const authenticated = await isAdminAuthenticated();
 
   if (!authenticated) {
-    redirect("/admin/login");
+    redirect("/login");
   }
 
   async function handleLogout() {
     "use server";
     await adminLogout();
-    redirect("/admin/login");
+    redirect("/login");
   }
 
   return (
@@ -37,22 +37,23 @@ export default async function AdminDashboardLayout({
 
         <nav className="flex-1 p-6 space-y-2">
           <Link
-            href="/admin"
+            href="/"
             className="flex items-center gap-3 px-4 py-3 font-label text-xs tracking-widest uppercase hover:bg-primary hover:text-[#0A0A0A] transition-all rounded-sm"
           >
             <span className="material-symbols-outlined text-[16px]">inventory_2</span> PRODUCTS
           </Link>
 
           <Link
-            href="/admin/inventory"
+            href="/inventory"
             className="flex items-center gap-3 px-4 py-3 font-label text-xs tracking-widest uppercase hover:bg-primary hover:text-[#0A0A0A] transition-all rounded-sm"
           >
             <span className="material-symbols-outlined text-[16px]">list_alt</span> STOCK & CAPACITY
           </Link>
 
           <a
-            href="/"
+            href="http://localhost:3000"
             target="_blank"
+            rel="noreferrer"
             className="flex items-center gap-3 px-4 py-3 font-label text-xs tracking-widest uppercase hover:bg-[#202020] transition-all rounded-sm text-[#F7F7F4]/60"
           >
             <span className="material-symbols-outlined text-[16px]">open_in_new</span> STOREFRONT

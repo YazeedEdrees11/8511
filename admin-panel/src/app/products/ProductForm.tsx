@@ -118,13 +118,13 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
       if (productId) {
         const res = await updateProduct(productId, payload);
         if (res.success) {
-          router.push("/admin");
+          router.push("/");
           router.refresh();
         }
       } else {
         const res = await addProduct(payload);
         if (res.success) {
-          router.push("/admin");
+          router.push("/");
           router.refresh();
         }
       }
@@ -139,7 +139,7 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
     <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl p-6 md:p-10">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href="/admin" className="text-[#0A0A0A]/60 hover:text-[#0A0A0A] transition-colors">
+        <Link href="/" className="text-[#0A0A0A]/60 hover:text-[#0A0A0A] transition-colors">
           <span className="material-symbols-outlined text-2xl">arrow_back</span>
         </Link>
         <div>
@@ -202,7 +202,7 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
               <button
                 type="button"
                 onClick={() => setIsNewBrand(!isNewBrand)}
-                className="font-label text-[10px] text-primary hover:underline uppercase tracking-wider"
+                className="font-label text-[10px] text-[#c8ff00] hover:underline uppercase tracking-wider font-bold"
               >
                 {isNewBrand ? "SELECT EXISTING BRAND" : "+ CREATE NEW BRAND"}
               </button>
@@ -214,7 +214,7 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
                 required
                 value={newBrandName}
                 onChange={e => setNewBrandName(e.target.value)}
-                className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A]"
+                className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-[#c8ff00] focus:outline-none transition-colors rounded-sm text-[#0A0A0A]"
                 placeholder="Enter new brand name (e.g. Patta)"
               />
             ) : (
@@ -287,7 +287,7 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
             <button
               type="button"
               onClick={addCustomSize}
-              className="font-label text-[10px] text-primary hover:underline uppercase tracking-wider font-bold"
+              className="font-label text-[10px] text-[#c8ff00] hover:underline uppercase tracking-wider font-bold"
             >
               + ADD SIZE
             </button>
@@ -366,7 +366,7 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
       {/* Action Buttons */}
       <div className="flex justify-end gap-4 border-t border-[#0A0A0A]/10 pt-8">
         <Link
-          href="/admin"
+          href="/"
           className="border border-[#0A0A0A]/20 bg-white hover:bg-[#F7F7F4] px-8 py-4 font-label text-xs tracking-widest uppercase transition-all rounded-sm"
         >
           CANCEL
@@ -374,7 +374,7 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
         <button
           type="submit"
           disabled={busy}
-          className="bg-[#0A0A0A] text-[#F7F7F4] hover:bg-primary hover:text-[#0A0A0A] px-8 py-4 font-label text-xs tracking-widest uppercase font-bold transition-all rounded-sm disabled:opacity-50"
+          className="bg-[#0A0A0A] text-[#F7F7F4] hover:bg-[#c8ff00] hover:text-[#0A0A0A] px-8 py-4 font-label text-xs tracking-widest uppercase font-bold transition-all rounded-sm disabled:opacity-50"
         >
           {busy ? "SAVING..." : productId ? "SAVE CHANGES →" : "CREATE CATALOG ENTRY →"}
         </button>

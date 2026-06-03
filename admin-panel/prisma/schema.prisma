@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Catalog ----------
+
+model Brand {
+  id       Int       @id @default(autoincrement())
+  slug     String    @unique
+  name     String
+  products Product[]
+}
+
+model Product {
+  id          Int              @id @default(autoincrement())
+  slug        String           @unique
+  name        String
+  brandId     Int
+  brand       Brand            @relation(fields: [brandId], references: [id])
+  description String           @db.NVarChar(Max)
+  imageUrl    String
+  sourceUrl   String
+  basePrice   Decimal?         @db.Decimal(10, 2)
+  releaseDate DateTime?
+  createdAt   DateTime         @default(now())
+  variants    ProductVariant[]
+  images      ProductImage[]
+  orderItems  OrderItem[]
+  cartItems   CartItem[]
+}
+
+model ProductImage {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  sortOrder Int     @default(0)
+}
+
+model ProductVariant {
+  id         Int         @id @default(autoincrement())
+  productId  Int
+  product    Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sizeEu     String
+  sku        String      @unique
+  price      Decimal?    @db.Decimal(10, 2)
+  stock      Int         @default(0)
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  @@unique([productId, sizeEu])
+}
+
+// ---------- Users & addresses ----------
+
+model User {
+  id           Int                     @id @default(autoincrement())
+  email        String                  @unique
+  firebaseUid  String?                 @unique
+  name         String?
+  phone        String?
+  createdAt    DateTime                @default(now())
+  addresses    Address[]
+  carts        Cart[]
+  orders       Order[]
+  consignments ConsignmentSubmission[]
+  bookings     ServiceBooking[]
+  inquiries    ProductInquiry[]
+}
+
+model Address {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  line1     String
+  line2     String?
+  city      String
+  country   String
+  postal    String?
+  isDefault Boolean @default(false)
+  orders    Order[]
+}
+
+// ---------- Cart & orders ----------
+
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    Int?
+  user      User?      @relation(fields: [userId], references: [id])
+  sessionId String?
+  createdAt DateTime   @default(now())
+  items     CartItem[]
+}
+
+model CartItem {
+  id        Int             @id @default(autoincrement())
+  cartId    Int
+  cart      Cart            @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product         @relation(fields: [productId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  variantId Int?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  quantity  Int             @default(1)
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  orderNumber String      @unique
+  userId      Int
+  user        User        @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  addressId   Int
+  address     Address     @relation(fields: [addressId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  status      String      @default("pending")
+  subtotal    Decimal     @db.Decimal(10, 2)
+  shipping    Decimal     @db.Decimal(10, 2)
+  total       Decimal     @db.Decimal(10, 2)
+  createdAt   DateTime    @default(now())
+  items       OrderItem[]
+}
+
+model OrderItem {
+  id        Int             @id @default(autoincrement())
+  orderId   Int
+  order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product         @relation(fields: [productId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  variantId Int?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  sizeEu    String?
+  unitPrice Decimal         @db.Decimal(10, 2)
+  quantity  Int
+}
+
+// ---------- Services ----------
+
+model ServiceBooking {
+  id           Int      @id @default(autoincrement())
+  userId       Int?
+  user         User?    @relation(fields: [userId], references: [id])
+  serviceKey   String
+  contactName  String
+  contactEmail String
+  contactPhone String?
+  notes        String?  @db.NVarChar(Max)
+  status       String   @default("new")
+  createdAt    DateTime @default(now())
+}
+
+model ConsignmentSubmission {
+  id            Int      @id @default(autoincrement())
+  userId        Int?
+  user          User?    @relation(fields: [userId], references: [id])
+  productName   String
+  brand         String
+  sizeEu        String?
+  conditionNote String?
+  askingPrice   Decimal? @db.Decimal(10, 2)
+  imageUrls     String   @db.NVarChar(Max)
+  status        String   @default("submitted")
+  createdAt     DateTime @default(now())
+}
+
+model ProductInquiry {
+  id           Int      @id @default(autoincrement())
+  userId       Int?
+  user         User?    @relation(fields: [userId], references: [id])
+  itemName     String
+  category     String
+  sizeEu       String?
+  budget       Decimal? @db.Decimal(10, 2)
+  notes        String?  @db.NVarChar(Max)
+  contactName  String
+  contactEmail String
+  contactPhone String?
+  status       String   @default("new")
+  createdAt    DateTime @default(now())
+}

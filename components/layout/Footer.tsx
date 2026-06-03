@@ -45,7 +45,7 @@ export default function Footer() {
           ASK 8511
         </Link>
         <Link
-          href="/admin"
+          href="http://localhost:3001"
           className="font-label uppercase tracking-[0.2em] text-xs text-on-surface/40 hover:text-primary hover:underline decoration-1 underline-offset-4 transition-all"
         >
           ADMIN PANEL

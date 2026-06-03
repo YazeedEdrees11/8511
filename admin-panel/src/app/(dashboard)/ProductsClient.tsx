@@ -78,7 +78,7 @@ export default function ProductsClient({ initialProducts, brands }: ProductsClie
           <h1 className="font-display text-5xl uppercase tracking-tighter mt-1">PRODUCT CATALOG</h1>
         </div>
         <Link
-          href="/admin/products/new"
+          href="/products/new"
           className="bg-[#0A0A0A] text-[#F7F7F4] hover:bg-primary hover:text-[#0A0A0A] font-label text-xs tracking-widest uppercase px-6 py-4 transition-all rounded-sm flex items-center justify-center gap-2 self-start sm:self-auto"
         >
           <span className="material-symbols-outlined text-[16px]">add</span> ADD NEW PRODUCT
@@ -173,7 +173,7 @@ export default function ProductsClient({ initialProducts, brands }: ProductsClie
                       <span className="font-label text-[9px] tracking-widest text-[#0A0A0A]/60 uppercase block">
                         {p.brand.name}
                       </span>
-                      <span className="font-headline text-lg uppercase tracking-tight text-[#0A0A0A]">
+                      <span className="font-display text-lg uppercase tracking-tight text-[#0A0A0A]">
                         {p.name}
                       </span>
                     </td>
@@ -206,7 +206,7 @@ export default function ProductsClient({ initialProducts, brands }: ProductsClie
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          href={`/admin/products/${p.id}/edit`}
+                          href={`/products/${p.id}/edit`}
                           className="border border-[#0A0A0A]/10 bg-white hover:border-[#0A0A0A] px-3.5 py-2 font-label text-[10px] tracking-widest uppercase transition-colors rounded-sm flex items-center gap-1"
                         >
                           <span className="material-symbols-outlined text-[13px]">edit</span> EDIT

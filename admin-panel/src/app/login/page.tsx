@@ -19,7 +19,7 @@ export default function AdminLoginPage() {
     try {
       const res = await adminLogin(email, password);
       if (res.success) {
-        router.push("/admin");
+        router.push("/");
         router.refresh();
       } else {
         setError(res.error || "Authentication failed.");
@@ -35,7 +35,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-[#0A0A0A] text-[#F7F7F4] flex flex-col justify-center items-center px-6 py-12">
       <div className="w-full max-w-md bg-[#161616] border border-[#F7F7F4]/10 p-8 md:p-10 rounded-sm">
         <div className="text-center mb-8">
-          <span className="font-label text-[11px] tracking-widest text-primary font-bold">8511 BACKOFFICE</span>
+          <span className="font-label text-[11px] tracking-widest text-[#c8ff00] font-bold">8511 BACKOFFICE</span>
           <h1 className="font-display text-4xl uppercase tracking-tighter mt-2">ADMIN PORTAL</h1>
         </div>
 
@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full bg-[#202020] border border-[#F7F7F4]/10 px-4 py-3 text-base text-[#F7F7F4] focus:border-primary focus:outline-none transition-colors rounded-sm"
+              className="w-full bg-[#202020] border border-[#F7F7F4]/10 px-4 py-3 text-base text-[#F7F7F4] focus:border-[#c8ff00] focus:outline-none transition-colors rounded-sm"
               placeholder="e.g. admin@8511.com"
             />
           </div>
@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
               required
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full bg-[#202020] border border-[#F7F7F4]/10 px-4 py-3 text-base text-[#F7F7F4] focus:border-primary focus:outline-none transition-colors rounded-sm"
+              className="w-full bg-[#202020] border border-[#F7F7F4]/10 px-4 py-3 text-base text-[#F7F7F4] focus:border-[#c8ff00] focus:outline-none transition-colors rounded-sm"
               placeholder="••••••••"
             />
           </div>
@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={busy}
-            className="w-full bg-primary text-[#0A0A0A] py-4 font-label text-xs tracking-widest uppercase font-bold hover:bg-primary/90 transition-all duration-200 rounded-sm disabled:opacity-50"
+            className="w-full bg-[#c8ff00] text-[#0A0A0A] py-4 font-label text-xs tracking-widest uppercase font-bold hover:bg-[#c8ff00]/90 transition-all duration-200 rounded-sm disabled:opacity-50"
           >
             {busy ? "AUTHENTICATING…" : "LOG IN TO ADMIN →"}
           </button>
@@ -87,8 +87,8 @@ export default function AdminLoginPage() {
 
         <div className="text-center mt-8">
           <a
-            href="/"
-            className="font-label text-[10px] tracking-widest text-[#F7F7F4]/40 hover:text-primary transition-colors uppercase"
+            href="http://localhost:3000"
+            className="font-label text-[10px] tracking-widest text-[#F7F7F4]/40 hover:text-[#c8ff00] transition-colors uppercase"
           >
             ← BACK TO STOREFRONT
           </a>

@@ -96,8 +96,7 @@ export async function addProduct(data: ProductInput) {
     });
   }
 
-  revalidatePath("/shop");
-  revalidatePath("/admin");
+  revalidatePath("/");
   return { success: true, productId: product.id };
 }
 
@@ -174,9 +173,7 @@ export async function updateProduct(id: number, data: ProductInput) {
     });
   }
 
-  revalidatePath("/shop");
-  revalidatePath(`/product/${data.slug}`);
-  revalidatePath("/admin");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -199,9 +196,7 @@ export async function deleteProduct(id: number) {
     where: { id },
   });
 
-  revalidatePath("/shop");
-  revalidatePath(`/product/${product.slug}`);
-  revalidatePath("/admin");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -213,11 +208,8 @@ export async function updateVariantStock(variantId: number, stock: number) {
   const variant = await prisma.productVariant.update({
     where: { id: variantId },
     data: { stock: Math.max(0, stock) },
-    include: { product: true },
   });
 
-  revalidatePath("/shop");
-  revalidatePath(`/product/${variant.product.slug}`);
-  revalidatePath("/admin");
+  revalidatePath("/");
   return { success: true, newStock: variant.stock };
 }
