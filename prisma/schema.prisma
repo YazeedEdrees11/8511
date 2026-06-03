@@ -70,6 +70,7 @@ model User {
   orders       Order[]
   consignments ConsignmentSubmission[]
   bookings     ServiceBooking[]
+  inquiries    ProductInquiry[]
 }
 
 model Address {
@@ -162,4 +163,20 @@ model ConsignmentSubmission {
   imageUrls     String   @db.NVarChar(Max)
   status        String   @default("submitted")
   createdAt     DateTime @default(now())
+}
+
+model ProductInquiry {
+  id           Int      @id @default(autoincrement())
+  userId       Int?
+  user         User?    @relation(fields: [userId], references: [id])
+  itemName     String
+  category     String
+  sizeEu       String?
+  budget       Decimal? @db.Decimal(10, 2)
+  notes        String?  @db.NVarChar(Max)
+  contactName  String
+  contactEmail String
+  contactPhone String?
+  status       String   @default("new")
+  createdAt    DateTime @default(now())
 }
