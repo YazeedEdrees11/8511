@@ -4,7 +4,18 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import https from "node:https";
-import { ProductSchema, type Product } from "../lib/catalog";
+import { z } from "zod";
+
+const ProductSchema = z.object({
+  slug: z.string(),
+  name: z.string(),
+  brand: z.enum(["nike", "adidas", "supreme", "hats"]),
+  price: z.string().optional(),
+  image_url: z.string(),
+  source_url: z.string(),
+  description: z.string(),
+});
+type Product = z.infer<typeof ProductSchema>;
 
 const BRANDS = ["nike", "adidas", "supreme", "caps"] as const;
 const BRAND_TO_KEY: Record<(typeof BRANDS)[number], Product["brand"]> = {

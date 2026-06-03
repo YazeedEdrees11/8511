@@ -44,6 +44,12 @@ export default function Footer() {
         >
           ASK 8511
         </Link>
+        <Link
+          href="/admin"
+          className="font-label uppercase tracking-[0.2em] text-xs text-on-surface/40 hover:text-primary hover:underline decoration-1 underline-offset-4 transition-all"
+        >
+          ADMIN PANEL
+        </Link>
       </div>
       <div className="flex flex-col gap-4 w-full md:w-1/3">
         <p className="font-label uppercase tracking-[0.2em] text-xs text-on-surface/60">INQUIRIES</p>
