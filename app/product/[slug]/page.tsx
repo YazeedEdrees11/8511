@@ -136,7 +136,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
             />
             <Link
               href={`/chat?q=${encodeURIComponent(`Tell me about ${p.name}`)}`}
-              className="flex-1 h-14 border border-[#0A0A0A] text-[#0A0A0A] font-label uppercase tracking-wider text-xs hover:text-[#FF3B00] hover:border-[#FF3B00] transition-colors rounded-sm flex items-center justify-center"
+              className="flex-1 h-14 border border-[#0A0A0A] text-[#0A0A0A] font-label uppercase tracking-wider text-xs hover:text-primary hover:border-primary transition-colors rounded-sm flex items-center justify-center"
             >
               ASK ABOUT THIS PAIR
             </Link>
@@ -206,7 +206,7 @@ export default async function PDP({ params }: { params: Promise<{ slug: string }
                     className="object-contain p-6 transform group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <h3 className="font-display text-xl font-bold uppercase tracking-tight mb-1 group-hover:text-[#FF3B00] transition-colors">
+                <h3 className="font-display text-xl font-bold uppercase tracking-tight mb-1 group-hover:text-primary transition-colors">
                   {r.name.toUpperCase()}
                 </h3>
                 {r.basePrice && <p className="font-body text-sm text-[#0A0A0A]/70">{r.basePrice.toString()} JOD</p>}

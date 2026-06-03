@@ -46,7 +46,7 @@ export default function Services() {
           {services.map(s => (
             <div
               key={s.id}
-              className="group border border-[#0A0A0A]/20 bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-[#FF3B00] transition-colors duration-300"
+              className="group border border-[#0A0A0A]/20 bg-[#F7F7F4] p-8 min-h-[360px] flex flex-col hover:border-primary transition-colors duration-300"
             >
               <div className="w-full aspect-[4/5] mb-6 overflow-hidden bg-gray-100 relative">
                 <Image
@@ -63,7 +63,7 @@ export default function Services() {
                 </h3>
                 <p className="font-body text-[13px] text-[#0A0A0A]/70 leading-normal">{s.text}</p>
               </div>
-              <span className="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-[#FF3B00] transition-colors duration-300">
+              <span className="material-symbols-outlined text-sm self-end mt-6 text-[#0A0A0A]/30 group-hover:text-primary transition-colors duration-300">
                 arrow_forward
               </span>
             </div>
@@ -82,7 +82,7 @@ export default function Services() {
         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
           <Link
             href="/chat"
-            className="border border-[#F7F7F4] text-[#F7F7F4] bg-transparent hover:border-[#FF3B00] hover:text-[#FF3B00] transition-colors duration-300 font-label tracking-widest uppercase text-xs px-8 py-4 w-full sm:w-auto text-center"
+            className="border border-[#F7F7F4] text-[#F7F7F4] bg-transparent hover:border-primary hover:text-primary transition-colors duration-300 font-label tracking-widest uppercase text-xs px-8 py-4 w-full sm:w-auto text-center"
           >
             ASK 8511
           </Link>
@@ -90,7 +90,7 @@ export default function Services() {
             href="https://maps.google.com/?cid=15121294295697539889"
             target="_blank"
             rel="noreferrer"
-            className="bg-[#FF3B00] text-[#F7F7F4] border border-[#FF3B00] hover:bg-[#FF3B00]/90 transition-colors duration-300 font-label tracking-widest uppercase text-xs px-8 py-4 w-full sm:w-auto text-center"
+            className="bg-primary text-[#0A0A0A] border border-primary hover:bg-primary/90 transition-colors duration-300 font-label tracking-widest uppercase text-xs px-8 py-4 w-full sm:w-auto text-center"
           >
             VISIT STORE
           </a>

@@ -24,7 +24,7 @@ export default function AddToCartButton({
           setBusy(false);
         }
       }}
-      className="flex-1 h-14 bg-[#0A0A0A] text-[#F7F7F4] font-label uppercase tracking-wider text-xs hover:bg-[#FF3B00] transition-colors rounded-sm flex items-center justify-center disabled:opacity-50"
+      className="flex-1 h-14 bg-[#0A0A0A] text-[#F7F7F4] font-label uppercase tracking-wider text-xs hover:bg-primary hover:text-[#0A0A0A] transition-colors rounded-sm flex items-center justify-center disabled:opacity-50"
     >
       {busy ? "ADDING…" : "ADD TO CART"}
     </button>

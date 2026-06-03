@@ -106,7 +106,7 @@ export default function ChatPanel({
     <>
       {/* LIVE tag */}
       <div className="absolute top-4 left-4 z-10 flex items-center gap-2 font-label text-[10px] tracking-widest uppercase bg-[#F7F7F4] border border-[#0A0A0A]/10 px-2 py-1 rounded-[2px]">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B00]" /> LIVE
+        <span className="w-1.5 h-1.5 rounded-full bg-primary" /> LIVE
       </div>
 
       {/* Convo */}
@@ -147,7 +147,7 @@ export default function ChatPanel({
                 type="button"
                 onClick={() => send(s)}
                 disabled={busy}
-                className="font-label text-[10px] tracking-widest uppercase border border-[#0A0A0A]/20 px-3 py-1.5 rounded-[2px] hover:border-[#0A0A0A] hover:text-[#FF3B00] transition-colors bg-white disabled:opacity-40"
+                className="font-label text-[10px] tracking-widest uppercase border border-[#0A0A0A]/20 px-3 py-1.5 rounded-[2px] hover:border-[#0A0A0A] hover:text-primary transition-colors bg-white disabled:opacity-40"
               >
                 {s}
               </button>
@@ -173,7 +173,7 @@ export default function ChatPanel({
           />
           <button
             disabled={busy || !input.trim()}
-            className="bg-[#0A0A0A] text-[#F7F7F4] font-label text-xs tracking-wider uppercase px-6 py-3 rounded-[4px] hover:bg-[#FF3B00] transition-colors flex items-center gap-2 disabled:opacity-40"
+            className="bg-[#0A0A0A] text-[#F7F7F4] font-label text-xs tracking-wider uppercase px-6 py-3 rounded-[4px] hover:bg-primary hover:text-[#0A0A0A] transition-colors flex items-center gap-2 disabled:opacity-40"
           >
             SEND <span className="material-symbols-outlined text-[16px]">arrow_upward</span>
           </button>

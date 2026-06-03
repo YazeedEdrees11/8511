@@ -71,7 +71,7 @@ function CartItemRow({
             <span className="font-label text-sm">{lineTotal.toFixed(2)} JOD</span>
             <button
               onClick={() => cart.removeItem(item.id)}
-              className="block mt-1 font-label text-[10px] text-[#0A0A0A]/40 uppercase tracking-widest hover:text-[#FF3B00] transition-colors ml-auto"
+              className="block mt-1 font-label text-[10px] text-[#0A0A0A]/40 uppercase tracking-widest hover:text-primary transition-colors ml-auto"
             >
               REMOVE
             </button>
@@ -122,7 +122,7 @@ export default function CartDrawer() {
           </div>
           <button
             onClick={cart.close}
-            className="w-8 h-8 border border-[#0A0A0A] flex items-center justify-center hover:bg-[#FF3B00] hover:text-[#F7F7F4] hover:border-[#FF3B00] transition-colors duration-200"
+            className="w-8 h-8 border border-[#0A0A0A] flex items-center justify-center hover:bg-primary hover:text-[#0A0A0A] hover:border-primary transition-colors duration-200"
             aria-label="Close cart"
           >
             <span className="material-symbols-outlined text-lg">close</span>
@@ -158,7 +158,7 @@ export default function CartDrawer() {
             </div>
             <button
               type="button"
-              className="w-full h-14 bg-[#0A0A0A] text-[#F7F7F4] font-label tracking-widest uppercase text-sm hover:bg-[#FF3B00] transition-all duration-300"
+              className="w-full h-14 bg-[#0A0A0A] text-[#F7F7F4] font-label tracking-widest uppercase text-sm hover:bg-primary hover:text-[#0A0A0A] transition-all duration-300"
             >
               CHECKOUT
             </button>

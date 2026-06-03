@@ -47,7 +47,7 @@ export default function ProductCard({ slug }: { slug: string }) {
       <div className="font-display font-bold text-sm uppercase leading-tight mb-2">{p.name}</div>
       <div className="flex justify-between items-end">
         <div className="font-body text-xs">{p.price ?? ""}</div>
-        <div className="font-label text-[10px] tracking-widest text-[#FF3B00] opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="font-label text-[10px] tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity">
           VIEW →
         </div>
       </div>

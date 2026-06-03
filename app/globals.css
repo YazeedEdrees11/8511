@@ -5,11 +5,11 @@
   /* 8511 palette — both naming conventions exposed */
   --color-paper: #F7F7F4;
   --color-ink: #0A0A0A;
-  --color-accent: #FF3B00;
+  --color-accent: #c8ff00;
 
   --color-surface: #F7F7F4;
   --color-on-surface: #0A0A0A;
-  --color-primary: #FF3B00;
+  --color-primary: #c8ff00;
 
   --color-muted: #6b6b6b;
   --color-line: #1f1f1f;
