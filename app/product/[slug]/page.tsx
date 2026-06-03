@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { getProductBySlug, loadProducts } from "@/lib/catalog";
 import AddToCartButton from "@/components/cart/AddToCartButton";
 
+export const dynamic = "force-dynamic";
+
 const BRAND_LABEL: Record<string, string> = {
   nike: "NIKE",
   adidas: "ADIDAS",

@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { loadProducts } from "@/lib/catalog";
 
+export const dynamic = "force-dynamic";
+
 function formatPrice(p: { basePrice: { toString(): string } | null }) {
   return p.basePrice ? `${p.basePrice.toString()} JOD` : null;
 }

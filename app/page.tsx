@@ -3,6 +3,8 @@ import Image from "next/image";
 import { loadProducts, loadKB } from "@/lib/catalog";
 import BrandMarquee from "@/components/layout/BrandMarquee";
 
+export const dynamic = "force-dynamic";
+
 function formatPrice(p: { basePrice: { toString(): string } | null }) {
   return p.basePrice ? `${p.basePrice.toString()} JOD` : null;
 }
