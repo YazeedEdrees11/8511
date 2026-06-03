@@ -25,6 +25,7 @@ export default function Header() {
   async function logout() {
     await signOut(auth);
     await fetch("/api/auth/session", { method: "DELETE" });
+    await fetch("/api/cart", { method: "DELETE" });
     setDisplayName(null);
     window.location.href = "/";
   }

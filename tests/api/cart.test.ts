@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterEach, afterAll } from "vitest";
 import { prisma } from "@/lib/db";
-import { POST, GET } from "@/app/api/cart/route";
+import { POST, GET, DELETE as CLEAR_CART } from "@/app/api/cart/route";
 import { DELETE, PATCH } from "@/app/api/cart/[id]/route";
 
 async function postJson(url: string, body: unknown, cookie?: string) {
@@ -105,6 +105,16 @@ describe("cart api", () => {
     const itemId = items[0].id;
     const delRes = await DELETE(new Request(`http://test/api/cart/${itemId}`, { method: "DELETE", headers: { cookie } }), { params: Promise.resolve({ id: String(itemId) }) });
     expect(delRes.status).toBe(200);
+    const after = await (await GET(await getReq("http://test/api/cart", cookie))).json();
+    expect(after.items).toHaveLength(0);
+  });
+
+  it("DELETE /api/cart empties the whole guest cart and expires the cart_sid cookie", async () => {
+    const postRes = await POST(await postJson("http://test/api/cart", { productId, variantId, quantity: 2 }));
+    const cookie = postRes.headers.get("set-cookie")!.split(";")[0];
+    const clearRes = await CLEAR_CART(new Request("http://test/api/cart", { method: "DELETE", headers: { cookie } }));
+    expect(clearRes.status).toBe(200);
+    expect(clearRes.headers.get("set-cookie") ?? "").toMatch(/cart_sid=;.*Max-Age=0/i);
     const after = await (await GET(await getReq("http://test/api/cart", cookie))).json();
     expect(after.items).toHaveLength(0);
   });
