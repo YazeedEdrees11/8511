@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { deleteProduct } from "@/app/actions/admin";
 
 interface ProductVariant {
@@ -20,7 +21,7 @@ interface Product {
     name: string;
     slug: string;
   };
-  basePrice: any; // Decimal
+  basePrice: number | null;
   variants: ProductVariant[];
   imageUrl: string;
 }
@@ -31,17 +32,12 @@ interface ProductsClientProps {
 }
 
 export default function ProductsClient({ initialProducts, brands }: ProductsClientProps) {
+  const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>(initialProducts);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(searchParams.get("q") || "");
   const [brandFilter, setBrandFilter] = useState("");
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
-
-  // Statistics
-  const totalProducts = products.length;
-  const outOfStockCount = products.filter(p => p.variants.every(v => v.stock === 0)).length;
-  const lowStockCount = products.filter(p => p.variants.some(v => v.stock > 0 && v.stock <= 2)).length;
-  const totalStock = products.reduce((sum, p) => sum + p.variants.reduce((s, v) => s + v.stock, 0), 0);
 
   // Filtering
   const filteredProducts = products.filter(p => {
@@ -70,159 +66,175 @@ export default function ProductsClient({ initialProducts, brands }: ProductsClie
   }
 
   return (
-    <div className="p-6 md:p-10 space-y-8 flex-grow">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <span className="font-label text-[10px] tracking-widest text-[#0A0A0A]/60 uppercase">BACKOFFICE</span>
-          <h1 className="font-display text-5xl uppercase tracking-tighter mt-1">PRODUCT CATALOG</h1>
+    <div className="p-8 md:p-12 flex-grow flex flex-col gap-8 bg-[#F9F9F9]">
+      {/* Page Header Title & Action */}
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <h1 className="font-display text-6xl md:text-7xl font-black uppercase tracking-tighter text-[#0A0A0A] leading-[0.85] flex flex-col">
+          <span>PRODUCT</span>
+          <span>MANAGEMENT</span>
+        </h1>
+
+        <div className="flex items-center gap-4">
+          {/* Search bar inside header row */}
+          <div className="relative w-64 md:w-80">
+            <span className="material-symbols-outlined absolute left-3.5 top-3.5 text-[#999999] text-[18px]">
+              search
+            </span>
+            <input
+              type="text"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search products, SKUs..."
+              className="w-full bg-white border border-[#E5E5E5] pl-10 pr-4 py-3 text-xs focus:border-[#0A0A0A] focus:outline-none transition-colors rounded-none text-[#0A0A0A]"
+            />
+          </div>
+
+          <Link
+            href="/products/new"
+            className="bg-[#0A0A0A] text-white hover:bg-[#222222] font-label text-xs tracking-wider uppercase px-6 py-3.5 transition-all rounded-none flex items-center justify-center gap-2"
+          >
+            <span className="material-symbols-outlined text-[16px]">add</span>
+            ADD NEW PRODUCT
+          </Link>
         </div>
-        <Link
-          href="/products/new"
-          className="bg-[#0A0A0A] text-[#F7F7F4] hover:bg-primary hover:text-[#0A0A0A] font-label text-xs tracking-widest uppercase px-6 py-4 transition-all rounded-sm flex items-center justify-center gap-2 self-start sm:self-auto"
+      </div>
+
+      {/* Brand Filter Pill Bar */}
+      <div className="flex flex-wrap gap-2 items-center bg-white p-4 border border-[#E5E5E5]">
+        <span className="font-label text-[10px] tracking-[0.1em] uppercase font-semibold text-[#888888] mr-2">
+          Filter Brand:
+        </span>
+        <button
+          onClick={() => setBrandFilter("")}
+          className={`font-label text-[10px] tracking-wider uppercase px-3 py-1.5 transition-colors font-semibold ${
+            brandFilter === "" 
+              ? "bg-[#0A0A0A] text-white" 
+              : "bg-[#FAFAFA] border border-[#E5E5E5] text-[#555555] hover:bg-[#FAFAFA]"
+          }`}
         >
-          <span className="material-symbols-outlined text-[16px]">add</span> ADD NEW PRODUCT
-        </Link>
+          All
+        </button>
+        {brands.map(b => (
+          <button
+            key={b.id}
+            onClick={() => setBrandFilter(b.slug)}
+            className={`font-label text-[10px] tracking-wider uppercase px-3 py-1.5 transition-colors font-semibold ${
+              brandFilter === b.slug 
+                ? "bg-[#0A0A0A] text-white" 
+                : "bg-[#FAFAFA] border border-[#E5E5E5] text-[#555555] hover:bg-[#FAFAFA]"
+            }`}
+          >
+            {b.name}
+          </button>
+        ))}
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-[#F7F7F4]/5">
-          <span className="font-label text-[9px] tracking-widest uppercase text-[#F7F7F4]/50">TOTAL PRODUCTS</span>
-          <div className="font-display text-4xl mt-2">{totalProducts}</div>
-        </div>
-
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-[#F7F7F4]/5">
-          <span className="font-label text-[9px] tracking-widest uppercase text-[#F7F7F4]/50">TOTAL STOCK</span>
-          <div className="font-display text-4xl mt-2">{totalStock} UNITS</div>
-        </div>
-
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-[#F7F7F4]/5">
-          <span className="font-label text-[9px] tracking-widest uppercase text-[#F7F7F4]/50">OUT OF STOCK</span>
-          <div className="font-display text-4xl mt-2 text-red-500">{outOfStockCount}</div>
-        </div>
-
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-primary/20">
-          <span className="font-label text-[9px] tracking-widest uppercase text-primary">LOW STOCK ALERTS</span>
-          <div className="font-display text-4xl mt-2 text-primary">{lowStockCount}</div>
-        </div>
-      </div>
-
-      {/* Filters Bar */}
-      <div className="flex flex-col sm:flex-row gap-4 bg-white p-4 border border-[#0A0A0A]/10 rounded-sm">
-        <div className="flex-grow relative">
-          <span className="material-symbols-outlined absolute left-3 top-3.5 text-[#0A0A0A]/40 text-lg">search</span>
-          <input
-            type="text"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search products by name or slug..."
-            className="w-full bg-[#F7F7F4] border border-[#0A0A0A]/10 pl-10 pr-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A]"
-          />
-        </div>
-        <select
-          value={brandFilter}
-          onChange={e => setBrandFilter(e.target.value)}
-          className="bg-[#F7F7F4] border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A] min-w-[180px] font-label uppercase tracking-wider text-xs"
-        >
-          <option value="">ALL BRANDS</option>
-          {brands.map(b => (
-            <option key={b.id} value={b.slug}>
-              {b.name.toUpperCase()}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Products Table */}
-      <div className="bg-white border border-[#0A0A0A]/10 rounded-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+      {/* Products Table Card */}
+      <div className="bg-white border border-[#E5E5E5] rounded-none overflow-hidden flex-1 flex flex-col">
+        <div className="overflow-x-auto flex-1">
+          <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
-              <tr className="bg-[#0A0A0A] text-[#F7F7F4] font-label text-[10px] tracking-widest uppercase">
-                <th className="px-6 py-4">IMAGE</th>
-                <th className="px-6 py-4">BRAND & NAME</th>
-                <th className="px-6 py-4">SLUG</th>
-                <th className="px-6 py-4">PRICE</th>
-                <th className="px-6 py-4">VARIANTS & STOCK</th>
-                <th className="px-6 py-4 text-right">ACTIONS</th>
+              <tr className="bg-white border-b border-[#E5E5E5] font-label text-[10px] tracking-[0.15em] uppercase text-[#888888] font-bold">
+                <th className="px-8 py-5 w-[120px]">IMAGE</th>
+                <th className="px-8 py-5">PRODUCT NAME</th>
+                <th className="px-8 py-5">BRAND</th>
+                <th className="px-8 py-5">CATEGORY</th>
+                <th className="px-8 py-5">PRICE</th>
+                <th className="px-8 py-5 text-right">ACTIONS</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#0A0A0A]/10">
+            <tbody className="divide-y divide-[#E5E5E5]">
               {filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-[#0A0A0A]/50 font-body text-sm">
+                  <td colSpan={6} className="px-8 py-16 text-center text-[#999999] font-body text-sm">
                     No products found.
                   </td>
                 </tr>
               ) : (
                 filteredProducts.map(p => (
-                  <tr key={p.id} className="hover:bg-[#F7F7F4]/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="w-14 h-14 bg-[#F7F7F4] border border-[#0A0A0A]/5 relative rounded-sm overflow-hidden flex items-center justify-center p-1">
+                  <tr key={p.id} className="hover:bg-[#FAFAFA] transition-colors">
+                    {/* Image Column */}
+                    <td className="px-8 py-4">
+                      <div className="w-[72px] h-[72px] bg-white border border-[#E5E5E5] relative overflow-hidden flex items-center justify-center p-1">
                         <Image
                           src={p.imageUrl || "/images/products/placeholder.jpg"}
                           alt={p.name}
                           fill
-                          className="object-contain"
-                          sizes="56px"
+                          className="object-contain p-1"
+                          sizes="72px"
                         />
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="font-label text-[9px] tracking-widest text-[#0A0A0A]/60 uppercase block">
-                        {p.brand.name}
-                      </span>
-                      <span className="font-display text-lg uppercase tracking-tight text-[#0A0A0A]">
-                        {p.name}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 font-mono text-xs text-[#0A0A0A]/70">
-                      {p.slug}
-                    </td>
-                    <td className="px-6 py-4 font-body text-sm font-semibold">
-                      {p.basePrice ? `${Number(p.basePrice).toFixed(2)} JOD` : "—"}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-wrap gap-1.5 max-w-xs">
-                        {p.variants.map(v => {
-                          let stockCls = "bg-[#0A0A0A]/5 text-[#0A0A0A]/80 border-[#0A0A0A]/10";
-                          if (v.stock === 0) stockCls = "bg-red-500/10 text-red-600 border-red-500/20";
-                          else if (v.stock <= 2) stockCls = "bg-amber-500/10 text-amber-700 border-amber-500/20";
 
-                          return (
-                            <span
-                              key={v.id}
-                              className={`font-mono text-[10px] px-2 py-0.5 border rounded-[2px] flex items-center gap-1 ${stockCls}`}
+                    {/* Product Name & Variants Stock Summary */}
+                    <td className="px-8 py-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="font-display text-[15px] font-bold text-[#0A0A0A] hover:text-[#c8ff00] transition-colors block">
+                          {p.name}
+                        </span>
+                        <div className="flex flex-wrap gap-1 mt-0.5">
+                          {p.variants.map(v => (
+                            <span 
+                              key={v.id} 
+                              className={`font-mono text-[9px] px-1.5 py-0.5 border ${
+                                v.stock === 0 
+                                  ? "bg-red-50 border-red-200 text-red-600" 
+                                  : v.stock <= 2
+                                    ? "bg-amber-50 border-amber-200 text-amber-700"
+                                    : "bg-[#FAFAFA] border-[#E5E5E5] text-[#555555]"
+                              }`}
                             >
-                              <span>{v.sizeEu}</span>
-                              <span className="opacity-50">|</span>
-                              <span className="font-bold">{v.stock}</span>
+                              {v.sizeEu} ({v.stock})
                             </span>
-                          );
-                        })}
+                          ))}
+                        </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-right">
+
+                    {/* Brand Badge */}
+                    <td className="px-8 py-4">
+                      <span className="inline-block bg-[#0A0A0A] text-white text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                        {p.brand.name}
+                      </span>
+                    </td>
+
+                    {/* Category */}
+                    <td className="px-8 py-4 font-label text-[13px] text-[#555555]">
+                      {p.slug.includes("hoodie") || p.slug.includes("cap") || p.slug.includes("tee")
+                        ? "Apparel" 
+                        : p.slug.includes("crossbody") || p.slug.includes("bag")
+                          ? "Accessories"
+                          : "Footwear"}
+                    </td>
+
+                    {/* Price */}
+                    <td className="px-8 py-4 font-display text-[15px] font-black text-[#0A0A0A]">
+                      {p.basePrice ? `$${Number(p.basePrice).toFixed(2)}` : "—"}
+                    </td>
+
+                    {/* Action buttons */}
+                    <td className="px-8 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/products/${p.id}/edit`}
-                          className="border border-[#0A0A0A]/10 bg-white hover:border-[#0A0A0A] px-3.5 py-2 font-label text-[10px] tracking-widest uppercase transition-colors rounded-sm flex items-center gap-1"
+                          className="border border-[#E5E5E5] hover:border-[#0A0A0A] bg-white text-[#0A0A0A] px-3.5 py-2 font-label text-[10px] tracking-wider uppercase transition-colors rounded-none flex items-center gap-1 font-semibold"
                         >
-                          <span className="material-symbols-outlined text-[13px]">edit</span> EDIT
+                          <span className="material-symbols-outlined text-[14px]">edit</span>
+                          EDIT
                         </Link>
+
                         {deletingId === p.id ? (
                           <div className="flex items-center gap-1">
                             <button
                               onClick={() => handleDelete(p.id)}
                               disabled={busy}
-                              className="bg-red-600 text-white hover:bg-red-700 px-3.5 py-2 font-label text-[10px] tracking-widest uppercase rounded-sm disabled:opacity-50"
+                              className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 font-label text-[10px] tracking-wider uppercase rounded-none font-semibold disabled:opacity-50"
                             >
                               CONFIRM
                             </button>
                             <button
                               onClick={() => setDeletingId(null)}
-                              className="border border-[#0A0A0A]/10 hover:bg-[#0A0A0A]/5 px-3.5 py-2 font-label text-[10px] tracking-widest uppercase rounded-sm"
+                              className="border border-[#E5E5E5] hover:bg-gray-50 text-[#555555] px-3 py-2 font-label text-[10px] tracking-wider uppercase rounded-none"
                             >
                               CANCEL
                             </button>
@@ -230,9 +242,10 @@ export default function ProductsClient({ initialProducts, brands }: ProductsClie
                         ) : (
                           <button
                             onClick={() => setDeletingId(p.id)}
-                            className="border border-red-500/20 bg-white hover:bg-red-500/10 hover:border-red-500 text-red-600 px-3.5 py-2 font-label text-[10px] tracking-widest uppercase transition-colors rounded-sm flex items-center gap-1"
+                            className="border border-[#E5E5E5] hover:border-red-600 text-red-600 hover:bg-red-50 px-3.5 py-2 font-label text-[10px] tracking-wider uppercase transition-colors rounded-none flex items-center gap-1 font-semibold"
                           >
-                            <span className="material-symbols-outlined text-[13px]">delete</span> DELETE
+                            <span className="material-symbols-outlined text-[14px]">delete</span>
+                            DELETE
                           </button>
                         )}
                       </div>
@@ -242,6 +255,25 @@ export default function ProductsClient({ initialProducts, brands }: ProductsClie
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Table Footer Pagination Info */}
+        <div className="border-t border-[#E5E5E5] px-8 py-4 bg-white flex flex-col sm:flex-row items-center justify-between gap-4 font-label text-xs">
+          <span className="text-[#888888]">
+            Showing 1 to {filteredProducts.length} of {filteredProducts.length} results
+          </span>
+
+          <div className="flex items-center gap-1">
+            <button className="border border-[#E5E5E5] text-[#888888] px-3 py-1.5 rounded-none font-semibold cursor-not-allowed hover:bg-white transition-all">
+              &lt;
+            </button>
+            <button className="bg-[#0A0A0A] text-white px-3 py-1.5 rounded-none font-semibold">
+              1
+            </button>
+            <button className="border border-[#E5E5E5] text-[#888888] px-3 py-1.5 rounded-none font-semibold cursor-not-allowed hover:bg-white transition-all">
+              &gt;
+            </button>
+          </div>
         </div>
       </div>
     </div>

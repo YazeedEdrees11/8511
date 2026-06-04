@@ -20,89 +20,150 @@ export default async function Home() {
   const products = await loadProducts();
   const featured = products.slice(0, 3);
   const services = loadKB().filter(c => c.type === "service").slice(0, 4);
-  const heroProduct = products[0];
-
   return (
     <main className="flex-grow">
       {/* HERO */}
-      <section className="w-full grid grid-cols-1 lg:grid-cols-2 relative border-b border-on-surface/15 pb-16 lg:pb-24">
-        <div className="flex flex-col justify-center px-6 md:px-10 lg:px-20 py-16 lg:py-24">
-          <p className="font-label text-xs uppercase tracking-[0.3em] text-on-surface/60 mb-6">
+      <section className="relative h-[calc(100vh-90px)] overflow-hidden border-b border-on-surface/15 bg-white grid grid-cols-1 md:grid-cols-[42%_58%]">
+        {/* LEFT — Text content on solid white */}
+        <div className="relative z-10 flex flex-col justify-center bg-white px-6 py-10 md:px-10 lg:pl-20 lg:pr-12">
+          <p className="font-label text-[10px] uppercase tracking-[0.42em] text-on-surface/50 mb-5">
             EST. 2021 — AMMAN
           </p>
-          <h1 className="font-headline text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-[0.85] mb-8 text-on-surface">
+          <h1 className="font-headline text-[64px] sm:text-[80px] md:text-[96px] lg:text-[110px] xl:text-[120px] font-black uppercase tracking-normal leading-[0.82] mb-8 text-on-surface">
             EIGHTY<br />FIVE<br />ELEVEN
           </h1>
-          <p className="font-body text-lg md:text-xl text-on-surface/80 max-w-md mb-12 leading-relaxed">
-            Advocates of the sneaker streetwear culture. High-fashion editorial meets street culture in the heart of Jordan.
+          <p className="font-body text-[15px] md:text-[16px] lg:text-[17px] text-on-surface/75 max-w-[380px] mb-10 leading-[1.65]">
+            Advocates of the sneaker streetwear culture.
+            High-fashion editorial meets street culture in
+            the heart of Jordan.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href="/shop"
-              className="inline-flex items-center justify-center bg-on-surface text-surface font-label text-xs uppercase tracking-widest px-8 py-4 hover:bg-primary transition-colors duration-300 rounded max-w-max"
+              className="inline-flex h-[52px] min-w-[180px] items-center justify-center bg-on-surface text-surface font-label text-[11px] uppercase tracking-[0.18em] px-7 hover:bg-primary hover:text-on-surface transition-colors duration-300 rounded-[4px] max-w-max font-bold"
             >
-              SHOP NOW <span className="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+              SHOP NOW <span className="material-symbols-outlined ml-4 text-[22px]">arrow_forward</span>
             </Link>
             <Link
               href="/chat"
-              className="inline-flex items-center justify-center border border-on-surface text-on-surface font-label text-xs uppercase tracking-widest px-8 py-4 hover:border-primary hover:text-primary transition-colors duration-300 rounded max-w-max"
+              className="inline-flex h-[52px] min-w-[220px] items-center justify-center border border-on-surface text-on-surface bg-white/55 font-label text-[11px] uppercase tracking-[0.18em] px-7 hover:border-primary hover:text-on-surface hover:bg-primary transition-colors duration-300 rounded-[4px] max-w-max font-semibold backdrop-blur-[1px]"
             >
               ASK THE ASSISTANT
             </Link>
           </div>
         </div>
-        <div className="relative flex items-center justify-center self-center w-full">
+
+        {/* RIGHT — Sneaker image */}
+        <div className="relative hidden md:block">
           <Image
             src="/hero.png"
             alt="Featured sneaker"
-            width={400}
-            height={533}
+            fill
             priority
-            className="w-full max-w-[400px] object-contain hover:scale-105 transition-transform duration-700 ease-out"
+            sizes="58vw"
+            className="object-cover object-[center_center]"
+          />
+          {/* Gradient fade on left edge of image to blend into white */}
+          <div className="absolute inset-y-0 left-0 w-[120px] bg-[linear-gradient(90deg,#ffffff_0%,rgba(255,255,255,0.6)_40%,rgba(255,255,255,0)_100%)]" />
+        </div>
+
+        {/* Mobile fallback — show image below text */}
+        <div className="relative h-[300px] md:hidden">
+          <Image
+            src="/hero.png"
+            alt="Featured sneaker"
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
           />
         </div>
       </section>
 
-      {/* MARQUEE */}
-      <div className="relative w-full h-[140px] bg-surface border-y border-on-surface/15 overflow-hidden flex items-center">
-        <div className="absolute left-0 top-0 bottom-0 w-32 z-10 marquee-fade-left" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 z-10 marquee-fade-right" />
+      {/* BRAND TICKER */}
+      <div className="relative w-full h-[90px] bg-[#0A0A0A] border-y border-on-surface/10 overflow-hidden flex items-center">
+        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-[linear-gradient(to_right,#0A0A0A,transparent)]" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-[linear-gradient(to_left,#0A0A0A,transparent)]" />
         <BrandMarquee />
       </div>
 
       {/* FEATURED DROPS */}
-      <section className="px-6 md:px-10 lg:px-20 py-24 bg-surface">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <h2 className="font-headline text-5xl md:text-7xl font-black uppercase tracking-tighter text-on-surface leading-none">
-            FEATURED<br />DROPS
-          </h2>
+      <section className="px-6 md:px-10 lg:px-20 py-28 bg-surface">
+        {/* Section header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
+          <div>
+            <p className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface/40 mb-3">
+              LATEST ARRIVALS
+            </p>
+            <h2 className="font-headline text-5xl md:text-7xl font-black uppercase tracking-tighter text-on-surface leading-none">
+              FEATURED DROPS
+            </h2>
+          </div>
           <Link
             href="/shop"
-            className="font-label text-xs uppercase tracking-[0.2em] text-on-surface hover:text-primary transition-colors underline underline-offset-4 decoration-1"
+            className="inline-flex items-center gap-2 font-label text-[11px] uppercase tracking-[0.2em] text-on-surface/70 hover:text-on-surface transition-colors group"
           >
             VIEW ALL RELEASES
+            <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-          {featured.map(p => (
-            <Link key={p.slug} href={`/product/${p.slug}`} className="group cursor-pointer">
-              <div className="aspect-square bg-white border border-on-surface/10 p-8 mb-6 relative overflow-hidden flex items-center justify-center transition-colors group-hover:border-primary">
+        {/* Thin rule */}
+        <div className="w-full h-px bg-on-surface/10 mb-14" />
+
+        {/* Product grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 md:gap-9">
+          {featured.map((p, i) => (
+            <Link
+              key={p.slug}
+              href={`/product/${p.slug}`}
+              className="group relative flex flex-col bg-white rounded-2xl overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)] hover:-translate-y-1.5 transition-all duration-500 ease-out"
+            >
+              {/* Accent line — reveals on hover */}
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-20" />
+
+              {/* Image area */}
+              <div className="relative aspect-square bg-white overflow-hidden">
+                {/* Brand badge — frosted glass */}
+                <span className="absolute top-4 right-4 z-10 font-label text-[9px] uppercase tracking-[0.18em] bg-white/90 backdrop-blur-md text-on-surface/85 px-3.5 py-1.5 rounded-full font-semibold border border-on-surface/[0.08]">
+                  {p.brand.name}
+                </span>
+
+                {/* Product image */}
                 <Image
                   src={p.imageUrl}
                   alt={p.name}
                   fill
-                  className="object-contain p-8 group-hover:scale-105 transition-transform duration-500"
+                  className="object-contain p-6 group-hover:scale-[1.05] transition-transform duration-700 ease-out"
                 />
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="material-symbols-outlined text-primary">arrow_outward</span>
+
+                {/* Quick View button — slides up on hover */}
+                <div className="absolute bottom-0 inset-x-0 flex justify-center pb-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-10">
+                  <span className="inline-flex items-center gap-2 bg-on-surface text-surface font-label text-[10px] uppercase tracking-[0.18em] px-6 py-2.5 rounded-full font-semibold shadow-lg">
+                    QUICK VIEW
+                    <span className="material-symbols-outlined text-[14px]">arrow_outward</span>
+                  </span>
                 </div>
+
+                {/* Hover dim overlay */}
+                <div className="absolute inset-0 bg-black/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               </div>
-              <h3 className="font-headline text-xl md:text-2xl font-bold uppercase tracking-tight text-on-surface mb-2">
-                {p.name}
-              </h3>
-              <p className="font-label text-sm text-on-surface/60 tracking-widest">
-                {formatPrice(p) ?? BRAND_LABEL[p.brand.slug]}
-              </p>
+
+              {/* Product info */}
+              <div className="flex flex-col gap-2 px-5 py-5">
+                <p className="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface/40">
+                  {p.brand.name}
+                </p>
+                <h3 className="font-headline text-lg md:text-xl font-bold uppercase tracking-tight text-on-surface leading-snug line-clamp-2">
+                  {p.name}
+                </h3>
+                {formatPrice(p) && (
+                  <div className="flex items-center gap-2.5 mt-1">
+                    <span className="w-[3px] h-4 bg-primary rounded-full" />
+                    <p className="font-label text-[14px] font-bold text-on-surface tracking-wide">
+                      {formatPrice(p)}
+                    </p>
+                  </div>
+                )}
+              </div>
             </Link>
           ))}
         </div>

@@ -18,12 +18,14 @@ export class GeminiMultimodalEmbeddings extends Embeddings {
     this.client = opts.client ?? new GoogleGenAI({ apiKey: opts.apiKey ?? process.env.GEMINI_API_KEY! });
   }
 
-  private async embedOne(part: any): Promise<number[]> {
+  private async embedOne(part: { text?: string; inlineData?: { mimeType: string; data: string } }): Promise<number[]> {
     const r = await this.client.models.embedContent({
       model: this.model,
       contents: [{ parts: [part] }],
-    } as any);
-    const values = (r as any).embeddings?.[0]?.values;
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const responseObj: any = r;
+    const values = responseObj.embeddings?.[0]?.values;
     if (!values) throw new Error("Gemini returned no embedding");
     return values;
   }

@@ -37,7 +37,7 @@ You: A few more Jordans in the case.
 
 export function formatContext(docs: Document[]): string {
   return docs.map((d, i) => {
-    const m = d.metadata as Record<string, any>;
+    const m = d.metadata as Record<string, unknown>;
     if (m.kind === "product") {
       return `[${i + 1}] PRODUCT slug=${m.slug} brand=${m.brand} name="${m.name}" price="${m.price ?? ""}"\n${d.pageContent}`;
     }
@@ -49,7 +49,7 @@ function dedupeBySlug(docs: Document[], k: number): Document[] {
   const seen = new Set<string>();
   const out: Document[] = [];
   for (const d of docs) {
-    const id = (d.metadata as any).slug ?? (d.metadata as any).id ?? Math.random().toString();
+    const id = ((d.metadata as Record<string, unknown>).slug as string) ?? ((d.metadata as Record<string, unknown>).id as string) ?? Math.random().toString();
     if (seen.has(id)) continue;
     seen.add(id);
     out.push(d);

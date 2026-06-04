@@ -12,7 +12,20 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "static.wixstatic.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/inquiries",
+        destination: "/inquire",
+        permanent: true,
+      },
+    ];
   },
 };
 

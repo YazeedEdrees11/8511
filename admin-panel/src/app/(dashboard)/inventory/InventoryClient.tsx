@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { updateVariantStock } from "@/app/actions/admin";
 
 interface VariantWithProduct {
@@ -24,8 +24,9 @@ interface InventoryClientProps {
 }
 
 export default function InventoryClient({ initialVariants }: InventoryClientProps) {
+  const searchParams = useSearchParams();
   const [variants, setVariants] = useState<VariantWithProduct[]>(initialVariants);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(searchParams.get("q") || "");
   const [showLowStockOnly, setShowLowStockOnly] = useState(false);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const [typedStocks, setTypedStocks] = useState<{ [id: number]: string }>({});
@@ -85,9 +86,7 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
 
   // Statistics
   const totalSkuCount = variants.length;
-  const outOfStockSkuCount = variants.filter(v => v.stock === 0).length;
   const lowStockSkuCount = variants.filter(v => v.stock > 0 && v.stock <= 2).length;
-  const totalUnits = variants.reduce((sum, v) => sum + v.stock, 0);
 
   // Filters
   const filteredVariants = variants.filter(v => {
@@ -99,155 +98,186 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
   });
 
   return (
-    <div className="p-6 md:p-10 space-y-8 flex-grow">
-      {/* Header */}
-      <div>
-        <span className="font-label text-[10px] tracking-widest text-[#0A0A0A]/60 uppercase">BACKOFFICE</span>
-        <h1 className="font-display text-5xl uppercase tracking-tighter mt-1">INVENTORY & CAPACITY</h1>
-      </div>
+    <div className="p-8 md:p-12 flex-grow flex flex-col gap-8 bg-[#F9F9F9]">
+      {/* Title */}
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <h1 className="font-display text-6xl md:text-7xl font-black uppercase tracking-tighter text-[#0A0A0A] leading-[0.85] flex flex-col">
+          <span>INVENTORY</span>
+          <span>CONTROL</span>
+        </h1>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-[#F7F7F4]/5">
-          <span className="font-label text-[9px] tracking-widest uppercase text-[#F7F7F4]/50">TOTAL SKUS</span>
-          <div className="font-display text-4xl mt-2">{totalSkuCount}</div>
-        </div>
-
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-[#F7F7F4]/5">
-          <span className="font-label text-[9px] tracking-widest uppercase text-[#F7F7F4]/50">TOTAL STOCK IN STOCK</span>
-          <div className="font-display text-4xl mt-2">{totalUnits} UNITS</div>
-        </div>
-
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-[#F7F7F4]/5">
-          <span className="font-label text-[9px] tracking-widest uppercase text-[#F7F7F4]/50">OUT OF STOCK SKUS</span>
-          <div className="font-display text-4xl mt-2 text-red-500">{outOfStockSkuCount}</div>
-        </div>
-
-        <div className="bg-[#161616] text-[#F7F7F4] p-6 rounded-sm border border-[#c8ff00]/20">
-          <span className="font-label text-[9px] tracking-widest uppercase text-[#c8ff00]">LOW STOCK SKUS (≤2)</span>
-          <div className="font-display text-4xl mt-2 text-[#c8ff00]">{lowStockSkuCount}</div>
-        </div>
-      </div>
-
-      {/* Filters Bar */}
-      <div className="flex flex-col sm:flex-row gap-4 items-center bg-white p-4 border border-[#0A0A0A]/10 rounded-sm justify-between">
-        <div className="w-full sm:max-w-md relative">
-          <span className="material-symbols-outlined absolute left-3 top-3.5 text-[#0A0A0A]/40 text-lg">search</span>
+        {/* Search */}
+        <div className="relative w-64 md:w-80">
+          <span className="material-symbols-outlined absolute left-3.5 top-3.5 text-[#999999] text-[18px]">
+            search
+          </span>
           <input
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Search by SKU or Product Name..."
-            className="w-full bg-[#F7F7F4] border border-[#0A0A0A]/10 pl-10 pr-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A]"
+            placeholder="Search by SKU or name..."
+            className="w-full bg-white border border-[#E5E5E5] pl-10 pr-4 py-3 text-xs focus:border-[#0A0A0A] focus:outline-none transition-colors rounded-none text-[#0A0A0A]"
           />
         </div>
+      </div>
 
-        <label className="flex items-center gap-2 cursor-pointer font-label text-xs uppercase tracking-wider text-[#0A0A0A]">
-          <input
-            type="checkbox"
-            checked={showLowStockOnly}
-            onChange={e => setShowLowStockOnly(e.target.checked)}
-            className="w-4 h-4 accent-primary"
-          />
-          SHOW LOW STOCK (≤2) ONLY
+      {/* Stats Cards Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* SKU Count */}
+        <div className="bg-white border border-[#E5E5E5] p-6 rounded-none flex flex-col justify-between h-[120px]">
+          <span className="font-label text-[10px] tracking-[0.15em] uppercase text-[#888888] font-bold">
+            TOTAL SKU COUNT
+          </span>
+          <span className="font-display text-4xl font-extrabold text-[#0A0A0A] mt-auto">
+            {totalSkuCount}
+          </span>
+        </div>
+
+        {/* Low Stock Items */}
+        <div className="bg-white border border-[#E5E5E5] p-6 rounded-none flex flex-col justify-between h-[120px]">
+          <span className="font-label text-[10px] tracking-[0.15em] uppercase text-[#888888] font-bold">
+            LOW STOCK ITEMS
+          </span>
+          <div className="flex items-center gap-3 mt-auto">
+            <span className="font-display text-4xl font-extrabold text-[#0A0A0A]">
+              {lowStockSkuCount}
+            </span>
+            {lowStockSkuCount > 0 && (
+              <span className="bg-[#c8ff00] text-[#0A0A0A] text-[9px] font-bold tracking-wider uppercase px-2.5 py-1">
+                Requires Action
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Capacity Bar */}
+        <div className="bg-white border border-[#E5E5E5] p-6 rounded-none flex flex-col justify-between h-[120px]">
+          <div className="flex justify-between items-center">
+            <span className="font-label text-[10px] tracking-[0.15em] uppercase text-[#888888] font-bold">
+              WAREHOUSE CAPACITY
+            </span>
+            <span className="font-display text-sm font-black text-[#0A0A0A]">
+              82%
+            </span>
+          </div>
+          <div className="mt-auto w-full">
+            <div className="w-full bg-[#E5E5E5] h-2 rounded-none overflow-hidden">
+              <div className="bg-[#c8ff00] h-full" style={{ width: "82%" }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Toggle filter */}
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="lowStockToggle"
+          checked={showLowStockOnly}
+          onChange={e => setShowLowStockOnly(e.target.checked)}
+          className="w-4 h-4 accent-[#0A0A0A] border-[#E5E5E5] cursor-pointer"
+        />
+        <label htmlFor="lowStockToggle" className="font-label text-xs uppercase tracking-wider text-[#0A0A0A] font-semibold cursor-pointer">
+          Show Low Stock (≤2) Only
         </label>
       </div>
 
-      {/* Inventory Grid Table */}
-      <div className="bg-white border border-[#0A0A0A]/10 rounded-sm overflow-hidden">
+      {/* Inventory Table */}
+      <div className="bg-white border border-[#E5E5E5] rounded-none overflow-hidden flex-1">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
-              <tr className="bg-[#0A0A0A] text-[#F7F7F4] font-label text-[10px] tracking-widest uppercase">
-                <th className="px-6 py-4">PRODUCT</th>
-                <th className="px-6 py-4">SKU</th>
-                <th className="px-6 py-4">SIZE</th>
-                <th className="px-6 py-4 text-center">CURRENT CAPACITY</th>
-                <th className="px-6 py-4 text-right">QUICK ADJUST</th>
+              <tr className="bg-white border-b border-[#E5E5E5] font-label text-[10px] tracking-[0.15em] uppercase text-[#888888] font-bold">
+                <th className="px-8 py-5">SKU</th>
+                <th className="px-8 py-5">PRODUCT NAME</th>
+                <th className="px-8 py-5">SIZE (US/EU)</th>
+                <th className="px-8 py-5">CURRENT STOCK</th>
+                <th className="px-8 py-5">CAPACITY LIMIT</th>
+                <th className="px-8 py-5">STATUS</th>
+                <th className="px-8 py-5 text-right">QUICK ADJUST</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#0A0A0A]/10">
+            <tbody className="divide-y divide-[#E5E5E5]">
               {filteredVariants.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-[#0A0A0A]/50 font-body text-sm">
-                    No matching inventory items found.
+                  <td colSpan={7} className="px-8 py-16 text-center text-[#999999] font-body text-sm">
+                    No inventory records found.
                   </td>
                 </tr>
               ) : (
                 filteredVariants.map(v => {
                   const isLow = v.stock <= 2;
-                  const isOut = v.stock === 0;
                   const loading = updatingId === v.id;
 
+                  // Capacity limit placeholder representation (e.g. static limit based on sizes)
+                  const capacityLimit = v.sizeEu.includes("M") || v.sizeEu.includes("L") ? 500 : 300;
+
                   return (
-                    <tr
-                      key={v.id}
-                      className={`hover:bg-[#F7F7F4]/50 transition-colors ${
-                        isOut ? "bg-red-500/[0.02]" : isLow ? "bg-amber-500/[0.01]" : ""
-                      }`}
-                    >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-[#F7F7F4] border border-[#0A0A0A]/5 relative rounded-sm overflow-hidden flex items-center justify-center p-0.5">
-                            <Image
-                              src={v.product.imageUrl || "/images/products/placeholder.jpg"}
-                              alt={v.product.name}
-                              fill
-                              className="object-contain"
-                              sizes="40px"
-                            />
-                          </div>
-                          <div>
-                            <span className="font-label text-[8px] tracking-widest text-[#0A0A0A]/60 uppercase block">
-                              {v.product.brand.name}
-                            </span>
-                            <span className="font-headline text-sm uppercase tracking-tight text-[#0A0A0A] block line-clamp-1">
-                              {v.product.name}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 font-mono text-xs text-[#0A0A0A]/70">
+                    <tr key={v.id} className="hover:bg-[#FAFAFA] transition-colors">
+                      {/* SKU */}
+                      <td className="px-8 py-4 font-mono text-xs text-[#0A0A0A]/70">
                         {v.sku}
                       </td>
-                      <td className="px-6 py-4 font-mono text-sm font-bold">
+
+                      {/* Product Name */}
+                      <td className="px-8 py-4">
+                        <span className="font-display text-[15px] font-bold text-[#0A0A0A] uppercase block">
+                          {v.product.name}
+                        </span>
+                        <span className="font-label text-[9px] tracking-wider text-[#888888] uppercase block mt-0.5">
+                          {v.product.brand.name}
+                        </span>
+                      </td>
+
+                      {/* Size */}
+                      <td className="px-8 py-4 font-mono text-[13px] font-bold text-[#0A0A0A]">
                         {v.sizeEu}
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center justify-center gap-2">
-                          <span
-                            className={`font-mono text-sm font-bold px-3 py-1 rounded-sm border ${
-                              isOut
-                                ? "bg-red-500/10 text-red-600 border-red-500/20"
-                                : isLow
-                                ? "bg-amber-500/10 text-amber-700 border-amber-500/20"
-                                : "bg-[#0A0A0A]/5 text-[#0A0A0A] border-[#0A0A0A]/10"
-                            }`}
-                          >
-                            {v.stock} UNITS
-                          </span>
-                        </div>
+
+                      {/* Stock units */}
+                      <td className="px-8 py-4 font-mono text-[13px] font-bold text-[#0A0A0A]">
+                        {v.stock}
                       </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-3">
-                          <div className="flex border border-[#0A0A0A]/10 rounded-sm overflow-hidden">
+
+                      {/* Capacity limit */}
+                      <td className="px-8 py-4 font-mono text-[13px] text-[#888888]">
+                        {capacityLimit}
+                      </td>
+
+                      {/* Status */}
+                      <td className="px-8 py-4">
+                        {isLow ? (
+                          <span className="bg-[#c8ff00] text-[#0A0A0A] text-[9px] font-bold uppercase tracking-wider px-2.5 py-1">
+                            Low Stock
+                          </span>
+                        ) : (
+                          <span className="border border-[#E5E5E5] text-[#888888] text-[9px] font-bold uppercase tracking-wider px-2.5 py-1">
+                            Optimal
+                          </span>
+                        )}
+                      </td>
+
+                      {/* Quick Adjust */}
+                      <td className="px-8 py-4 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <div className="flex border border-[#E5E5E5] overflow-hidden">
                             <button
                               onClick={() => adjustStock(v.id, v.stock, -1)}
                               disabled={loading || v.stock === 0}
-                              className="bg-white hover:bg-[#F7F7F4] text-[#0A0A0A] w-10 h-10 flex items-center justify-center font-bold disabled:opacity-30 border-r border-[#0A0A0A]/10"
+                              className="bg-white hover:bg-gray-50 text-[#0A0A0A] w-8 h-8 flex items-center justify-center font-bold disabled:opacity-30 border-r border-[#E5E5E5] text-xs transition-colors"
                             >
                               -
                             </button>
                             <button
                               onClick={() => adjustStock(v.id, v.stock, 1)}
                               disabled={loading}
-                              className="bg-white hover:bg-[#F7F7F4] text-[#0A0A0A] w-10 h-10 flex items-center justify-center font-bold"
+                              className="bg-white hover:bg-gray-50 text-[#0A0A0A] w-8 h-8 flex items-center justify-center font-bold text-xs transition-colors"
                             >
                               +
                             </button>
                           </div>
 
-                          <div className="flex items-center border border-[#0A0A0A]/10 rounded-sm overflow-hidden">
+                          <div className="flex items-center border border-[#E5E5E5] overflow-hidden">
                             <input
                               type="number"
                               min="0"
@@ -258,12 +288,12 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
                                 const val = e.target.value;
                                 setTypedStocks(prev => ({ ...prev, [v.id]: val }));
                               }}
-                              className="w-14 h-10 bg-white text-center font-mono text-xs focus:outline-none"
+                              className="w-12 h-8 bg-white text-center font-mono text-xs focus:outline-none"
                             />
                             <button
                               onClick={() => saveTypedStock(v.id)}
                               disabled={loading || typedStocks[v.id] === undefined}
-                              className="bg-[#0A0A0A] text-[#F7F7F4] hover:bg-[#c8ff00] hover:text-[#0A0A0A] px-3.5 h-10 font-label text-[9px] tracking-widest uppercase transition-colors disabled:opacity-40"
+                              className="bg-[#0A0A0A] text-white hover:bg-[#222222] px-3.5 h-8 font-label text-[9px] tracking-wider uppercase transition-colors disabled:opacity-40 font-semibold"
                             >
                               SET
                             </button>

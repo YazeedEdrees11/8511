@@ -8,6 +8,9 @@ import CartDrawer from "@/components/cart/CartDrawer";
 export const metadata = {
   title: "Eighty Five Eleven | Amman",
   description: "Streetwear, sneakers, and accessories — Swefieh Village, Amman.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

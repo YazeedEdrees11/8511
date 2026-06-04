@@ -65,3 +65,6 @@ prisma/dev.db*
 admin-panel/node_modules/
 admin-panel/.next/
 admin-panel/.env.local
+
+# Local debug errors
+*.err

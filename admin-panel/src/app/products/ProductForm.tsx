@@ -25,7 +25,7 @@ interface ProductFormProps {
 }
 
 const PRESET_SNEAKERS = ["40", "41", "42", "43", "44", "45", "46"];
-const PRESET_APPAREL = ["S", "M", "L", "XL"];
+const PRESET_APPAREL = ["XS", "S", "M", "L", "XL", "XXL"];
 const PRESET_OS = ["OS"];
 
 export default function ProductForm({ productId, initialData, brands }: ProductFormProps) {
@@ -136,248 +136,341 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl p-6 md:p-10">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link href="/" className="text-[#0A0A0A]/60 hover:text-[#0A0A0A] transition-colors">
-          <span className="material-symbols-outlined text-2xl">arrow_back</span>
+    <form onSubmit={handleSubmit} className="p-8 md:p-12 flex-grow flex flex-col gap-8 bg-[#F9F9F9]">
+      {/* Top Breadcrumb Back Link */}
+      <div>
+        <Link 
+          href="/" 
+          className="font-label text-[10px] tracking-[0.2em] text-[#888888] hover:text-[#0A0A0A] uppercase transition-colors flex items-center gap-1.5 font-bold"
+        >
+          <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+          BACK TO INVENTORY
         </Link>
-        <div>
-          <span className="font-label text-[10px] tracking-widest text-[#0A0A0A]/60 uppercase">
-            {productId ? "EDIT PRODUCT" : "NEW PRODUCT"}
-          </span>
-          <h1 className="font-display text-4xl uppercase tracking-tighter mt-1">
-            {productId ? "UPDATE CATALOG PAIR" : "ADD PAIR TO CATALOG"}
-          </h1>
-        </div>
+      </div>
+
+      {/* Header Stacked Display Title */}
+      <div>
+        <h1 className="font-display text-5xl md:text-6xl font-black uppercase tracking-tighter text-[#0A0A0A] leading-[0.85] flex flex-col">
+          <span>{productId ? "EDIT" : "NEW"}</span>
+          <span>PRODUCT</span>
+        </h1>
       </div>
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500/30 text-red-600 text-xs p-4 rounded-sm font-body">
+        <div className="bg-red-50 border border-red-200 text-red-600 text-xs p-4 rounded-none font-body">
           {error}
         </div>
       )}
 
-      {/* Main Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Side: General Info */}
-        <div className="space-y-6">
-          <h2 className="font-label text-[11px] tracking-widest uppercase border-b border-[#0A0A0A]/10 pb-2">
-            PRODUCT METADATA
-          </h2>
-
-          <div>
-            <label className="block font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60 mb-2">
-              PRODUCT NAME
-            </label>
-            <input
-              type="text"
-              required
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A]"
-              placeholder="e.g. Jordan 1 Retro High Chicago"
-            />
+      {/* Main Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Left Column: Media (1/3 width) */}
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between items-center">
+            <span className="font-label text-[10px] tracking-[0.15em] uppercase text-[#888888] font-bold">
+              MEDIA
+            </span>
+            <span className="font-label text-[10px] tracking-[0.15em] uppercase text-[#888888]">
+              {imageUrl ? "1/1 uploaded" : "0/1 uploaded"}
+            </span>
           </div>
 
-          <div>
-            <label className="block font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60 mb-2">
-              URL SLUG
-            </label>
-            <input
-              type="text"
-              required
-              value={slug}
-              onChange={e => setSlug(e.target.value)}
-              className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A] font-mono text-xs"
-              placeholder="e.g. jordan-1-retro-high-chicago"
-            />
-          </div>
-
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="block font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60">
-                BRAND
-              </label>
-              <button
-                type="button"
-                onClick={() => setIsNewBrand(!isNewBrand)}
-                className="font-label text-[10px] text-[#c8ff00] hover:underline uppercase tracking-wider font-bold"
-              >
-                {isNewBrand ? "SELECT EXISTING BRAND" : "+ CREATE NEW BRAND"}
-              </button>
-            </div>
-
-            {isNewBrand ? (
-              <input
-                type="text"
-                required
-                value={newBrandName}
-                onChange={e => setNewBrandName(e.target.value)}
-                className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-[#c8ff00] focus:outline-none transition-colors rounded-sm text-[#0A0A0A]"
-                placeholder="Enter new brand name (e.g. Patta)"
-              />
+          {/* Media upload dropzone outline */}
+          <div className="border border-dashed border-[#CCCCCC] bg-white h-[360px] flex flex-col items-center justify-center p-6 text-center relative group">
+            {imageUrl ? (
+              // Show preview of current image if set
+              <div className="absolute inset-0 p-4 flex items-center justify-center bg-white">
+                <img 
+                  src={imageUrl} 
+                  alt="Preview" 
+                  className="max-h-full max-w-full object-contain p-2"
+                />
+              </div>
             ) : (
-              <select
-                required
-                value={brandName}
-                onChange={e => setBrandName(e.target.value)}
-                className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A] font-label uppercase tracking-widest text-[11px]"
-              >
-                <option value="">SELECT BRAND</option>
-                {brands.map(b => (
-                  <option key={b.slug} value={b.name}>
-                    {b.name.toUpperCase()}
-                  </option>
-                ))}
-              </select>
+              <div className="flex flex-col items-center">
+                <span className="material-symbols-outlined text-[48px] text-[#CCCCCC] mb-3">
+                  cloud_upload
+                </span>
+                <span className="font-display text-[14px] font-bold text-[#0A0A0A] mb-1">
+                  DROP ASSETS HERE
+                </span>
+                <span className="font-label text-[10px] text-[#888888] leading-relaxed max-w-[200px] uppercase">
+                  High-resolution JPG or PNG on neutral background
+                </span>
+              </div>
             )}
           </div>
 
-          <div>
-            <label className="block font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60 mb-2">
-              BASE PRICE (JOD)
-            </label>
-            <input
-              type="number"
-              step="0.01"
-              required
-              value={basePrice}
-              onChange={e => setBasePrice(e.target.value)}
-              className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A] font-mono"
-              placeholder="e.g. 180.00"
-            />
-          </div>
-
-          <div>
-            <label className="block font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60 mb-2">
-              IMAGE PATH / URL
+          {/* Input field for image URL */}
+          <div className="bg-white p-4 border border-[#E5E5E5] space-y-2">
+            <label className="block font-label text-[9px] tracking-wider uppercase text-[#888888] font-bold">
+              IMAGE PATH / CLOUDINARY URL
             </label>
             <input
               type="text"
               required
               value={imageUrl}
               onChange={e => setImageUrl(e.target.value)}
-              className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A]"
-              placeholder="e.g. /images/products/jordan-1.jpg"
-            />
-          </div>
-
-          <div>
-            <label className="block font-label text-[10px] tracking-widest uppercase text-[#0A0A0A]/60 mb-2">
-              SPECS & DESCRIPTION (MARKDOWN / PLAIN TEXT)
-            </label>
-            <textarea
-              rows={4}
-              required
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              className="w-full bg-white border border-[#0A0A0A]/10 px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors rounded-sm text-[#0A0A0A] font-body"
-              placeholder="STYLE 555088-101 COLORWAY WHITE/BLACK-VARSITY RED RELEASE DATE 05/30/2015"
+              className="w-full bg-[#FAFAFA] border border-[#E5E5E5] focus:border-[#0A0A0A] px-3 py-2.5 text-xs focus:outline-none transition-colors rounded-none text-[#0A0A0A]"
+              placeholder="e.g. https://res.cloudinary.com/..."
             />
           </div>
         </div>
 
-        {/* Right Side: Inventory & Sizes */}
-        <div className="space-y-6">
-          <div className="flex justify-between items-end border-b border-[#0A0A0A]/10 pb-2">
-            <h2 className="font-label text-[11px] tracking-widest uppercase">
-              SIZES & INVENTORY
-            </h2>
-            <button
-              type="button"
-              onClick={addCustomSize}
-              className="font-label text-[10px] text-[#c8ff00] hover:underline uppercase tracking-wider font-bold"
-            >
-              + ADD SIZE
-            </button>
-          </div>
+        {/* Right Columns: Product Details & Sizing (2/3 width) */}
+        <div className="lg:col-span-2 bg-white border border-[#E5E5E5] p-8 space-y-8">
+          
+          {/* SECTION: PRODUCT DETAILS */}
+          <div className="space-y-6">
+            <div className="border-b border-[#E5E5E5] pb-2">
+              <span className="font-label text-[11px] tracking-[0.15em] uppercase text-[#0A0A0A] font-bold">
+                PRODUCT DETAILS
+              </span>
+            </div>
 
-          {/* Quick presets */}
-          <div>
-            <label className="block font-label text-[9px] tracking-widest uppercase text-[#0A0A0A]/40 mb-2">
-              QUICK PRESETS (ADD SIZES)
-            </label>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => addPresetSizes(PRESET_SNEAKERS)}
-                className="bg-[#0A0A0A]/5 border border-[#0A0A0A]/10 px-3 py-1.5 font-label text-[10px] tracking-wider uppercase hover:border-[#0A0A0A] hover:bg-white transition-all rounded-[2px]"
-              >
-                SNEAKERS (EU 40-46)
-              </button>
-              <button
-                type="button"
-                onClick={() => addPresetSizes(PRESET_APPAREL)}
-                className="bg-[#0A0A0A]/5 border border-[#0A0A0A]/10 px-3 py-1.5 font-label text-[10px] tracking-wider uppercase hover:border-[#0A0A0A] hover:bg-white transition-all rounded-[2px]"
-              >
-                APPAREL (S-XL)
-              </button>
-              <button
-                type="button"
-                onClick={() => addPresetSizes(PRESET_OS)}
-                className="bg-[#0A0A0A]/5 border border-[#0A0A0A]/10 px-3 py-1.5 font-label text-[10px] tracking-wider uppercase hover:border-[#0A0A0A] hover:bg-white transition-all rounded-[2px]"
-              >
-                ONE SIZE (OS)
-              </button>
+            {/* Product Name */}
+            <div className="space-y-2">
+              <label className="block font-label text-[9px] tracking-widest uppercase text-[#888888] font-bold">
+                PRODUCT NAME
+              </label>
+              <input
+                type="text"
+                required
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="w-full bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] px-4 py-3 text-sm focus:outline-none transition-colors rounded-none text-[#0A0A0A]"
+                placeholder="e.g. Oversized Heavyweight Hoodie"
+              />
+            </div>
+
+            {/* URL Slug */}
+            <div className="space-y-2">
+              <label className="block font-label text-[9px] tracking-widest uppercase text-[#888888] font-bold">
+                URL SLUG
+              </label>
+              <input
+                type="text"
+                required
+                value={slug}
+                onChange={e => setSlug(e.target.value)}
+                className="w-full bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] px-4 py-3 text-sm focus:outline-none transition-colors rounded-none text-[#0A0A0A] font-mono text-xs"
+                placeholder="e.g. oversized-heavyweight-hoodie"
+              />
+            </div>
+
+            {/* Brand Dropdown Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="block font-label text-[9px] tracking-widest uppercase text-[#888888] font-bold">
+                    BRAND
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setIsNewBrand(!isNewBrand)}
+                    className="font-label text-[9px] text-[#c8ff00] bg-black px-2 py-0.5 rounded-none font-bold uppercase tracking-wider hover:opacity-85"
+                  >
+                    {isNewBrand ? "SELECT EXIST" : "+ NEW BRAND"}
+                  </button>
+                </div>
+
+                {isNewBrand ? (
+                  <input
+                    type="text"
+                    required
+                    value={newBrandName}
+                    onChange={e => setNewBrandName(e.target.value)}
+                    className="w-full bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] px-4 py-3 text-sm focus:outline-none transition-colors rounded-none text-[#0A0A0A]"
+                    placeholder="Enter brand name"
+                  />
+                ) : (
+                  <div className="relative">
+                    <select
+                      required
+                      value={brandName}
+                      onChange={e => setBrandName(e.target.value)}
+                      className="w-full bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] px-4 py-3 text-sm focus:outline-none transition-colors rounded-none text-[#0A0A0A] font-label uppercase tracking-widest text-[11px] appearance-none"
+                    >
+                      <option value="">SELECT BRAND</option>
+                      {brands.map(b => (
+                        <option key={b.slug} value={b.name}>
+                          {b.name.toUpperCase()}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="material-symbols-outlined absolute right-3 top-3.5 text-gray-400 pointer-events-none text-[18px]">
+                      unfold_more
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Category Dropdown */}
+              <div className="space-y-2">
+                <label className="block font-label text-[9px] tracking-widest uppercase text-[#888888] font-bold">
+                  CATEGORY
+                </label>
+                <div className="relative">
+                  <select
+                    className="w-full bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] px-4 py-3 text-sm focus:outline-none transition-colors rounded-none text-[#0A0A0A] font-label uppercase tracking-widest text-[11px] appearance-none"
+                    defaultValue="APPAREL"
+                  >
+                    <option value="APPAREL">APPAREL</option>
+                    <option value="FOOTWEAR">FOOTWEAR</option>
+                    <option value="ACCESSORIES">ACCESSORIES</option>
+                  </select>
+                  <span className="material-symbols-outlined absolute right-3 top-3.5 text-gray-400 pointer-events-none text-[18px]">
+                    unfold_more
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Base Price */}
+            <div className="space-y-2">
+              <label className="block font-label text-[9px] tracking-widest uppercase text-[#888888] font-bold">
+                RETAIL PRICE (USD)
+              </label>
+              <div className="relative flex items-center">
+                <span className="absolute left-4 font-mono text-sm text-[#888888] pointer-events-none">
+                  $
+                </span>
+                <input
+                  type="number"
+                  step="0.01"
+                  required
+                  value={basePrice}
+                  onChange={e => setBasePrice(e.target.value)}
+                  className="w-full bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] pl-8 pr-4 py-3 text-sm focus:outline-none transition-colors rounded-none text-[#0A0A0A] font-mono"
+                  placeholder="0.00"
+                />
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="space-y-2">
+              <label className="block font-label text-[9px] tracking-widest uppercase text-[#888888] font-bold">
+                DESCRIPTION
+              </label>
+              <textarea
+                rows={4}
+                required
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                className="w-full bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] px-4 py-3 text-sm focus:outline-none transition-colors rounded-none text-[#0A0A0A] font-body"
+                placeholder="Editorial copy, fit details, fabric composition..."
+              />
             </div>
           </div>
 
-          {/* Variants List */}
-          <div className="space-y-2 max-h-[360px] overflow-y-auto pr-2">
-            {variants.length === 0 ? (
-              <div className="text-center py-10 bg-white border border-[#0A0A0A]/5 text-[#0A0A0A]/50 text-xs font-body rounded-sm">
-                No variants added yet. Click preset or + Add Size.
-              </div>
-            ) : (
-              variants.map((v, i) => (
-                <div
-                  key={v.sizeEu}
-                  className="flex items-center gap-4 bg-white p-3 border border-[#0A0A0A]/10 rounded-sm"
-                >
-                  <div className="font-mono text-sm font-bold w-16">{v.sizeEu}</div>
-                  <div className="flex-grow flex items-center gap-2">
-                    <span className="font-label text-[9px] tracking-widest text-[#0A0A0A]/60 uppercase">
-                      STOCK:
-                    </span>
-                    <input
-                      type="number"
-                      required
-                      min="0"
-                      value={v.stock}
-                      onChange={e => updateVariantStock(i, parseInt(e.target.value) || 0)}
-                      className="w-20 bg-[#F7F7F4] border border-[#0A0A0A]/10 px-2 py-1 text-center font-mono text-sm rounded-sm"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => removeVariant(i)}
-                    className="text-red-500 hover:text-red-700 font-label text-[10px] tracking-widest uppercase hover:underline"
-                  >
-                    REMOVE
-                  </button>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
+          {/* SECTION: SIZING & INVENTORY */}
+          <div className="space-y-6">
+            <div className="border-b border-[#E5E5E5] pb-2 flex justify-between items-end">
+              <span className="font-label text-[11px] tracking-[0.15em] uppercase text-[#0A0A0A] font-bold">
+                SIZING & INVENTORY
+              </span>
+              <button
+                type="button"
+                onClick={addCustomSize}
+                className="font-label text-[10px] text-white bg-black hover:opacity-85 px-3 py-1 font-bold uppercase tracking-wider"
+              >
+                + ADD CUSTOM SIZE
+              </button>
+            </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-end gap-4 border-t border-[#0A0A0A]/10 pt-8">
-        <Link
-          href="/"
-          className="border border-[#0A0A0A]/20 bg-white hover:bg-[#F7F7F4] px-8 py-4 font-label text-xs tracking-widest uppercase transition-all rounded-sm"
-        >
-          CANCEL
-        </Link>
-        <button
-          type="submit"
-          disabled={busy}
-          className="bg-[#0A0A0A] text-[#F7F7F4] hover:bg-[#c8ff00] hover:text-[#0A0A0A] px-8 py-4 font-label text-xs tracking-widest uppercase font-bold transition-all rounded-sm disabled:opacity-50"
-        >
-          {busy ? "SAVING..." : productId ? "SAVE CHANGES →" : "CREATE CATALOG ENTRY →"}
-        </button>
+            {/* Available Size Presets */}
+            <div className="space-y-2">
+              <label className="block font-label text-[9px] tracking-widest uppercase text-[#888888] font-bold">
+                QUICK SIZE PRESETS
+              </label>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => addPresetSizes(PRESET_APPAREL)}
+                  className="border border-[#E5E5E5] hover:border-[#0A0A0A] bg-white px-4 py-2 font-label text-[10px] tracking-wider uppercase transition-colors rounded-none font-semibold text-[#0A0A0A]"
+                >
+                  APPAREL (XS-XXL)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => addPresetSizes(PRESET_SNEAKERS)}
+                  className="border border-[#E5E5E5] hover:border-[#0A0A0A] bg-white px-4 py-2 font-label text-[10px] tracking-wider uppercase transition-colors rounded-none font-semibold text-[#0A0A0A]"
+                >
+                  SNEAKERS (EU 40-46)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => addPresetSizes(PRESET_OS)}
+                  className="border border-[#E5E5E5] hover:border-[#0A0A0A] bg-white px-4 py-2 font-label text-[10px] tracking-wider uppercase transition-colors rounded-none font-semibold text-[#0A0A0A]"
+                >
+                  ONE SIZE (OS)
+                </button>
+              </div>
+            </div>
+
+            {/* Size Variants Grid / Stock input */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-1">
+              {variants.length === 0 ? (
+                <div className="md:col-span-2 text-center py-8 border border-[#E5E5E5] text-[#888888] text-xs font-body">
+                  No size variants added yet. Select a preset or add a custom size.
+                </div>
+              ) : (
+                variants.map((v, i) => (
+                  <div
+                    key={v.sizeEu}
+                    className="flex items-center justify-between border border-[#E5E5E5] p-3 bg-[#FAFAFA]"
+                  >
+                    <div className="font-mono text-sm font-bold text-[#0A0A0A]">
+                      {v.sizeEu}
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <span className="font-label text-[9px] tracking-wider text-[#888888] font-bold">
+                        STOCK:
+                      </span>
+                      <input
+                        type="number"
+                        required
+                        min="0"
+                        value={v.stock}
+                        onChange={e => updateVariantStock(i, parseInt(e.target.value) || 0)}
+                        className="w-16 bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] px-2 py-1 text-center font-mono text-xs focus:outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeVariant(i)}
+                        className="text-red-500 hover:text-red-700 font-label text-[9px] tracking-wider uppercase font-bold"
+                      >
+                        REMOVE
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+          </div>
+
+          {/* Form Actions */}
+          <div className="flex justify-end gap-4 border-t border-[#E5E5E5] pt-6">
+            <Link
+              href="/"
+              className="border border-[#E5E5E5] hover:border-[#0A0A0A] bg-white text-[#0A0A0A] px-8 py-3.5 font-label text-xs tracking-wider uppercase transition-colors rounded-none font-semibold"
+            >
+              CANCEL
+            </Link>
+            <button
+              type="submit"
+              disabled={busy}
+              className="bg-[#0A0A0A] hover:bg-[#222222] text-white px-8 py-3.5 font-label text-xs tracking-wider uppercase font-bold transition-all rounded-none disabled:opacity-50"
+            >
+              {busy ? "SAVING..." : productId ? "SAVE PRODUCT" : "CREATE PRODUCT"}
+            </button>
+          </div>
+
+        </div>
+
       </div>
     </form>
   );

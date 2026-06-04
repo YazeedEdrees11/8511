@@ -213,3 +213,33 @@ export async function updateVariantStock(variantId: number, stock: number) {
   revalidatePath("/");
   return { success: true, newStock: variant.stock };
 }
+
+export async function getInquiries() {
+  if (!(await isAdminAuthenticated())) {
+    throw new Error("Unauthorized");
+  }
+
+  const inquiries = await prisma.productInquiry.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
+  // Convert decimal budget to number for client compatibility
+  return inquiries.map((inquiry) => ({
+    ...inquiry,
+    budget: inquiry.budget ? Number(inquiry.budget) : null,
+  }));
+}
+
+export async function updateInquiryStatus(id: number, status: string) {
+  if (!(await isAdminAuthenticated())) {
+    throw new Error("Unauthorized");
+  }
+
+  await prisma.productInquiry.update({
+    where: { id },
+    data: { status },
+  });
+
+  revalidatePath("/inquiries");
+  return { success: true };
+}

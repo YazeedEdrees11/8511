@@ -32,46 +32,70 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-[#F7F7F4] flex flex-col justify-center items-center px-6 py-12">
-      <div className="w-full max-w-md bg-[#161616] border border-[#F7F7F4]/10 p-8 md:p-10 rounded-sm">
-        <div className="text-center mb-8">
-          <span className="font-label text-[11px] tracking-widest text-[#c8ff00] font-bold">8511 BACKOFFICE</span>
-          <h1 className="font-display text-4xl uppercase tracking-tighter mt-2">ADMIN PORTAL</h1>
-        </div>
+    <div 
+      className="min-h-screen bg-[#F9F9F9] flex flex-col justify-center items-center px-6 py-12 relative"
+      style={{
+        backgroundImage: "linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px)",
+        backgroundSize: "40px 40px"
+      }}
+    >
+      <div 
+        className="w-full max-w-[480px] bg-white border border-[#E5E5E5] p-10 md:p-14 shadow-sm relative flex flex-col items-center"
+        style={{
+          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px)",
+          backgroundSize: "100% 6px"
+        }}
+      >
+        <span className="font-label text-[10px] tracking-[0.25em] text-[#0A0A0A] font-semibold uppercase mb-8">
+          EIGHTY FIVE EL
+        </span>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          <div>
-            <label className="block font-label text-[10px] tracking-widest uppercase text-[#F7F7F4]/60 mb-2" htmlFor="email">
-              ADMIN EMAIL
+        <h1 className="font-display text-6xl md:text-7xl font-extrabold uppercase tracking-tighter text-center leading-[0.9] text-[#0A0A0A] mb-12 flex flex-col">
+          <span>ADMIN</span>
+          <span>LOGIN</span>
+        </h1>
+
+        <form onSubmit={handleLogin} className="w-full space-y-6">
+          <div className="space-y-1.5">
+            <label className="block font-label text-[10px] tracking-[0.15em] uppercase font-semibold text-[#0A0A0A] mb-1">
+              USERNAME
             </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full bg-[#202020] border border-[#F7F7F4]/10 px-4 py-3 text-base text-[#F7F7F4] focus:border-[#c8ff00] focus:outline-none transition-colors rounded-sm"
-              placeholder="e.g. admin@8511.com"
-            />
+            <div className="relative">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full bg-[#FAFAFA] border border-[#CCCCCC] px-4 py-3.5 pr-10 text-sm text-[#0A0A0A] placeholder-[#999999] focus:border-[#0A0A0A] focus:outline-none transition-colors rounded-none font-mono"
+                placeholder="ADMIN_ID"
+              />
+              <span className="material-symbols-outlined absolute right-3.5 top-3.5 text-[#999999] text-[18px]">
+                person
+              </span>
+            </div>
           </div>
 
-          <div>
-            <label className="block font-label text-[10px] tracking-widest uppercase text-[#F7F7F4]/60 mb-2" htmlFor="password">
+          <div className="space-y-1.5">
+            <label className="block font-label text-[10px] tracking-[0.15em] uppercase font-semibold text-[#0A0A0A] mb-1">
               PASSWORD
             </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full bg-[#202020] border border-[#F7F7F4]/10 px-4 py-3 text-base text-[#F7F7F4] focus:border-[#c8ff00] focus:outline-none transition-colors rounded-sm"
-              placeholder="••••••••"
-            />
+            <div className="relative">
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full bg-[#FAFAFA] border border-[#CCCCCC] px-4 py-3.5 pr-10 text-sm text-[#0A0A0A] placeholder-[#999999] focus:border-[#0A0A0A] focus:outline-none transition-colors rounded-none"
+                placeholder="••••••••"
+              />
+              <span className="material-symbols-outlined absolute right-3.5 top-3.5 text-[#999999] text-[18px]">
+                key
+              </span>
+            </div>
           </div>
 
           {error && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3 rounded-sm font-body">
+            <div className="bg-red-50 border border-red-200 text-red-600 text-xs p-3 rounded-none font-body">
               {error}
             </div>
           )}
@@ -79,20 +103,19 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={busy}
-            className="w-full bg-[#c8ff00] text-[#0A0A0A] py-4 font-label text-xs tracking-widest uppercase font-bold hover:bg-[#c8ff00]/90 transition-all duration-200 rounded-sm disabled:opacity-50"
+            className="w-full bg-[#0A0A0A] hover:bg-[#222222] text-white py-4 font-label text-xs tracking-[0.2em] uppercase font-semibold transition-all duration-200 rounded-none flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
           >
-            {busy ? "AUTHENTICATING…" : "LOG IN TO ADMIN →"}
+            {busy ? "ENTERING..." : "ENTER PORTAL"} 
+            <span className="material-symbols-outlined text-[16px]">arrow_right_alt</span>
           </button>
         </form>
+      </div>
 
-        <div className="text-center mt-8">
-          <a
-            href="http://localhost:3000"
-            className="font-label text-[10px] tracking-widest text-[#F7F7F4]/40 hover:text-[#c8ff00] transition-colors uppercase"
-          >
-            ← BACK TO STOREFRONT
-          </a>
-        </div>
+      <div className="flex flex-col items-center mt-12 gap-3">
+        <div className="w-12 h-[1px] bg-[#E5E5E5]" />
+        <span className="font-label text-[9px] tracking-[0.2em] text-[#999999] uppercase flex items-center gap-1.5 font-medium">
+          <span className="material-symbols-outlined text-[12px]">lock</span> SECURE MANAGEMENT ACCESS ONLY
+        </span>
       </div>
     </div>
   );
