@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { updateInquiryStatus } from "@/app/actions/admin";
+import { useToast } from "@/lib/toast";
 
 interface Inquiry {
   id: number;
@@ -27,6 +28,7 @@ export default function InquiriesClient({ initialInquiries }: InquiriesClientPro
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [updatingId, setUpdatingId] = useState<number | null>(null);
+  const { showToast } = useToast();
 
   async function handleStatusChange(id: number, newStatus: string) {
     if (updatingId !== null) return;
@@ -38,11 +40,12 @@ export default function InquiriesClient({ initialInquiries }: InquiriesClientPro
         setInquiries(prev =>
           prev.map(inq => (inq.id === id ? { ...inq, status: newStatus } : inq))
         );
+        showToast("Status updated successfully.", "success");
       } else {
-        alert("Failed to update status.");
+        showToast("Failed to update status.", "error");
       }
     } catch {
-      alert("Error occurred while updating inquiry status.");
+      showToast("Error occurred while updating inquiry status.", "error");
     } finally {
       setUpdatingId(null);
     }

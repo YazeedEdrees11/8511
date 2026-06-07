@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { useToast } from "@/lib/toast";
 
 interface SidebarNavProps {
   onLogout: () => Promise<void>;
@@ -10,6 +12,8 @@ interface SidebarNavProps {
 
 export default function SidebarNav({ onLogout }: SidebarNavProps) {
   const pathname = usePathname();
+  const { showToast } = useToast();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   // Helper to determine if route is active
   const isProductsActive = pathname === "/" || pathname.startsWith("/products");
@@ -108,7 +112,7 @@ export default function SidebarNav({ onLogout }: SidebarNavProps) {
           <button 
             type="button" 
             className="w-full bg-[#0A0A0A] hover:bg-[#222222] text-white py-3 font-label text-[10px] tracking-[0.2em] uppercase font-bold transition-all rounded-none"
-            onClick={() => alert("Creating a new drop...")}
+            onClick={() => showToast("Creating a new drop...", "info")}
           >
             NEW DROP
           </button>
@@ -118,16 +122,43 @@ export default function SidebarNav({ onLogout }: SidebarNavProps) {
       {/* Bottom Actions */}
       <div className="p-4 border-t border-[#E5E5E5]">
         <button
-          onClick={() => {
-            if (confirm("Are you sure you want to log out?")) {
-              onLogout();
-            }
-          }}
+          onClick={() => setShowLogoutModal(true)}
           className="w-full bg-[#FAFAFA] border border-[#CCCCCC] hover:border-[#0A0A0A] text-[#0A0A0A] py-3 font-label text-[10px] tracking-[0.2em] uppercase font-semibold transition-all rounded-none flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-[14px]">logout</span> LOG OUT
         </button>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white border border-[#E5E5E5] rounded-md shadow-lg max-w-sm w-full p-8">
+            <h3 className="font-display text-lg font-bold text-[#0A0A0A] mb-3 uppercase">
+              LOG OUT
+            </h3>
+            <p className="text-sm text-[#666666] mb-8 font-body">
+              Are you sure you want to log out?
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="border border-[#E5E5E5] hover:border-[#0A0A0A] bg-white text-[#0A0A0A] px-6 py-2.5 font-label text-xs tracking-wider uppercase transition-colors rounded-none font-semibold"
+              >
+                CANCEL
+              </button>
+              <button
+                onClick={() => {
+                  setShowLogoutModal(false);
+                  onLogout();
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 font-label text-xs tracking-wider uppercase font-bold transition-all rounded-none"
+              >
+                LOG OUT
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }

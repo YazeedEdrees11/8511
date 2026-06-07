@@ -21,6 +21,7 @@ export default function AdminHeader({ onLogout }: AdminHeaderProps) {
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -149,11 +150,7 @@ export default function AdminHeader({ onLogout }: AdminHeaderProps) {
               </Link>
               <button
                 type="button"
-                onClick={() => {
-                  if (confirm("Are you sure you want to log out?")) {
-                    onLogout();
-                  }
-                }}
+                onClick={() => setShowLogoutModal(true)}
                 className="w-full flex items-center gap-2 px-3 py-3 font-label text-[11px] tracking-[0.1em] uppercase font-semibold text-[#555555] hover:bg-[#FAFAFA] hover:text-[#0A0A0A] transition-colors text-left"
               >
                 <span className="material-symbols-outlined text-[18px]">logout</span>
@@ -163,6 +160,37 @@ export default function AdminHeader({ onLogout }: AdminHeaderProps) {
           )}
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white border border-[#E5E5E5] rounded-md shadow-lg max-w-sm w-full p-8">
+            <h3 className="font-display text-lg font-bold text-[#0A0A0A] mb-3 uppercase">
+              LOG OUT
+            </h3>
+            <p className="text-sm text-[#666666] mb-8 font-body">
+              Are you sure you want to log out?
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="border border-[#E5E5E5] hover:border-[#0A0A0A] bg-white text-[#0A0A0A] px-6 py-2.5 font-label text-xs tracking-wider uppercase transition-colors rounded-none font-semibold"
+              >
+                CANCEL
+              </button>
+              <button
+                onClick={() => {
+                  setShowLogoutModal(false);
+                  onLogout();
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 font-label text-xs tracking-wider uppercase font-bold transition-all rounded-none"
+              >
+                LOG OUT
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

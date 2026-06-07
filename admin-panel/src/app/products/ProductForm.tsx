@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { addProduct, updateProduct } from "@/app/actions/admin";
+import { useToast } from "@/lib/toast";
 
 interface VariantInput {
   sizeEu: string;
@@ -30,6 +31,7 @@ const PRESET_OS = ["OS"];
 
 export default function ProductForm({ productId, initialData, brands }: ProductFormProps) {
   const router = useRouter();
+  const { showToast } = useToast();
   const [name, setName] = useState(initialData?.name || "");
   const [slug, setSlug] = useState(initialData?.slug || "");
   const [brandName, setBrandName] = useState(initialData?.brandName || "");
@@ -41,6 +43,8 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
   const [variants, setVariants] = useState<VariantInput[]>(initialData?.variants || []);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [showSizeModal, setShowSizeModal] = useState(false);
+  const [customSizeInput, setCustomSizeInput] = useState("");
 
   // Auto-generate slug from name on new products
   useEffect(() => {
@@ -65,14 +69,25 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
   }
 
   function addCustomSize() {
-    const size = prompt("Enter size (e.g. 42.5, M, OS):");
-    if (!size) return;
-    const cleanSize = size.trim().toUpperCase();
-    if (variants.some(v => v.sizeEu.toUpperCase() === cleanSize)) {
-      alert("Size already exists.");
+    setShowSizeModal(true);
+    setCustomSizeInput("");
+  }
+
+  function submitCustomSize() {
+    const size = customSizeInput.trim().toUpperCase();
+    if (!size) {
+      showToast("Please enter a size.", "warning");
       return;
     }
-    setVariants([...variants, { sizeEu: cleanSize, stock: 0 }]);
+    if (variants.some(v => v.sizeEu.toUpperCase() === size)) {
+      showToast("Size already exists.", "warning");
+      setCustomSizeInput("");
+      return;
+    }
+    setVariants([...variants, { sizeEu: size, stock: 0 }]);
+    setShowSizeModal(false);
+    setCustomSizeInput("");
+    showToast(`Size ${size} added.`, "success");
   }
 
   function removeVariant(index: number) {
@@ -472,6 +487,48 @@ export default function ProductForm({ productId, initialData, brands }: ProductF
         </div>
 
       </div>
+
+      {/* Custom Size Modal */}
+      {showSizeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white border border-[#E5E5E5] rounded-md shadow-lg max-w-sm w-full p-8">
+            <h3 className="font-display text-lg font-bold text-[#0A0A0A] mb-4 uppercase">
+              ADD CUSTOM SIZE
+            </h3>
+            <p className="text-xs text-[#666666] mb-6 font-body">
+              Enter a custom size (e.g. 42.5, M, OS)
+            </p>
+            <input
+              type="text"
+              value={customSizeInput}
+              onChange={e => setCustomSizeInput(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && submitCustomSize()}
+              placeholder="e.g. 42.5, M, OS"
+              autoFocus
+              className="w-full bg-white border border-[#E5E5E5] focus:border-[#0A0A0A] px-4 py-3 text-sm focus:outline-none transition-colors rounded-none text-[#0A0A0A] mb-6"
+            />
+            <div className="flex gap-3 justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowSizeModal(false);
+                  setCustomSizeInput("");
+                }}
+                className="border border-[#E5E5E5] hover:border-[#0A0A0A] bg-white text-[#0A0A0A] px-6 py-2.5 font-label text-xs tracking-wider uppercase transition-colors rounded-none font-semibold"
+              >
+                CANCEL
+              </button>
+              <button
+                type="button"
+                onClick={submitCustomSize}
+                className="bg-[#0A0A0A] hover:bg-[#222222] text-white px-6 py-2.5 font-label text-xs tracking-wider uppercase font-bold transition-all rounded-none"
+              >
+                ADD SIZE
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 }

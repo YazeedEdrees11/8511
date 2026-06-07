@@ -42,8 +42,8 @@ const SIZE_MAP: Record<string, string[]> = {
 export default function ShopClient({ initialProducts }: ShopClientProps) {
   // Mock initial state to match the mockup exactly
   // Mockup has Nike and Supreme checked, and sizes 9 and 9.5 checked
-  const [selectedBrands, setSelectedBrands] = useState<string[]>(["nike", "supreme"]);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>(["9", "9.5"]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState<number>(1500);
   const [sortBy, setSortBy] = useState<string>("newest");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -343,58 +343,121 @@ export default function ShopClient({ initialProducts }: ShopClientProps) {
 
           {/* Product Cards Grid */}
           {paginatedProducts.length === 0 ? (
-            <div className="text-center py-20 border border-[#E5E5E5] text-[#888888] text-sm">
+            <div className="text-center py-20 border border-[#E5E5E5] text-[#888888] text-sm font-body">
               No products found matching the criteria. Try clearing some filters.
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
               {paginatedProducts.map((p) => {
                 const price = Number(p.basePrice);
+                const originalPrice = price * 1.15;
+                const inStockSizes = p.variants.filter(v => v.stock > 0);
+                const totalStock = p.variants.reduce((sum, v) => sum + v.stock, 0);
                 
-                // Dynamically tag some sneakers with premium badges matching the mockup
+                // Dynamically tag some sneakers with premium badges
                 let badge = "";
+                let badgeBg = "bg-black";
+                let badgeText = "text-white";
                 if (p.name.includes("Chicago") || p.name.includes("Retro") || p.name.includes("Off-White")) {
                   badge = "NEW";
+                  badgeBg = "bg-[#c8ff00]";
+                  badgeText = "text-[#0A0A0A]";
                 } else if (p.name.includes("Infrared") || p.name.includes("Air Max") || p.name.includes("Panda")) {
                   badge = "LIMITED";
+                } else if (totalStock <= 3 && totalStock > 0) {
+                  badge = "LOW STOCK";
+                  badgeBg = "bg-red-600";
+                  badgeText = "text-white";
                 }
 
                 return (
                   <Link
                     key={p.slug}
                     href={`/product/${p.slug}`}
-                    className="group block transition-all"
+                    className="group block bg-white border border-[#E5E5E5] hover:border-[#0A0A0A] transition-all duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] relative overflow-hidden"
                   >
-                    {/* Image Box */}
-                    <div className="aspect-square bg-white border border-[#E5E5E5] relative flex items-center justify-center p-6 mb-3 transition-colors group-hover:border-[#0A0A0A]">
+                    {/* Image Container */}
+                    <div className="aspect-square bg-[#FAFAFA] relative flex items-center justify-center overflow-hidden">
+                      {/* Badge */}
                       {badge && (
-                        <span className="absolute top-2.5 left-2.5 bg-black text-white text-[8px] font-black uppercase tracking-[0.2em] px-2 py-1 z-10 leading-none">
+                        <span className={`absolute top-3 left-3 ${badgeBg} ${badgeText} text-[8px] font-label font-black uppercase tracking-[0.2em] px-2.5 py-1.5 z-20 leading-none`}>
                           {badge}
                         </span>
                       )}
-                      
-                      <div className="w-full h-full relative overflow-hidden flex items-center justify-center">
+
+                      {/* Wishlist / Quick-View Icon */}
+                      <div className="absolute top-3 right-3 z-20 flex flex-col gap-2 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                        <span className="material-symbols-outlined text-[18px] text-[#0A0A0A] bg-white/90 backdrop-blur-sm w-8 h-8 flex items-center justify-center hover:bg-[#c8ff00] transition-colors cursor-pointer shadow-sm">
+                          visibility
+                        </span>
+                      </div>
+
+                      {/* Product Image */}
+                      <div className="w-full h-full relative">
                         <Image
                           src={p.imageUrl}
                           alt={p.name}
                           fill
-                          className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                         />
                       </div>
+
+                      {/* Quick Size Pills — slides up on hover */}
+                      {inStockSizes.length > 0 && (
+                        <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-[#E5E5E5] px-3 py-2.5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10">
+                          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+                            <span className="font-label text-[7px] tracking-wider text-[#888888] uppercase font-bold shrink-0 mr-1">
+                              SIZES:
+                            </span>
+                            {inStockSizes.slice(0, 6).map(v => (
+                              <span key={v.id} className="font-mono text-[9px] font-bold text-[#0A0A0A] bg-[#F0F0F0] px-1.5 py-0.5 shrink-0 hover:bg-[#c8ff00] transition-colors">
+                                {v.sizeEu}
+                              </span>
+                            ))}
+                            {inStockSizes.length > 6 && (
+                              <span className="font-mono text-[9px] font-bold text-[#888888] shrink-0">
+                                +{inStockSizes.length - 6}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Meta info underneath */}
-                    <div className="space-y-0.5 px-1">
-                      <span className="block font-label text-[9px] tracking-widest text-[#888888] uppercase font-bold">
+                    {/* Product Info */}
+                    <div className="p-4 space-y-2 border-t border-[#E5E5E5]">
+                      {/* Brand */}
+                      <span className="block font-label text-[8px] tracking-[0.2em] text-[#999999] uppercase font-bold">
                         {p.brand.name}
                       </span>
-                      <h3 className="font-display text-sm font-bold uppercase tracking-tight text-[#0A0A0A] leading-tight group-hover:text-[#c8ff00] transition-colors truncate">
+
+                      {/* Name */}
+                      <h3 className="font-display text-[15px] font-black uppercase tracking-tight text-[#0A0A0A] leading-[1.1] line-clamp-2 min-h-[2.2em] group-hover:text-[#0A0A0A] transition-colors">
                         {p.name}
                       </h3>
-                      <p className="font-display text-sm font-black text-[#0A0A0A]">
-                        ${price.toFixed(0)}
-                      </p>
+
+                      {/* Price Row */}
+                      <div className="flex items-baseline gap-2 pt-1">
+                        <span className="font-display text-lg font-black text-[#0A0A0A]">
+                          ${price.toFixed(0)}
+                        </span>
+                        <span className="font-mono text-[11px] text-[#AAAAAA] line-through">
+                          ${originalPrice.toFixed(0)}
+                        </span>
+                      </div>
+
+                      {/* CTA bar — slides in on hover */}
+                      <div className="overflow-hidden">
+                        <div className="flex items-center justify-between pt-2 mt-1 border-t border-[#F0F0F0] max-h-0 opacity-0 group-hover:max-h-10 group-hover:opacity-100 transition-all duration-300 ease-out">
+                          <span className="font-label text-[9px] tracking-[0.15em] uppercase font-bold text-[#0A0A0A]">
+                            SHOP NOW
+                          </span>
+                          <span className="material-symbols-outlined text-[14px] text-[#0A0A0A] translate-x-0 group-hover:translate-x-1 transition-transform duration-300">
+                            arrow_forward
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 );

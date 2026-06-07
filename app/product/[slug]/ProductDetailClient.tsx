@@ -467,12 +467,12 @@ export default function ProductDetailClient({ product, related }: ProductDetailC
               return (
                 <Link key={r.slug} href={`/product/${r.slug}`} className="group flex flex-col bg-white border border-[#E5E5E5] hover:shadow-xl transition-all duration-500">
                   {/* Image container */}
-                  <div className="aspect-square bg-white border-b border-[#E5E5E5] p-6 relative flex items-center justify-center overflow-hidden">
+                  <div className="aspect-square bg-white border-b border-[#E5E5E5] relative flex items-center justify-center overflow-hidden">
                     <Image
                       src={r.imageUrl}
                       alt={r.name}
                       fill
-                      className="object-contain p-6 transform group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover transform group-hover:scale-105 transition-transform duration-500"
                     />
                     {/* Badge */}
                     <span className="absolute top-4 left-4 bg-black text-[#c8ff00] text-[9px] font-label font-bold uppercase tracking-widest px-2.5 py-1">
