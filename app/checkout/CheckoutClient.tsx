@@ -21,7 +21,9 @@ export default function CheckoutClient() {
   const cart = useCart();
   const products = useCartProducts();
   const productBySlug = new Map((products ?? []).map((p) => [p.slug, p]));
-  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  // Seed from the already-resolved Firebase user (if any) so a signed-in user
+  // skips the loading flash; falls back to null until onAuthStateChanged fires.
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(auth.currentUser ? true : null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);

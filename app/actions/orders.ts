@@ -6,6 +6,11 @@ import { getCurrentUserWithVerification } from "@/lib/auth/session";
 import { sendOwnerEmail } from "@/lib/email";
 import { cookies } from "next/headers";
 
+// Shown when a logged-in but unverified user tries to place an order. Kept in
+// one place so placeOrder and checkout stay in sync.
+const EMAIL_NOT_VERIFIED_ERROR =
+  "Please verify your email before placing an order. Check your inbox for the verification link.";
+
 export type PlaceOrderInput = {
   addressId: number;
   items: { productId: number; variantId?: number; quantity: number }[];
@@ -20,10 +25,7 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
   if (!auth) return { ok: false, error: "auth required" };
   const { user, emailVerified } = auth;
   if (!emailVerified) {
-    return {
-      ok: false,
-      error: "Please verify your email before placing an order. Check your inbox for the verification link.",
-    };
+    return { ok: false, error: EMAIL_NOT_VERIFIED_ERROR };
   }
   if (!input.items.length) return { ok: false, error: "no items" };
 
@@ -100,10 +102,7 @@ export async function checkout(input: {
   const auth = await getCurrentUserWithVerification();
   if (!auth) return { ok: false, error: "auth required" };
   if (!auth.emailVerified) {
-    return {
-      ok: false,
-      error: "Please verify your email before placing an order. Check your inbox for the verification link.",
-    };
+    return { ok: false, error: EMAIL_NOT_VERIFIED_ERROR };
   }
   if (!input.items.length) return { ok: false, error: "no items" };
 
