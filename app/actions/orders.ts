@@ -2,8 +2,14 @@
 
 import { prisma } from "@/lib/db";
 import { Prisma } from "@prisma/client";
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUserWithVerification } from "@/lib/auth/session";
 import { sendOwnerEmail } from "@/lib/email";
+import { cookies } from "next/headers";
+
+// Shown when a logged-in but unverified user tries to place an order. Kept in
+// one place so placeOrder and checkout stay in sync.
+const EMAIL_NOT_VERIFIED_ERROR =
+  "Please verify your email before placing an order. Check your inbox for the verification link.";
 
 export type PlaceOrderInput = {
   addressId: number;
@@ -15,8 +21,12 @@ export type PlaceOrderResult =
   | { ok: false; error: string };
 
 export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResult> {
-  const user = await getCurrentUser();
-  if (!user) return { ok: false, error: "auth required" };
+  const auth = await getCurrentUserWithVerification();
+  if (!auth) return { ok: false, error: "auth required" };
+  const { user, emailVerified } = auth;
+  if (!emailVerified) {
+    return { ok: false, error: EMAIL_NOT_VERIFIED_ERROR };
+  }
   if (!input.items.length) return { ok: false, error: "no items" };
 
   const result = await prisma.$transaction(async (tx) => {
@@ -73,6 +83,55 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
     } catch (err) {
       console.error("[order] owner email failed (order still placed):", err);
     }
+  }
+  return result;
+}
+
+export type AddressInput = {
+  line1: string;
+  line2?: string;
+  city: string;
+  country: string;
+  postal?: string;
+};
+
+export async function checkout(input: {
+  address: AddressInput;
+  items: PlaceOrderInput["items"];
+}): Promise<PlaceOrderResult> {
+  const auth = await getCurrentUserWithVerification();
+  if (!auth) return { ok: false, error: "auth required" };
+  if (!auth.emailVerified) {
+    return { ok: false, error: EMAIL_NOT_VERIFIED_ERROR };
+  }
+  if (!input.items.length) return { ok: false, error: "no items" };
+
+  const addr = await prisma.address.create({
+    data: {
+      userId: auth.user.id,
+      line1: input.address.line1,
+      line2: input.address.line2 || null,
+      city: input.address.city,
+      country: input.address.country,
+      postal: input.address.postal || null,
+    },
+  });
+
+  const result = await placeOrder({ addressId: addr.id, items: input.items });
+
+  if (result.ok) {
+    try {
+      const sid = (await cookies()).get("cart_sid")?.value;
+      if (sid) await prisma.cart.deleteMany({ where: { sessionId: sid, userId: null } });
+    } catch (err) {
+      console.error("[checkout] cart clear failed (order still placed):", err);
+    }
+  } else {
+    // The order failed after we created the address — remove the orphan so it
+    // doesn't linger unattached to any order.
+    await prisma.address
+      .delete({ where: { id: addr.id } })
+      .catch((err) => console.error("[checkout] orphan address cleanup failed:", err));
   }
   return result;
 }
