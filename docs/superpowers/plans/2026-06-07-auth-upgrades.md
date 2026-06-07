@@ -8,7 +8,7 @@
 
 **Tech Stack:** Next.js 15 (App Router), TypeScript, Firebase Auth (`firebase` + `firebase-admin`), Prisma + MSSQL, Vitest, Tailwind v4, `@zxcvbn-ts/core`.
 
-**Note on existing code:** The cart drawer `CHECKOUT` button is currently a placeholder (it does not call `placeOrder`). The real, enforceable verification gate therefore lives in the `placeOrder` server action (which is unit-tested). The cart banner is a client-side nudge only.
+**Note on existing code:** The cart drawer `CHECKOUT` button is currently a placeholder (it does not call `placeOrder`). Tasks 12–15 make checkout real: a `/checkout` page collects a shipping address and calls a new `checkout` server action that creates the address and delegates to `placeOrder`. The enforceable verification gate lives server-side in `placeOrder`/`checkout` (both unit-tested); the cart banner is a client-side nudge only.
 
 ---
 
@@ -747,7 +747,421 @@ git commit -m "feat(cart): nudge unverified users to verify before checkout"
 
 ---
 
-### Task 11: Full verification pass
+### Task 11: Expose cart refresh on the context
+
+**Files:**
+- Modify: `components/cart/CartProvider.tsx`
+
+- [ ] **Step 1: Add `refresh` to the CartState type**
+
+In `components/cart/CartProvider.tsx`, in the `CartState` type, add after `updateQuantity`:
+```tsx
+  refresh: () => Promise<void>;
+```
+
+- [ ] **Step 2: Expose it on the provider value**
+
+In the `<CartContext.Provider value={{ ... }}>` object, add `refresh,` alongside the other methods (e.g. after `updateQuantity,`). The `refresh` callback already exists in the component.
+
+- [ ] **Step 3: Verify build**
+
+Run:
+```bash
+npx tsc --noEmit
+```
+Expected: no new errors.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add components/cart/CartProvider.tsx
+git commit -m "feat(cart): expose refresh on cart context"
+```
+
+---
+
+### Task 12: Add the checkout server action
+
+**Files:**
+- Modify: `app/actions/orders.ts`
+- Test: `tests/actions/checkout.test.ts`
+
+- [ ] **Step 1: Write the failing test**
+
+Create `tests/actions/checkout.test.ts`:
+```ts
+import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
+
+const { getCurrentUserWithVerification } = vi.hoisted(() => ({
+  getCurrentUserWithVerification: vi.fn(),
+}));
+vi.mock("@/lib/auth/session", () => ({ getCurrentUserWithVerification }));
+vi.mock("@/lib/email", () => ({ sendOwnerEmail: vi.fn() }));
+vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => undefined }) }));
+
+import { prisma } from "@/lib/db";
+import { checkout } from "@/app/actions/orders";
+
+const address = { line1: "1 Test St", city: "Amman", country: "Jordan" };
+
+describe("checkout", () => {
+  let productId: number, variantId: number, userId: number;
+
+  beforeAll(async () => {
+    const u = await prisma.user.findFirstOrThrow();
+    userId = u.id;
+    const p = await prisma.product.findFirstOrThrow({ include: { variants: true } });
+    productId = p.id;
+    variantId = p.variants[0].id;
+    getCurrentUserWithVerification.mockResolvedValue({ user: u, emailVerified: true });
+  });
+
+  afterAll(() => prisma.$disconnect());
+
+  it("creates an address and an order for a verified user", async () => {
+    const result = await checkout({ address, items: [{ productId, variantId, quantity: 1 }] });
+    expect(result.ok).toBe(true);
+    if (!result.ok) throw new Error("unreachable");
+    const order = await prisma.order.findUniqueOrThrow({ where: { id: result.orderId }, include: { address: true } });
+    expect(order.address.line1).toBe("1 Test St");
+    expect(order.address.userId).toBe(userId);
+  });
+
+  it("rejects an unverified user", async () => {
+    const u = await prisma.user.findFirstOrThrow();
+    getCurrentUserWithVerification.mockResolvedValueOnce({ user: u, emailVerified: false });
+    const result = await checkout({ address, items: [{ productId, variantId, quantity: 1 }] });
+    expect(result.ok).toBe(false);
+    if (result.ok) throw new Error("unreachable");
+    expect(result.error).toMatch(/verify your email/i);
+  });
+
+  it("rejects when not logged in", async () => {
+    getCurrentUserWithVerification.mockResolvedValueOnce(null);
+    const result = await checkout({ address, items: [{ productId, variantId, quantity: 1 }] });
+    expect(result.ok).toBe(false);
+    if (result.ok) throw new Error("unreachable");
+    expect(result.error).toBe("auth required");
+  });
+});
+```
+
+- [ ] **Step 2: Run the test to verify it fails**
+
+Run:
+```bash
+npx vitest run tests/actions/checkout.test.ts
+```
+Expected: FAIL — `checkout` is not exported from `@/app/actions/orders`.
+
+- [ ] **Step 3: Implement the checkout action**
+
+In `app/actions/orders.ts`, add `cookies` to the imports at the top:
+```ts
+import { cookies } from "next/headers";
+```
+Then append at the end of the file:
+```ts
+export type AddressInput = {
+  line1: string;
+  line2?: string;
+  city: string;
+  country: string;
+  postal?: string;
+};
+
+export async function checkout(input: {
+  address: AddressInput;
+  items: PlaceOrderInput["items"];
+}): Promise<PlaceOrderResult> {
+  const auth = await getCurrentUserWithVerification();
+  if (!auth) return { ok: false, error: "auth required" };
+  if (!auth.emailVerified) {
+    return {
+      ok: false,
+      error: "Please verify your email before placing an order. Check your inbox for the verification link.",
+    };
+  }
+  if (!input.items.length) return { ok: false, error: "no items" };
+
+  const addr = await prisma.address.create({
+    data: {
+      userId: auth.user.id,
+      line1: input.address.line1,
+      line2: input.address.line2 || null,
+      city: input.address.city,
+      country: input.address.country,
+      postal: input.address.postal || null,
+    },
+  });
+
+  const result = await placeOrder({ addressId: addr.id, items: input.items });
+
+  if (result.ok) {
+    try {
+      const sid = (await cookies()).get("cart_sid")?.value;
+      if (sid) await prisma.cart.deleteMany({ where: { sessionId: sid, userId: null } });
+    } catch (err) {
+      console.error("[checkout] cart clear failed (order still placed):", err);
+    }
+  }
+  return result;
+}
+```
+
+- [ ] **Step 4: Run the test to verify it passes**
+
+Run:
+```bash
+npx vitest run tests/actions/checkout.test.ts
+```
+Expected: PASS (3 tests).
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add app/actions/orders.ts tests/actions/checkout.test.ts
+git commit -m "feat(checkout): add checkout server action (address + placeOrder)"
+```
+
+---
+
+### Task 13: Build the /checkout page
+
+**Files:**
+- Create: `app/checkout/page.tsx`
+- Create: `app/checkout/CheckoutClient.tsx`
+
+- [ ] **Step 1: Create the server page wrapper**
+
+Create `app/checkout/page.tsx`:
+```tsx
+import CheckoutClient from "./CheckoutClient";
+
+export const dynamic = "force-dynamic";
+
+export default function CheckoutPage() {
+  return (
+    <main className="max-w-3xl mx-auto px-6 py-16">
+      <h1 className="font-headline text-4xl uppercase tracking-tight mb-8">CHECKOUT</h1>
+      <CheckoutClient />
+    </main>
+  );
+}
+```
+
+- [ ] **Step 2: Create the client component**
+
+Create `app/checkout/CheckoutClient.tsx`:
+```tsx
+"use client";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/lib/firebase/client";
+import { useCart } from "@/components/cart/CartProvider";
+import { useCartProducts } from "@/components/cart/useCartProducts";
+import { checkout, type AddressInput } from "@/app/actions/orders";
+import VerifyBanner from "@/components/auth/VerifyBanner";
+
+const inputCls = "w-full bg-transparent border border-ink/20 px-4 py-3 text-base text-ink focus:border-accent outline-none";
+const labelCls = "block font-label text-[11px] tracking-wider2 text-muted mb-2";
+const btnCls = "bg-ink text-paper px-7 py-3.5 font-label text-[11px] tracking-wider2 hover:bg-accent transition-colors disabled:opacity-50";
+
+function parsePrice(s: string | undefined): number {
+  if (!s) return 0;
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
+}
+
+export default function CheckoutClient() {
+  const cart = useCart();
+  const products = useCartProducts();
+  const productBySlug = new Map((products ?? []).map((p) => [p.slug, p]));
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
+
+  useEffect(() => onAuthStateChanged(auth, (u) => setLoggedIn(!!u)), []);
+
+  const subtotal = cart.items.reduce(
+    (sum, item) => sum + parsePrice(productBySlug.get(item.productSlug)?.price) * item.quantity,
+    0
+  );
+  const shipping = cart.items.length > 0 ? 10 : 0;
+  const total = subtotal + shipping;
+
+  async function placeOrderAction(formData: FormData) {
+    setBusy(true);
+    setError("");
+    const address: AddressInput = {
+      line1: String(formData.get("line1")),
+      line2: String(formData.get("line2") || ""),
+      city: String(formData.get("city")),
+      country: String(formData.get("country")),
+      postal: String(formData.get("postal") || ""),
+    };
+    const items = cart.items.map((i) => ({
+      productId: i.productId,
+      variantId: i.variantId ?? undefined,
+      quantity: i.quantity,
+    }));
+    const result = await checkout({ address, items });
+    if (result.ok) {
+      setOrderNumber(result.orderNumber);
+      await cart.refresh();
+    } else {
+      setError(result.error);
+    }
+    setBusy(false);
+  }
+
+  if (orderNumber) {
+    return (
+      <div className="grid gap-4">
+        <p className="font-body text-lg">Thank you — your order <b>{orderNumber}</b> has been placed.</p>
+        <p className="font-body text-sm text-muted">We've emailed the shop and will be in touch about your order.</p>
+        <a href="/" className={`${btnCls} justify-self-start`}>BACK TO HOME →</a>
+      </div>
+    );
+  }
+
+  if (loggedIn === false) {
+    return (
+      <p className="font-body text-sm text-muted">
+        Please <a href="/login" className="text-accent">log in</a> to complete your order.
+      </p>
+    );
+  }
+
+  if (cart.items.length === 0) {
+    return (
+      <p className="font-body text-sm text-muted">
+        Your bag is empty. <a href="/shop" className="text-accent">Continue shopping →</a>
+      </p>
+    );
+  }
+
+  return (
+    <div className="grid gap-10 md:grid-cols-2">
+      <section>
+        <h2 className="font-label text-xs tracking-widest uppercase mb-4">ORDER SUMMARY</h2>
+        <div className="space-y-3">
+          {cart.items.map((item) => {
+            const p = productBySlug.get(item.productSlug);
+            return (
+              <div key={item.id} className="flex justify-between font-body text-sm">
+                <span>{p?.name ?? "…"} × {item.quantity}</span>
+                <span>{(parsePrice(p?.price) * item.quantity).toFixed(2)} JOD</span>
+              </div>
+            );
+          })}
+          <div className="h-px bg-ink/10 my-2" />
+          <div className="flex justify-between font-body text-sm text-muted"><span>Subtotal</span><span>{subtotal.toFixed(2)} JOD</span></div>
+          <div className="flex justify-between font-body text-sm text-muted"><span>Shipping</span><span>{shipping.toFixed(2)} JOD</span></div>
+          <div className="flex justify-between font-label text-base"><span>TOTAL</span><span>{total.toFixed(2)} JOD</span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="font-label text-xs tracking-widest uppercase mb-4">SHIPPING ADDRESS</h2>
+        <div className="mb-4"><VerifyBanner /></div>
+        <form action={placeOrderAction} className="grid gap-4">
+          <div>
+            <label className={labelCls} htmlFor="line1">ADDRESS LINE 1</label>
+            <input id="line1" name="line1" required className={inputCls} />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="line2">ADDRESS LINE 2 (OPTIONAL)</label>
+            <input id="line2" name="line2" className={inputCls} />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="city">CITY</label>
+            <input id="city" name="city" required className={inputCls} />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="country">COUNTRY</label>
+            <input id="country" name="country" required className={inputCls} />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="postal">POSTAL CODE (OPTIONAL)</label>
+            <input id="postal" name="postal" className={inputCls} />
+          </div>
+          {error && <p className="text-sm text-red-600">{error}</p>}
+          <button type="submit" disabled={busy} className={`${btnCls} justify-self-start`}>
+            {busy ? "PLACING…" : "PLACE ORDER →"}
+          </button>
+        </form>
+      </section>
+    </div>
+  );
+}
+```
+
+- [ ] **Step 3: Verify build**
+
+Run:
+```bash
+npx tsc --noEmit
+```
+Expected: no new errors. (`useCartProducts` returns objects with `slug`, `name`, `price`; confirm those property names match the hook — adjust if the hook uses different keys.)
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add app/checkout/page.tsx app/checkout/CheckoutClient.tsx
+git commit -m "feat(checkout): add /checkout page with address form and summary"
+```
+
+---
+
+### Task 14: Wire the cart CHECKOUT button to /checkout
+
+**Files:**
+- Modify: `components/cart/CartDrawer.tsx` (the CHECKOUT button, ~line 159-164)
+
+- [ ] **Step 1: Import the router**
+
+In `components/cart/CartDrawer.tsx`, add after the existing imports:
+```tsx
+import { useRouter } from "next/navigation";
+```
+Inside the `CartDrawer` component, after `const cart = useCart();`, add:
+```tsx
+  const router = useRouter();
+```
+
+- [ ] **Step 2: Make the button navigate**
+
+Replace the CHECKOUT button (currently the `<button ...>CHECKOUT</button>` near line 159-164) with:
+```tsx
+            <button
+              type="button"
+              onClick={() => { cart.close(); router.push("/checkout"); }}
+              className="w-full h-14 bg-[#0A0A0A] text-[#F7F7F4] font-label tracking-widest uppercase text-sm hover:bg-primary hover:text-[#0A0A0A] transition-all duration-300"
+            >
+              CHECKOUT
+            </button>
+```
+
+- [ ] **Step 3: Verify build + manual check**
+
+Run:
+```bash
+npx tsc --noEmit
+```
+Expected: no new errors. Then: add an item, open the cart, click CHECKOUT → drawer closes and `/checkout` loads with the summary.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add components/cart/CartDrawer.tsx
+git commit -m "feat(cart): wire CHECKOUT button to /checkout page"
+```
+
+---
+
+### Task 15: Full verification pass
 
 **Files:** none (verification only)
 
@@ -757,7 +1171,7 @@ Run:
 ```bash
 npx vitest run
 ```
-Expected: all tests pass (the previous ~29 plus the new strength-helper tests and the new unverified-order test).
+Expected: all tests pass (the previous ~29 plus the new strength-helper tests, the unverified-order test, and the 3 checkout tests).
 
 - [ ] **Step 2: Typecheck the whole project**
 
@@ -773,12 +1187,14 @@ With the dev server on `http://localhost:3000`:
 1. `/login` and `/signup` show the Google logo.
 2. `/signup`: weak password → red bar + disabled button; strong → green + enabled.
 3. Signing up routes to `/verify-email`; the email arrives; Resend has a cooldown.
-4. Cart shows the orange verify banner while unverified.
-5. Clicking the email link, then reloading `/verify-email`, shows the "verified ✓" state.
+4. Cart shows the orange verify banner while unverified; CHECKOUT opens `/checkout`.
+5. Unverified user on `/checkout` → PLACE ORDER returns the verification message.
+6. After clicking the email link (verified), placing an order shows the confirmation with an order number and the cart empties.
+7. Logged-out user on `/checkout` → prompted to log in.
 
 - [ ] **Step 4: Final confirmation**
 
-No extra commit needed if everything is already committed. Confirm `git status` is clean:
+Confirm `git status` is clean:
 ```bash
 git status --short
 ```
