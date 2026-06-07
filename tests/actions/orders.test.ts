@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 
-const { getCurrentUser } = vi.hoisted(() => ({ getCurrentUser: vi.fn() }));
-vi.mock("@/lib/auth/session", () => ({ getCurrentUser }));
+const { getCurrentUserWithVerification } = vi.hoisted(() => ({
+  getCurrentUserWithVerification: vi.fn(),
+}));
+vi.mock("@/lib/auth/session", () => ({ getCurrentUserWithVerification }));
 vi.mock("@/lib/email", () => ({ sendOwnerEmail: vi.fn() }));
 
 import { prisma } from "@/lib/db";
@@ -16,8 +18,8 @@ describe("placeOrder", () => {
     const p = await prisma.product.findFirstOrThrow({ include: { variants: true } });
     productId = p.id;
     variantId = p.variants[0].id;
-    // logged-in by default: getCurrentUser resolves to the real user
-    getCurrentUser.mockResolvedValue(u);
+    // logged-in AND verified by default
+    getCurrentUserWithVerification.mockResolvedValue({ user: u, emailVerified: true });
   });
 
   afterAll(() => prisma.$disconnect());
@@ -37,10 +39,19 @@ describe("placeOrder", () => {
   });
 
   it("rejects when not logged in", async () => {
-    getCurrentUser.mockResolvedValueOnce(null);
+    getCurrentUserWithVerification.mockResolvedValueOnce(null);
     const result = await placeOrder({ addressId, items: [{ productId, variantId, quantity: 1 }] });
     expect(result.ok).toBe(false);
     if (result.ok) throw new Error("unreachable");
     expect(result.error).toBe("auth required");
+  });
+
+  it("rejects when email is not verified", async () => {
+    const u = await prisma.user.findFirstOrThrow();
+    getCurrentUserWithVerification.mockResolvedValueOnce({ user: u, emailVerified: false });
+    const result = await placeOrder({ addressId, items: [{ productId, variantId, quantity: 1 }] });
+    expect(result.ok).toBe(false);
+    if (result.ok) throw new Error("unreachable");
+    expect(result.error).toMatch(/verify your email/i);
   });
 });

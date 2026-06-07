@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { Prisma } from "@prisma/client";
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUserWithVerification } from "@/lib/auth/session";
 import { sendOwnerEmail } from "@/lib/email";
 
 export type PlaceOrderInput = {
@@ -15,8 +15,15 @@ export type PlaceOrderResult =
   | { ok: false; error: string };
 
 export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResult> {
-  const user = await getCurrentUser();
-  if (!user) return { ok: false, error: "auth required" };
+  const auth = await getCurrentUserWithVerification();
+  if (!auth) return { ok: false, error: "auth required" };
+  const { user, emailVerified } = auth;
+  if (!emailVerified) {
+    return {
+      ok: false,
+      error: "Please verify your email before placing an order. Check your inbox for the verification link.",
+    };
+  }
   if (!input.items.length) return { ok: false, error: "no items" };
 
   const result = await prisma.$transaction(async (tx) => {
