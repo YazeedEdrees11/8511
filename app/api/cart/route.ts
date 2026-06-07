@@ -115,3 +115,19 @@ export async function GET(req: Request) {
   });
   return Response.json(enrich(cart));
 }
+
+// Clears the entire guest cart (used on logout): deletes the cart row (items
+// cascade) and expires the cart_sid cookie so a fresh cart starts next time.
+export async function DELETE(req: Request) {
+  const sid = readSid(req);
+  if (sid) {
+    await prisma.cart.deleteMany({ where: { sessionId: sid, userId: null } });
+  }
+  return new Response(JSON.stringify({ ok: true }), {
+    status: 200,
+    headers: {
+      "set-cookie": `${COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`,
+      "content-type": "application/json",
+    },
+  });
+}
