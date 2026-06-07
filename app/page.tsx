@@ -132,7 +132,7 @@ export default async function Home() {
                   src={p.imageUrl}
                   alt={p.name}
                   fill
-                  className="object-contain p-6 group-hover:scale-[1.05] transition-transform duration-700 ease-out"
+                  className="object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
                 />
 
                 {/* Quick View button — slides up on hover */}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { updateVariantStock } from "@/app/actions/admin";
+import { useToast } from "@/lib/toast";
 
 interface VariantWithProduct {
   id: number;
@@ -30,6 +31,7 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
   const [showLowStockOnly, setShowLowStockOnly] = useState(false);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const [typedStocks, setTypedStocks] = useState<{ [id: number]: string }>({});
+  const { showToast } = useToast();
 
   async function adjustStock(variantId: number, currentStock: number, delta: number) {
     if (updatingId !== null) return;
@@ -42,11 +44,12 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
         setVariants(prev =>
           prev.map(v => (v.id === variantId ? { ...v, stock: res.newStock } : v))
         );
+        showToast("Stock updated successfully.", "success");
       } else {
-        alert("Failed to update stock.");
+        showToast("Failed to update stock.", "error");
       }
     } catch {
-      alert("Error occurred while updating stock.");
+      showToast("Error occurred while updating stock.", "error");
     } finally {
       setUpdatingId(null);
     }
@@ -57,7 +60,7 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
     if (rawVal === undefined || rawVal.trim() === "") return;
     const newStock = parseInt(rawVal);
     if (isNaN(newStock) || newStock < 0) {
-      alert("Please enter a valid stock number.");
+      showToast("Please enter a valid stock number.", "warning");
       return;
     }
 
@@ -74,11 +77,12 @@ export default function InventoryClient({ initialVariants }: InventoryClientProp
           delete next[variantId];
           return next;
         });
+        showToast("Stock updated successfully.", "success");
       } else {
-        alert("Failed to update stock.");
+        showToast("Failed to update stock.", "error");
       }
     } catch {
-      alert("Error occurred while updating stock.");
+      showToast("Error occurred while updating stock.", "error");
     } finally {
       setUpdatingId(null);
     }

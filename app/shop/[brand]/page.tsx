@@ -74,12 +74,12 @@ export default async function Brand({ params }: { params: Promise<{ brand: strin
               href={`/product/${p.slug}`}
               className="group block border border-transparent hover:border-accent transition-colors duration-200"
             >
-              <div className="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center p-8">
+              <div className="aspect-square bg-white mb-4 relative overflow-hidden flex items-center justify-center">
                 <Image
                   src={p.imageUrl}
                   alt={p.name}
                   fill
-                  className="object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500 p-8"
+                  className="object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="px-1 flex flex-col gap-1">

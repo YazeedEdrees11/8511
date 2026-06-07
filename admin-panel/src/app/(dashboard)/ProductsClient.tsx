@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { deleteProduct } from "@/app/actions/admin";
+import { useToast } from "@/lib/toast";
 
 interface ProductVariant {
   id: number;
@@ -38,6 +39,7 @@ export default function ProductsClient({ initialProducts, brands }: ProductsClie
   const [brandFilter, setBrandFilter] = useState("");
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
+  const { showToast } = useToast();
 
   // Filtering
   const filteredProducts = products.filter(p => {
@@ -55,11 +57,12 @@ export default function ProductsClient({ initialProducts, brands }: ProductsClie
       if (res.success) {
         setProducts(prev => prev.filter(p => p.id !== id));
         setDeletingId(null);
+        showToast("Product deleted successfully.", "success");
       } else {
-        alert(res.error || "Failed to delete product.");
+        showToast(res.error || "Failed to delete product.", "error");
       }
     } catch {
-      alert("An unexpected error occurred while deleting.");
+      showToast("An unexpected error occurred while deleting.", "error");
     } finally {
       setBusy(false);
     }

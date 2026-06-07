@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ToastProvider } from "@/lib/toast";
+import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "8511 Backoffice | Amman",
@@ -20,7 +22,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-body bg-[#F7F7F4] text-[#0A0A0A]" suppressHydrationWarning>
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
