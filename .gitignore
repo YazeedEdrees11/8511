@@ -45,7 +45,7 @@ next-env.d.ts
 data/faiss/
 data/ragas/eval-run.jsonl
 data/ragas/ragas-scores.csv
-public/images/products/
+# public/images/products/
 
 # Local env
 .env.local
