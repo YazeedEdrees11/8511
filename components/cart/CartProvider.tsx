@@ -21,6 +21,7 @@ export type CartState = {
   addItem: (input: { productId: number; variantId?: number; quantity?: number }) => Promise<void>;
   removeItem: (cartItemId: number) => Promise<void>;
   updateQuantity: (cartItemId: number, quantity: number) => Promise<void>;
+  refresh: () => Promise<void>;
 };
 
 const CartContext = createContext<CartState | null>(null);
@@ -87,6 +88,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         addItem,
         removeItem,
         updateQuantity,
+        refresh,
       }}
     >
       {children}

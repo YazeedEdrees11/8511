@@ -1,7 +1,9 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCart, type CartItem } from "./CartProvider";
 import { useCartProducts, type ApiProduct } from "./useCartProducts";
+import VerifyBanner from "@/components/auth/VerifyBanner";
 
 const BRAND_LABEL: Record<string, string> = {
   nike: "NIKE",
@@ -84,6 +86,7 @@ function CartItemRow({
 
 export default function CartDrawer() {
   const cart = useCart();
+  const router = useRouter();
   const products = useCartProducts();
   const productBySlug = new Map((products ?? []).map(p => [p.slug, p]));
 
@@ -156,8 +159,10 @@ export default function CartDrawer() {
               <span className="font-label uppercase tracking-widest text-sm">TOTAL</span>
               <span className="font-label font-bold text-lg">{total.toFixed(2)} JOD</span>
             </div>
+            <VerifyBanner />
             <button
               type="button"
+              onClick={() => { cart.close(); router.push("/checkout"); }}
               className="w-full h-14 bg-[#0A0A0A] text-[#F7F7F4] font-label tracking-widest uppercase text-sm hover:bg-primary hover:text-[#0A0A0A] transition-all duration-300"
             >
               CHECKOUT
